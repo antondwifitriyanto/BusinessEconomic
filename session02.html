@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Session 02 — Economist’s Approach (Scarcity, Opportunity Cost, PPF, Marginal)</title>
+  <meta name="description" content="Bahan ajar interaktif: Scarcity, Opportunity Cost, PPF (Production Possibility Frontier), dan keputusan marjinal (MB=MC) untuk Economics for Business & AI." />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root{
+      --primary:#0f5fff; --ink:#0b1526; --muted:#6b7a90; --bg:#f6f8fb; --card:#ffffff; --accent:#1bbd7e;
+    }
+    *{box-sizing:border-box}
+    body{margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; color:var(--ink); background:var(--bg)}
+    header{background:linear-gradient(120deg,#0f5fff 0%,#21a0ff 60%,#73d7ff 100%); color:#fff; padding:48px 16px}
+    .wrap{max-width:1100px; margin:0 auto; padding:0 16px}
+    .hero{display:grid; gap:24px; align-items:center}
+    @media(min-width:880px){ .hero{ grid-template-columns: 1.2fr 1fr } }
+    h1{margin:0 0 8px; font-size: clamp(26px,4vw,38px)}
+    p.lead{font-size:clamp(15px,2.1vw,18px)}
+    .badge{display:inline-flex; gap:6px; align-items:center; background:#eef4ff; color:#053aaf; padding:6px 10px; border-radius:999px; font-weight:700}
+    .img{width:100%; border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,.18)}
+    nav.toc{background:var(--card); border-radius:14px; padding:14px; margin-top:-22px; box-shadow:0 6px 20px rgba(15,95,255,.15); display:flex; flex-wrap:wrap; gap:8px}
+    nav.toc a{background:#eef4ff; color:#053aaf; text-decoration:none; padding:10px 12px; border-radius:10px; font-weight:700}
+    section{margin:28px 0 36px}
+    .card{background:var(--card); border-radius:16px; padding:16px; box-shadow:0 8px 24px rgba(11,21,38,.06)}
+    .grid{display:grid; gap:16px}
+    @media(min-width:900px){ .grid-2{grid-template-columns:1fr 1fr} }
+    .row{display:flex; align-items:center; gap:12px; margin:10px 0}
+    .row label{min-width:150px; font-weight:600}
+    .row input[type="range"]{width:260px}
+    .hint{color:var(--muted); font-size:13px}
+    .kpi{display:grid; gap:10px; grid-template-columns:repeat(4,minmax(0,1fr))}
+    .kpi .item{background:#f2f7ff; border:1px dashed #cfe1ff; padding:10px; border-radius:12px; text-align:center}
+    .kpi .item b{display:block; font-size:20px}
+    .pill{display:inline-block; padding:6px 10px; border-radius:999px; font-weight:700; font-size:12px}
+    .pill.ok{background:#e8fbf2; color:#0c7d50}
+    .pill.warn{background:#fff7e6; color:#a86a00}
+    .pill.bad{background:#ffefef; color:#c11c1c}
+    .cta{background:var(--ink); color:#fff; border:none; border-radius:12px; padding:10px 14px; cursor:pointer; font-weight:700}
+    .legend{font-size:12px; color:var(--muted)}
+    footer{color:var(--muted); padding:30px 0 40px; text-align:center}
+    .small{font-size:12px; color:var(--muted)}
+    .note{background:#fff9e8; border:1px solid #ffe3a2; padding:10px 12px; border-radius:12px; font-size:13px}
+    a.btn{display:inline-flex; align-items:center; gap:8px; text-decoration:none; background:#eef4ff; color:#053aaf; padding:8px 12px; border-radius:12px; font-weight:700}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap hero">
+      <div>
+        <h1>Session 02 — Economist’s Approach to Business</h1>
+        <p class="lead">Dari <b>kelangkaan</b> dan <b>biaya peluang</b> menuju <b>keputusan marjinal</b>. Latih intuisi dengan PPF & aturan <i>MB = MC</i>.</p>
+        <div class="badge">Economics for Business & AI • LO1</div>
+        <div style="margin-top:12px"><a class="btn" href="index.html">← Kembali ke Home</a></div>
+      </div>
+      <img class="img" src="https://images.unsplash.com/photo-1496307653780-42ee777d4833?q=80&w=1200&auto=format&fit=crop" alt="Ilustrasi pilihan & trade-off (Unsplash)">
+    </div>
+  </header>
+
+  <div class="wrap">
+    <nav class="toc card">
+      <a href="#scarcity">Scarcity & Opportunity Cost</a>
+      <a href="#ppf">Simulasi PPF</a>
+      <a href="#marginal">Simulasi Keputusan Marjinal (MB = MC)</a>
+      <a href="#diskusi">Pertanyaan Reflektif</a>
+    </nav>
+
+    <!-- =============== SCARCITY & OPPORTUNITY COST (konsep) =============== -->
+    <section id="scarcity">
+      <div class="grid grid-2">
+        <div class="card">
+          <h2>Scarcity & Opportunity Cost</h2>
+          <p>
+            <b>Scarcity</b>: ketidakseimbangan antara keinginan manusia yang tak terbatas dan kemampuan produksi yang terbatas.
+            Konsekuensinya, setiap pilihan memiliki <b>opportunity cost</b>—alternatif terbaik yang dikorbankan.
+          </p>
+          <ul>
+            <li><b>What?</b> Barang/jasa apa yang diproduksi?</li>
+            <li><b>How?</b> Dengan kombinasi input/teknologi seperti apa?</li>
+            <li><b>For whom?</b> Untuk siapa output dialokasikan?</li>
+          </ul>
+          <p class="hint">Dalam kerangka mikro, pilihan optimal dibuat dengan membandingkan manfaat dan biaya <i>marjinal</i> dari suatu tindakan kecil tambahan.</p>
+          <div class="note"><b>Contoh cepat:</b> waktu belajar vs. leisure; menaikkan output 1 unit—apakah tambahan manfaatnya masih > biaya tambahannya?</div>
+        </div>
+        <div class="card">
+          <img class="img" src="https://www.thebalancemoney.com/thmb/Oz0CBlmyNDcCj3oLFvkI7fE7FkY=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/production-possibilities-curve-definition-explanation-examples-4169680_FINAL-1312d1267f804e0db9f7d4bf70c8d839.png" alt="Sketsa PPF Wikimedia">
+          <p class="small" style="margin-top:8px">PPF menggambarkan trade-off dua komoditas di bawah sumber daya terbatas. Titik di kurva: efisien; di dalam: inefisien; di luar: tidak tercapai.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============== PPF SIMULATOR =============== -->
+    <section id="ppf">
+      <div class="grid grid-2">
+        <div class="card">
+          <h2>Simulasi PPF — Production Possibility Frontier</h2>
+          <p class="hint">Kita modelkan ekonomi sederhana dengan dua produk: <b>Kopi (K)</b> dan <b>Roti (R)</b>. Total sumber daya terbatas.</p>
+          <div class="row"><label for="L">Total Sumber Daya (mis. jam kerja)</label><input id="L" type="range" min="50" max="300" value="160"><span id="L_v">160</span></div>
+          <div class="row"><label for="aK">Produktivitas Kopi (a<sub>K</sub>)</label><input id="aK" type="range" min="0.2" max="4" step="0.1" value="2"><span id="aK_v">2.0</span></div>
+          <div class="row"><label for="aR">Produktivitas Roti (a<sub>R</sub>)</label><input id="aR" type="range" min="0.2" max="4" step="0.1" value="1"><span id="aR_v">1.0</span></div>
+          <div class="row"><label for="tech">Kemajuan Teknologi (Δ%)</label><input id="tech" type="range" min="0" max="50" value="0"><span id="tech_v">0%</span></div>
+
+          <div class="kpi" style="margin-top:10px">
+            <div class="item"><small>Maks. Kopi (Roti=0)</small><b id="Kmax">—</b></div>
+            <div class="item"><small>Maks. Roti (Kopi=0)</small><b id="Rmax">—</b></div>
+            <div class="item"><small>Trade-off (ΔR/ΔK)</small><b id="slope">—</b></div>
+            <div class="item"><small>Status Titik Pilihan</small><b id="status" class="pill warn">—</b></div>
+          </div>
+
+          <h3 style="margin-top:14px">Eksperimen Titik Pilihan</h3>
+          <div class="row"><label for="Kpick">Kopi (K)</label><input id="Kpick" type="range" min="0" max="500" value="50"><span id="Kpick_v">50</span></div>
+          <div class="row"><label for="Rpick">Roti (R)</label><input id="Rpick" type="range" min="0" max="500" value="50"><span id="Rpick_v">50</span></div>
+          <p class="hint">Geser titik pilihan. Lihat apakah berada di dalam/di kurva/di luar PPF, dan baca kemiringan (opportunity cost).</p>
+        </div>
+
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:center">
+            <h3 style="margin:0">Kurva PPF (K vs R)</h3>
+            <small class="legend">Titik merah: pilihan; garis: frontier</small>
+          </div>
+          <canvas id="ppfChart" height="320"></canvas>
+          <div class="grid grid-2" style="margin-top:16px">
+            <img class="img" src="https://images.unsplash.com/photo-1529042410759-befb1204b468?q=80&w=1200&auto=format&fit=crop" alt="Kopi (Unsplash)">
+            <img class="img" src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?q=80&w=1200&auto=format&fit=crop" alt="Roti (Unsplash)">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============== MARGINAL DECISION SIMULATOR (MB=MC) =============== -->
+    <section id="marginal">
+      <div class="grid grid-2">
+        <div class="card">
+          <h2>Simulasi Keputusan Marjinal — Temukan Q* saat MB = MC</h2>
+          <p class="hint">Manfaat marjinal (MB) dan biaya marjinal (MC) kita parameterkan sederhana: <b>MB(Q)=α−βQ</b>, <b>MC(Q)=γ+δQ</b>.</p>
+          <div class="row"><label for="alpha">α (level manfaat awal)</label><input id="alpha" type="range" min="10" max="200" value="120"><span id="alpha_v">120</span></div>
+          <div class="row"><label for="beta">β (turun manfaat)</label><input id="beta" type="range" min="0.1" max="5" step="0.1" value="1.5"><span id="beta_v">1.5</span></div>
+          <div class="row"><label for="gamma">γ (biaya awal)</label><input id="gamma" type="range" min="0" max="100" value="20"><span id="gamma_v">20</span></div>
+          <div class="row"><label for="delta">δ (kenaikan biaya)</label><input id="delta" type="range" min="0.1" max="5" step="0.1" value="1.2"><span id="delta_v">1.2</span></div>
+          <div class="row"><button class="cta" id="resetMBMC">Reset</button></div>
+
+          <div class="kpi" style="margin-top:8px">
+            <div class="item"><small>Kuantitas Optimal (Q*)</small><b id="qstar">—</b></div>
+            <div class="item"><small>MB(Q*) = MC(Q*)</small><b id="mbmc">—</b></div>
+            <div class="item"><small>Daerah Net Benefit</small><b id="net" class="pill ok">—</b></div>
+            <div class="item"><small>Sinyal Keputusan</small><b id="signal" class="pill warn">—</b></div>
+          </div>
+          <p class="hint">Aturan praktis: <b>produksi/aksi hingga titik di mana MB = MC</b>. Jika MB > MC, lanjutkan; jika MB < MC, kurangi.</p>
+        </div>
+
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:center">
+            <h3 style="margin:0">Kurva MB & MC vs Kuantitas</h3>
+            <small class="legend">Garis potong = Q*</small>
+          </div>
+          <canvas id="mbmcChart" height="320"></canvas>
+          <div class="grid grid-2" style="margin-top:16px">
+            <img class="img" src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1200&auto=format&fit=crop" alt="Operasi & skala (Unsplash)">
+            <img class="img" src="https://images.unsplash.com/photo-1529070538774-1843cb3265df?q=80&w=1200&auto=format&fit=crop" alt="Data & keputusan (Unsplash)">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============== DISKUSI =============== -->
+    <section id="diskusi">
+      <div class="card">
+        <h2>Pertanyaan Reflektif</h2>
+        <ol>
+          <li>Bagaimana peningkatan teknologi (Δ%) menggeser PPF? Kaitkan dengan produktivitas a<sub>K</sub> dan a<sub>R</sub>.</li>
+          <li>Jika pemerintah mengenakan regulasi ketat pada roti, bagaimana implikasi pada kombinasi optimal K–R?</li>
+          <li>Dalam simulasi MB–MC, kapan Q* turun? Jelaskan dengan perubahan parameter β dan δ.</li>
+          <li>Hubungkan hasil simulasi dengan keputusan riil: ekspansi toko, rekrutmen staf, atau penetapan harga.</li>
+        </ol>
+      </div>
+    </section>
+
+    <footer>© 2025 — Economics for Business & AI • Session 02 • Interaktif HTML+JS</footer>
+  </div>
+
+  <script>
+    // ---------- Helpers
+    const clamp = (x, lo, hi) => Math.max(lo, Math.min(x, hi));
+    const range = (n, step=1, start=0) => Array.from({length: n}, (_,i)=> start + i*step);
+
+    // ================== PPF MODEL ==================
+    // Model sederhana: dengan total resources L, produktivitas aK, aR.
+    // Frontier linier (tanpa bentuk cekung): K = aK * LK, R = aR * (L - LK).
+    // Dengan kemajuan teknologi t%: aK' = aK*(1+t), aR' = aR*(1+t).
+    const els = {
+      L: document.getElementById('L'),
+      aK: document.getElementById('aK'),
+      aR: document.getElementById('aR'),
+      tech: document.getElementById('tech'),
+      L_v: document.getElementById('L_v'),
+      aK_v: document.getElementById('aK_v'),
+      aR_v: document.getElementById('aR_v'),
+      tech_v: document.getElementById('tech_v'),
+      Kmax: document.getElementById('Kmax'),
+      Rmax: document.getElementById('Rmax'),
+      slope: document.getElementById('slope'),
+      status: document.getElementById('status'),
+      Kpick: document.getElementById('Kpick'),
+      Rpick: document.getElementById('Rpick'),
+      Kpick_v: document.getElementById('Kpick_v'),
+      Rpick_v: document.getElementById('Rpick_v')
+    };
+
+    const ppfChart = new Chart(document.getElementById('ppfChart'), {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [
+          { label:'PPF', data:[], pointRadius:0, borderWidth:2, fill:false },
+          { label:'Pilihan', data:[], pointRadius:5, showLine:false, backgroundColor:'#e11d48' }
+        ]
+      },
+      options: {
+        responsive:true,
+        plugins:{ legend:{ position:'bottom' } },
+        scales:{
+          x:{ title:{display:true, text:'Kopi (K)'} },
+          y:{ title:{display:true, text:'Roti (R)' }, beginAtZero:true }
+        }
+      }
+    });
+
+    function updatePPF(){
+      // read values
+      const L = +els.L.value;
+      const aK = +els.aK.value;
+      const aR = +els.aR.value;
+      const t = +els.tech.value / 100;
+
+      els.L_v.textContent = L;
+      els.aK_v.textContent = aK.toFixed(1);
+      els.aR_v.textContent = aR.toFixed(1);
+      els.tech_v.textContent = (t*100).toFixed(0)+'%';
+
+      const aKp = aK*(1+t);
+      const aRp = aR*(1+t);
+
+      // Max points (alloc all resource to one good)
+      const Kmax = aKp * L;
+      const Rmax = aRp * L;
+      els.Kmax.textContent = Kmax.toFixed(1);
+      els.Rmax.textContent = Rmax.toFixed(1);
+
+      // Frontier (linear): when allocate LK from 0..L
+      const steps = 40;
+      const LK = range(steps+1, L/steps, 0);
+      const K = LK.map(x => aKp * x);
+      const R = LK.map(x => aRp * (L - x));
+      const points = K.map((k,i)=> ({x:k, y:R[i]}));
+
+      // opportunity cost slope (absolute)
+      const slope = (Rmax - 0) / (0 - Kmax); // dR/dK along straight line
+      els.slope.textContent = Math.abs(slope).toFixed(3);
+
+      // chosen point
+      const Kc = +els.Kpick.value;
+      const Rc = +els.Rpick.value;
+      els.Kpick_v.textContent = Kc;
+      els.Rpick_v.textContent = Rc;
+
+      // determine status: inside/on/outside
+      // For line from (0,Rmax) to (Kmax,0): feasible if Rc <= Rmax - (Rmax/Kmax)*Kc
+      const R_on = Rmax - (Rmax/Kmax)*Kc;
+      let statusTxt = 'Di Dalam (Inefisien)'; let cls='warn';
+      if (Math.abs(Rc - R_on) <= Math.max(0.02*Rmax, 1)) { statusTxt = 'Di Kurva (Efisien)'; cls='ok'; }
+      else if (Rc > R_on) { statusTxt = 'Di Luar (Tidak Tercapai)'; cls='bad'; }
+      els.status.textContent = statusTxt;
+      els.status.className = 'pill ' + cls;
+
+      // update chart
+      ppfChart.data.labels = K;
+      ppfChart.data.datasets[0].data = points;
+      ppfChart.data.datasets[1].data = [{x:Kc, y:Rc}];
+      ppfChart.update();
+    }
+
+    ['L','aK','aR','tech','Kpick','Rpick'].forEach(id=>{
+      document.getElementById(id).addEventListener('input', updatePPF);
+    });
+    updatePPF();
+
+    // ================== MB = MC MODEL ==================
+    const mbmcEls = {
+      alpha: document.getElementById('alpha'),
+      beta: document.getElementById('beta'),
+      gamma: document.getElementById('gamma'),
+      delta: document.getElementById('delta'),
+      alpha_v: document.getElementById('alpha_v'),
+      beta_v: document.getElementById('beta_v'),
+      gamma_v: document.getElementById('gamma_v'),
+      delta_v: document.getElementById('delta_v'),
+      qstar: document.getElementById('qstar'),
+      mbmc: document.getElementById('mbmc'),
+      net: document.getElementById('net'),
+      signal: document.getElementById('signal'),
+      reset: document.getElementById('resetMBMC')
+    };
+
+    const mbmcChart = new Chart(document.getElementById('mbmcChart'), {
+      type:'line',
+      data:{
+        labels:[],
+        datasets:[
+          { label:'MB(Q)', data:[], pointRadius:0, borderWidth:2 },
+          { label:'MC(Q)', data:[], pointRadius:0, borderWidth:2 }
+        ]
+      },
+      options:{
+        responsive:true,
+        plugins:{ legend:{ position:'bottom' } },
+        scales:{
+          x:{ title:{display:true, text:'Kuantitas (Q)'} },
+          y:{ title:{display:true, text:'Nilai Marjinal'}, beginAtZero:false }
+        }
+      }
+    });
+
+    function updateMBMC(){
+      const a = +mbmcEls.alpha.value;
+      const b = +mbmcEls.beta.value;
+      const g = +mbmcEls.gamma.value;
+      const d = +mbmcEls.delta.value;
+
+      mbmcEls.alpha_v.textContent = a;
+      mbmcEls.beta_v.textContent = b;
+      mbmcEls.gamma_v.textContent = g;
+      mbmcEls.delta_v.textContent = d;
+
+      // Solve MB = MC: a - bQ = g + dQ  => Q* = (a - g) / (b + d)
+      const denom = (b + d);
+      let Qstar = (a - g) / denom;
+      Qstar = clamp(Qstar, 0, 1000);
+
+      const MBstar = a - b*Qstar;
+      const MCstar = g + d*Qstar;
+
+      mbmcEls.qstar.textContent = Qstar.toFixed(2);
+      mbmcEls.mbmc.textContent = MBstar.toFixed(2) + ' = ' + MCstar.toFixed(2);
+
+      // qualitative signal around Q*
+      const signal = document.getElementById('signal');
+      const net = document.getElementById('net');
+      if (a <= g) { // never beneficial to start
+        signal.textContent = 'Jangan mulai (MB0 ≤ MC0)';
+        signal.className = 'pill bad';
+        net.textContent = 'Tidak ada net benefit';
+        net.className = 'pill bad';
+      } else {
+        signal.textContent = 'Produksi hingga Q*';
+        signal.className = 'pill ok';
+        net.textContent = 'Area MB > MC positif';
+        net.className = 'pill ok';
+      }
+
+      // build curves for Q from 0..Qmax
+      const Qmax = Math.max(20, Math.ceil(Qstar*1.5));
+      const Q = range(Qmax+1, 1, 0);
+      const MB = Q.map(q => a - b*q);
+      const MC = Q.map(q => g + d*q);
+
+      mbmcChart.data.labels = Q;
+      mbmcChart.data.datasets[0].data = MB;
+      mbmcChart.data.datasets[1].data = MC;
+      mbmcChart.update();
+    }
+
+    ['alpha','beta','gamma','delta'].forEach(id=>{
+      mbmcEls[id].addEventListener('input', updateMBMC);
+    });
+    mbmcEls.reset.addEventListener('click', ()=>{
+      mbmcEls.alpha.value=120; mbmcEls.beta.value=1.5; mbmcEls.gamma.value=20; mbmcEls.delta.value=1.2;
+      updateMBMC();
+    });
+    updateMBMC();
+  </script>
+</body>
+</html>
