@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Economics for Business & AI — Bahan Ajar (Session 01–26)</title>
+  <meta name="description" content="Portal bahan ajar interaktif Economics for Business & AI. PEST, STEEPLE, Supply–Demand, dan materi sesi 01–26." />
+  <meta name="theme-color" content="#0f5fff" />
+  <style>
+    :root{
+      --primary:#0f5fff; --ink:#0b1526; --muted:#6b7a90; --bg:#f6f8fb; --card:#fff; --ok:#1bbd7e;
+    }
+    *{box-sizing:border-box}
+    body{margin:0; font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; color:var(--ink); background:var(--bg)}
+    header{
+      background:linear-gradient(120deg,#0f5fff 0%,#21a0ff 60%,#73d7ff 100%); color:#fff; padding:52px 16px 28px
+    }
+    .wrap{max-width:1100px; margin:0 auto; padding:0 16px}
+    h1{margin:0 0 6px; font-size: clamp(26px,4vw,42px)}
+    p.lead{margin:8px 0 0; font-size:clamp(15px,2.2vw,18px)}
+    nav.actions{display:flex; flex-wrap:wrap; gap:10px; margin-top:16px}
+    .pill{background:#eef4ff; color:#053aaf; padding:8px 11px; border-radius:999px; font-weight:700}
+    .panel{background:var(--card); border-radius:14px; padding:14px; margin-top:-22px; box-shadow:0 10px 24px rgba(15,95,255,.15)}
+    .grid{display:grid; gap:14px}
+    @media(min-width:860px){ .grid-3{ grid-template-columns:1fr 1fr 1fr } .grid-2{ grid-template-columns:1fr 1fr } }
+    .card{background:var(--card); border-radius:16px; padding:16px; box-shadow:0 8px 24px rgba(11,21,38,.06); display:flex; flex-direction:column; gap:10px}
+    .card h3{margin:0; font-size:18px}
+    .meta{display:flex; flex-wrap:wrap; gap:8px; color:var(--muted); font-size:12px}
+    .btn{display:inline-flex; align-items:center; gap:8px; text-decoration:none; background:var(--ink); color:#fff; border-radius:12px; padding:8px 12px; font-weight:700}
+    .btn.sec{background:#eef4ff; color:#053aaf}
+    .toolbar{display:flex; gap:10px; flex-wrap:wrap}
+    input[type="text"], select{
+      border:1px solid #d9e3ff; background:#fff; padding:10px 12px; border-radius:12px; min-width:220px; outline:none
+    }
+    .kpis{display:grid; gap:10px; grid-template-columns:repeat(4,minmax(0,1fr))}
+    .kpis .item{background:#f2f7ff; border:1px dashed #cfe1ff; padding:10px; border-radius:12px; text-align:center}
+    .kpis b{display:block; font-size:20px}
+    .footer{color:var(--muted); text-align:center; padding:30px 0 50px}
+    .tag{display:inline-block; background:#f6f8fb; border:1px solid #e7ecf7; padding:4px 8px; border-radius:999px; font-size:12px}
+    .row{display:flex; align-items:center; gap:10px}
+    .progress{margin-left:auto; display:flex; align-items:center; gap:6px}
+    .progress .bar{width:90px; height:8px; background:#edf2ff; border-radius:999px; overflow:hidden}
+    .progress .bar span{display:block; height:100%; background:var(--ok); width:0}
+    .small{font-size:12px; color:var(--muted)}
+    .credit{background:#fff9e8; border:1px solid #ffe3a2; padding:12px; border-radius:12px}
+    .lo{font-weight:700; font-size:12px; color:#255; background:#e9fff6; border:1px solid #bcf2da; padding:4px 8px; border-radius:999px}
+    a.slink{color:var(--primary); text-decoration:none}
+    .chk{appearance:none; width:18px; height:18px; border:2px solid #cfe1ff; border-radius:6px; display:inline-block; position:relative; cursor:pointer}
+    .chk:checked{background:var(--ok); border-color:var(--ok)}
+    .chk:checked::after{content:""; position:absolute; left:4px; top:1px; width:5px; height:9px; border:2px solid #fff; border-left:0; border-top:0; transform:rotate(45deg)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>Economics for Business & AI — Portal Bahan Ajar</h1>
+      <p class="lead">Materi interaktif 26 sesi. Fokus pada penerapan teori (supply, demand, elastisitas, perilaku konsumen, kebijakan, pasar global, ekonomi karbon) untuk keputusan bisnis dan keberlanjutan.</p>
+      <nav class="actions">
+        <span class="pill">Free & Open • oleh Dr. Anton Dwi Fitriyanto</span>
+        <a class="btn" href="#sessions">Lihat Semua Sesi</a>
+        <a class="btn sec" href="#about">Tentang Mata Kuliah</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <!-- Toolbar -->
+    <div class="panel">
+      <div class="toolbar">
+        <input id="search" type="text" placeholder="Cari topik (mis: elasticity, policy, AI, carbon, game theory)..." />
+        <select id="filterLO">
+          <option value="">Filter Learning Outcome (LO)</option>
+          <option value="LO1">LO1 – Knowledge</option>
+          <option value="LO2">LO2 – Comprehension</option>
+          <option value="LO3">LO3 – Application</option>
+          <option value="LO4">LO4 – Analysis</option>
+        </select>
+        <div class="progress">
+          <span class="small">Progres</span>
+          <div class="bar"><span id="progbar"></span></div>
+          <span class="small" id="progtext">0/26</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPIs -->
+    <section style="margin:18px 0 8px">
+      <div class="kpis">
+        <div class="item"><small>Total Sesi</small><b>26</b></div>
+        <div class="item"><small>Simulasi Interaktif</small><b>PEST • STEEPLE • Pasar</b></div>
+        <div class="item"><small>Fokus Praktik</small><b>Profit & Sustainability</b></div>
+        <div class="item"><small>Bahasa</small><b>ID • EN (selektif)</b></div>
+      </div>
+    </section>
+
+    <!-- Sessions -->
+    <section id="sessions" style="margin:18px 0 32px">
+      <h2>Daftar Sesi (01–26)</h2>
+      <div id="cards" class="grid grid-3"></div>
+      <p class="small" style="margin-top:10px">Catatan: Tautan mengarah ke <code>sessionXX.html</code>. Pastikan file-file tersebut berada di folder yang sama.</p>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="grid grid-2" style="margin-bottom:28px">
+      <div class="card">
+        <h3>Tentang Mata Kuliah</h3>
+        <p>Mata kuliah ini menganalisis lingkungan ekonomi yang memengaruhi operasi dan pengambilan keputusan bisnis, termasuk integrasi <b>AI</b> untuk profitabilitas dan keberlanjutan. Capaian Pembelajaran:</p>
+        <ul>
+          <li><span class="lo">LO1</span> Mendefinisikan supply, demand, elastisitas, perilaku konsumen.</li>
+          <li><span class="lo">LO2</span> Menjelaskan maksimisasi profit di pasar kompetitif & non-kompetitif.</li>
+          <li><span class="lo">LO3</span> Mendemonstrasikan strategi pertumbuhan & intervensi pemerintah.</li>
+          <li><span class="lo">LO4</span> Menganalisis kebijakan makro & ekonomi global.</li>
+        </ul>
+        <p class="small">Rujukan utama: Sloman et al. (2023), <i>Economics for Business</i>; simulasi Harvard <i>Coffee Shop Inc.</i> (brief/debrief/teaching note tersedia untuk dosen).</p>
+      </div>
+      <div class="card credit">
+        <h3>Lisensi & Kredit</h3>
+        <p>Konten ini disediakan <b>gratis</b> untuk pembelajaran oleh <b>Dr. Anton Dwi Fitriyanto</b>. Silakan bagikan tautan GitHub Pages Anda agar publik dapat mengakses.</p>
+        <p class="small">Gambar ikon menggunakan sumber terbuka (Wikimedia/Unsplash) melalui <a class="slink" href="https://www.wikipedia.org/" target="_blank" rel="noopener">Wikimedia</a> dan <a class="slink" href="https://unsplash.com/" target="_blank" rel="noopener">Unsplash</a>. Harap cantumkan atribusi jika menyalin ulang.</p>
+      </div>
+    </section>
+
+    <div class="footer">
+      © 2025 • Economics for Business & AI • Open Class by Dr. Anton Dwi Fitriyanto
+    </div>
+  </div>
+
+  <script>
+    // --------- Data Sesi (judul ringkas + topik kunci + LO)
+    const sessions = [
+      {no:1,  title:"Business & Economic Environment", lo:"LO1", topics:["PEST","STEEPLE","Supply–Demand","Opportunity cost"]},
+      {no:2,  title:"Economist’s Approach to Business", lo:"LO1", topics:["Model ekonomi","Rasionalitas","Biaya marjinal"]},
+      {no:3,  title:"Business in a Competitive Market", lo:"LO1", topics:["Demand","Supply","Equilibrium"]},
+      {no:4,  title:"Elasticity & AI in Competitive Markets", lo:"LO1", topics:["PED","PES","Revenue","AI pricing"]},
+      {no:5,  title:"Demand & the Consumer", lo:"LO1", topics:["Utility","Behavioral","Demand firm"]},
+      {no:6,  title:"Estimating & Stimulating Demand", lo:"LO2", topics:["Forecast","A/B","Econometrics"]},
+      {no:7,  title:"Profit in Perfect Competition I", lo:"LO2", topics:["Revenue","Cost","Profit max"]},
+      {no:8,  title:"Profit in Perfect Competition II", lo:"LO2", topics:["SR/LR cost","Entry/exit"]},
+      {no:9,  title:"Pricing in Imperfect Competition", lo:"LO2", topics:["Monopoly","Oligopoly"]},
+      {no:10, title:"Game Theory for Strategy", lo:"LO2", topics:["Payoff","Nash","Repeated"]},
+      {no:11, title:"Digital Marketing Using AI", lo:"LO3", topics:["Recommender","Personalization","Brand safety"]},
+      {no:12, title:"Business Growth & Strategy", lo:"LO3", topics:["Strategic choice","Scaling","Analysis"]},
+      {no:13, title:"MNCs & Global Economy with AI", lo:"LO3", topics:["Cloud","Data","Globalization"]},
+      {no:14, title:"Strategy in a Global Economy", lo:"LO3", topics:["MNE issues","Modes","Choice"]},
+      {no:15, title:"Labour", lo:"LO3", topics:["Bargaining","Power","Wage"]},
+      {no:16, title:"Employment", lo:"LO2", topics:["Incentives","Min wage","Flex"]},
+      {no:17, title:"Government & the Market", lo:"LO3", topics:["Externalities","Env policy","Failures"]},
+      {no:18, title:"Government Intervention", lo:"LO3", topics:["Tax/Subsidy","Regulation","CSR"]},
+      {no:19, title:"Macro Indicators & Activity", lo:"LO3", topics:["Circular flow","Business cycle","AD/AS"]},
+      {no:20, title:"Business Activity", lo:"LO3", topics:["Money","Interest","Cycle"]},
+      {no:21, title:"Fiscal Policy", lo:"LO4", topics:["Budget","Multiplier","Debt"]},
+      {no:22, title:"Monetary Policy", lo:"LO4", topics:["Inflation","Rates","Transmission"]},
+      {no:23, title:"Global Trading & Carbon Economy", lo:"LO4", topics:["Trade","WTO","Carbon economy"]},
+      {no:24, title:"The Global Environment", lo:"LO4", topics:["Trade restriction","EU Single Market","WTO"]},
+      {no:25, title:"Balance of Payments & FX", lo:"LO4", topics:["BoP","Exchange rate"]},
+      {no:26, title:"Global Financial Environment", lo:"LO4", topics:["Capital flows","Policy","Risk"]}
+    ];
+
+    const container = document.getElementById('cards');
+    const search = document.getElementById('search');
+    const filterLO = document.getElementById('filterLO');
+    const progbar = document.getElementById('progbar');
+    const progtext = document.getElementById('progtext');
+
+    // --------- Progress via localStorage
+    const KEY = 'econ_sessions_progress_v1';
+    const loadProgress = () => JSON.parse(localStorage.getItem(KEY) || '{}');
+    const saveProgress = (state) => localStorage.setItem(KEY, JSON.stringify(state));
+    let progress = loadProgress();
+
+    function sessionLink(no){
+      return `session${String(no).padStart(2,'0')}.html`;
+    }
+
+    function render(){
+      container.innerHTML = '';
+      const q = (search.value || '').toLowerCase();
+      const loFilter = filterLO.value;
+
+      const filtered = sessions.filter(s=>{
+        const hitQ = !q || s.title.toLowerCase().includes(q) || (s.topics.join(' ').toLowerCase().includes(q));
+        const hitLO = !loFilter || s.lo === loFilter;
+        return hitQ && hitLO;
+      });
+
+      filtered.forEach(s=>{
+        const done = !!progress[s.no];
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="row">
+            <h3 style="margin-right:auto">Session ${String(s.no).padStart(2,'0')}: ${s.title}</h3>
+            <label class="row small" title="Tandai selesai">
+              <input type="checkbox" class="chk" data-no="${s.no}" ${done?'checked':''} />
+              <span>&nbsp;Selesai</span>
+            </label>
+          </div>
+          <div class="meta">
+            <span class="lo">${s.lo}</span>
+            ${s.topics.map(t=>`<span class="tag">${t}</span>`).join('')}
+          </div>
+          <div class="row">
+            <a class="btn" href="${sessionLink(s.no)}">Buka Materi</a>
+            <a class="btn sec" href="#sessions" onclick="navigator.clipboard.writeText('${location.origin}${location.pathname.replace(/index\.html?$/,'')}${sessionLink(s.no)}'); alert('Tautan disalin'); return false;">Salin Tautan</a>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      // attach checkbox handlers
+      container.querySelectorAll('.chk').forEach(ch=>{
+        ch.addEventListener('change', (e)=>{
+          const no = e.target.getAttribute('data-no');
+          if(e.target.checked){ progress[no]=true; } else { delete progress[no]; }
+          saveProgress(progress);
+          updateProgressBar();
+        });
+      });
+
+      updateProgressBar(filtered.length);
+    }
+
+    function updateProgressBar(visibleCount){
+      const total = sessions.length;
+      const done = Object.keys(progress).length;
+      const pct = Math.round((done/total)*100);
+      progbar.style.width = pct + '%';
+      progtext.textContent = `${done}/${total}`;
+    }
+
+    search.addEventListener('input', render);
+    filterLO.addEventListener('change', render);
+
+    render();
+  </script>
+</body>
+</html>
