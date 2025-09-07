@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Session 01 — Business & Economic Environment (PEST, STEEPLE, Supply–Demand)</title>
+  <meta name="description" content="Bahan ajar interaktif: PEST, STEEPLE, dan simulasi pasar (permintaan–penawaran) untuk Economics for Business & AI." />
+  <!-- Chart.js CDN (ringan, satu file) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --primary:#0f5fff; --ink:#0b1526; --muted:#6b7a90; --bg:#f6f8fb; --card:#ffffff; --accent:#1bbd7e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color:var(--ink); background:var(--bg);
+    }
+    header {
+      background: linear-gradient(120deg, #0f5fff 0%, #21a0ff 60%, #73d7ff 100%);
+      color:white; padding:48px 16px;
+    }
+    .wrap { max-width:1100px; margin:0 auto; padding:0 16px; }
+    .hero {
+      display:grid; grid-template-columns: 1.2fr 1fr; gap:24px; align-items:center;
+    }
+    .hero img { width:100%; height:auto; border-radius:16px; box-shadow: 0 10px 30px rgba(0,0,0,.2); }
+    h1 { margin:0 0 8px; font-size: clamp(26px, 4vw, 40px); }
+    h2 { margin:12px 0; font-size: clamp(20px, 3vw, 28px); }
+    p.lead { font-size: clamp(16px, 2.2vw, 18px); opacity:.95 }
+    nav.toc {
+      background:var(--card); border-radius:14px; padding:14px; margin-top:-22px; box-shadow: 0 6px 20px rgba(15,95,255,.15);
+      display:flex; flex-wrap:wrap; gap:8px;
+    }
+    nav.toc a {
+      text-decoration:none; color:var(--primary); background:#eef4ff; padding:10px 12px; border-radius:10px; font-weight:600;
+    }
+    section { margin:28px 0 36px; }
+    .card {
+      background:var(--card); border-radius:16px; padding:18px; box-shadow: 0 8px 24px rgba(11,21,38,.06);
+    }
+    .grid {
+      display:grid; gap:16px;
+    }
+    @media(min-width:900px){
+      .grid-2 { grid-template-columns: 1fr 1fr; }
+      .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+      .grid-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+    }
+    .row { display:flex; align-items:center; gap:14px; margin:10px 0; }
+    .row label { min-width:130px; font-weight:600; }
+    .row input[type="range"] { width:260px; }
+    .badge { display:inline-flex; gap:6px; align-items:center; background:#eef4ff; color:var(--primary); padding:6px 10px; border-radius:999px; font-weight:700; font-size:12px; }
+    .hint { color:var(--muted); font-size: 14px; }
+    .kpi {
+      display:grid; gap:10px; grid-template-columns: repeat(4, minmax(0,1fr)); margin-top:12px;
+    }
+    .kpi .item {
+      background:#f2f7ff; border:1px dashed #cfe1ff; padding:12px; border-radius:12px; text-align:center;
+    }
+    .kpi .item b { display:block; font-size:20px; }
+    .pill { display:inline-block; padding:6px 10px; border-radius:999px; font-weight:700; font-size:12px; }
+    .pill.ok { background:#e8fbf2; color:#0c7d50; }
+    .pill.warn { background:#fff7e6; color:#a86a00; }
+    .pill.bad { background:#ffefef; color:#c11c1c; }
+    footer { color:var(--muted); padding:30px 0 40px; text-align:center; }
+    .imgthumb { width:100%; border-radius:14px; box-shadow:0 6px 18px rgba(0,0,0,.08); }
+    .legend { font-size: 12px; color:var(--muted); }
+    .controls small { color:var(--muted); }
+    .note { background:#fff9e8; border:1px solid #ffe3a2; padding:10px 12px; border-radius:12px; font-size:13px; }
+    .cta { background:var(--ink); color:white; border:none; border-radius:12px; padding:10px 14px; cursor:pointer; font-weight:700; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap hero">
+      <div>
+        <h1>Session 01 — Business & Economic Environment</h1>
+        <p class="lead">
+          Simulasi interaktif <b>PEST</b>, <b>STEEPLE</b>, dan <b>Pasar (Permintaan–Penawaran)</b> untuk
+          memahami bagaimana faktor eksternal memengaruhi strategi bisnis dan titik <i>equilibrium</i>.
+        </p>
+        <div class="badge">
+          <img src="https://bbs.binus.ac.id/wp-content/uploads/2020/05/BBS-AACSB.svg" width="16" height="16" alt="">
+          Economics for Business & AI • LO1
+        </div>
+      </div>
+      <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1200&auto=format&fit=crop" alt="Ilustrasi bisnis & data analytics (Unsplash)" />
+    </div>
+  </header>
+
+  <div class="wrap">
+    <nav class="toc card">
+      <a href="#pest">PEST Simulator</a>
+      <a href="#steeple">STEEPLE Simulator</a>
+      <a href="#market">Simulasi Pasar (Supply–Demand)</a>
+      <a href="#pertanyaan">Pertanyaan Reflektif</a>
+    </nav>
+
+    <!-- ===================== PEST ===================== -->
+    <section id="pest">
+      <div class="grid grid-2">
+        <div class="card">
+          <h2>PEST Simulator</h2>
+          <p class="hint">Nilai 0–10 merepresentasikan <b>tekanan/dukungan</b> faktor eksternal terhadap bisnis (lebih tinggi = lebih mendukung iklim usaha).</p>
+
+          <div class="row">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Balance_icon.svg" width="22" alt="Political">
+            <label for="p_pol">Political</label>
+            <input id="p_pol" type="range" min="0" max="10" step="1" value="6" />
+            <span id="p_pol_v">6</span>
+          </div>
+          <div class="row">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Shiny_Coin_Icon.svg" width="22" alt="Economic">
+            <label for="p_eco">Economic</label>
+            <input id="p_eco" type="range" min="0" max="10" step="1" value="5" />
+            <span id="p_eco_v">5</span>
+          </div>
+          <div class="row">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/P_social_sciences-green.svg" width="22" alt="Social">
+            <label for="p_soc">Social</label>
+            <input id="p_soc" type="range" min="0" max="10" step="1" value="7" />
+            <span id="p_soc_v">7</span>
+          </div>
+          <div class="row">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Noun_Project_Technology_icon_2034212.svg" width="22" alt="Technological">
+            <label for="p_tech">Technological</label>
+            <input id="p_tech" type="range" min="0" max="10" step="1" value="8" />
+            <span id="p_tech_v">8</span>
+          </div>
+
+          <div class="kpi">
+            <div class="item"><small>Skor Iklim Usaha</small><b id="pest_score">6.5</b></div>
+            <div class="item"><small>Risiko Regulasi</small><b id="pest_reg_risk" class="pill ok">Rendah</b></div>
+            <div class="item"><small>Peluang AI/Digital</small><b id="pest_ai" class="pill ok">Tinggi</b></div>
+            <div class="item"><small>Sensitivitas Konsumen</small><b id="pest_cons" class="pill warn">Sedang</b></div>
+          </div>
+
+          <div class="note" style="margin-top:12px">
+            <b>Interpretasi otomatis:</b>
+            <div id="pest_advice" style="margin-top:6px">
+              Dorong <i>data-driven marketing</i> dan otomasi proses (tech tinggi), sambil memantau inflasi & suku bunga (economic sedang).
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="display:flex; gap:12px; align-items:center; justify-content:space-between">
+            <h3 style="margin:0">Radar PEST</h3>
+            <small class="legend">Geser slider untuk melihat perubahan</small>
+          </div>
+          <canvas id="pestChart" height="280"></canvas>
+          <div class="grid grid-2" style="margin-top:16px">
+            <img class="imgthumb" src="https://upload.wikimedia.org/wikipedia/commons/5/58/DPR-MPR_building_complex.jpg" alt="Institusi & kebijakan (Political)" />
+            <img class="imgthumb" src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?q=80&w=1200&auto=format&fit=crop" alt="Indikator ekonomi & keuangan (Economic)" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== STEEPLE ===================== -->
+    <section id="steeple">
+      <div class="grid grid-2">
+        <div class="card">
+          <h2>STEEPLE Simulator</h2>
+          <p class="hint">STEEPLE = PEST + <b>Environmental</b>, <b>Legal</b>, <b>Ethical</b>. Gunakan untuk analisis yang lebih komprehensif.</p>
+
+          <div class="grid grid-2">
+            <div class="controls">
+              <div class="row"><label for="s_pol">Political</label><input id="s_pol" type="range" min="0" max="10" value="6" /><span id="s_pol_v">6</span></div>
+              <div class="row"><label for="s_eco">Economic</label><input id="s_eco" type="range" min="0" max="10" value="5" /><span id="s_eco_v">5</span></div>
+              <div class="row"><label for="s_soc">Social</label><input id="s_soc" type="range" min="0" max="10" value="7" /><span id="s_soc_v">7</span></div>
+              <div class="row"><label for="s_tech">Technological</label><input id="s_tech" type="range" min="0" max="10" value="8" /><span id="s_tech_v">8</span></div>
+            </div>
+            <div class="controls">
+              <div class="row"><label for="s_env">Environmental</label><input id="s_env" type="range" min="0" max="10" value="6" /><span id="s_env_v">6</span></div>
+              <div class="row"><label for="s_leg">Legal</label><input id="s_leg" type="range" min="0" max="10" value="6" /><span id="s_leg_v">6</span></div>
+              <div class="row"><label for="s_eth">Ethical</label><input id="s_eth" type="range" min="0" max="10" value="7" /><span id="s_eth_v">7</span></div>
+              <small>Tip: Environmental tinggi + Legal ketat → fokus <b>compliance & eco-efficiency</b> (kurangi emisi/limbah, efisiensi energi).</small>
+            </div>
+          </div>
+
+          <div class="kpi">
+            <div class="item"><small>Skor Kelayakan Strategi</small><b id="steeple_score">6.4</b></div>
+            <div class="item"><small>Risiko Hukum & Etik</small><b id="steeple_risk" class="pill warn">Sedang</b></div>
+            <div class="item"><small>Peluang Hijau</small><b id="steeple_green" class="pill ok">Menarik</b></div>
+            <div class="item"><small>Kesiapan Teknologi</small><b id="steeple_tech" class="pill ok">Baik</b></div>
+          </div>
+
+          <div class="note" style="margin-top:12px">
+            <b>Rekomendasi strategi:</b>
+            <div id="steeple_advice" style="margin-top:6px">Pertimbangkan <i>green differentiation</i> (label eco, transparansi etika) dan perkuat GRC (governance–risk–compliance).</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="display:flex; gap:12px; align-items:center; justify-content:space-between">
+            <h3 style="margin:0">Radar STEEPLE</h3>
+            <small class="legend">7 dimensi: P, E, S, T, Env, Legal, Ethical</small>
+          </div>
+          <canvas id="steepleChart" height="280"></canvas>
+          <div class="grid grid-2" style="margin-top:16px">
+            <img class="imgthumb" src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1200&auto=format&fit=crop" alt="Regulasi & kepatuhan (Legal/Ethical)" />
+            <img class="imgthumb" src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop" alt="Teknologi & data (Technological)" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== MARKET (SUPPLY–DEMAND) ===================== -->
+    <section id="market">
+      <div class="grid grid-2">
+        <div class="card">
+          <h2>Simulasi Pasar: Permintaan & Penawaran</h2>
+          <p class="hint">
+            Model linear: <b>Q<sub>d</sub> = a − bP</b>, <b>Q<sub>s</sub> = c + dP</b>.
+            Geser parameter untuk melihat perubahan kurva dan titik keseimbangan (<i>equilibrium</i>).
+          </p>
+
+          <div class="grid grid-2">
+            <div>
+              <h3>Permintaan (Q<sub>d</sub>)</h3>
+              <div class="row"><label for="a">a (intersep)</label><input id="a" type="range" min="50" max="500" value="300" /><span id="a_v">300</span></div>
+              <div class="row"><label for="b">b (kemiringan)</label><input id="b" type="range" min="1" max="10" value="3" /><span id="b_v">3</span></div>
+              <div class="row"><label>Shock pendapatan +ΔQ</label><input id="inc" type="range" min="-100" max="100" value="0" /><span id="inc_v">0</span></div>
+            </div>
+            <div>
+              <h3>Penawaran (Q<sub>s</sub>)</h3>
+              <div class="row"><label for="c">c (intersep)</label><input id="c" type="range" min="-200" max="300" value="50" /><span id="c_v">50</span></div>
+              <div class="row"><label for="d">d (kemiringan)</label><input id="d" type="range" min="1" max="10" value="4" /><span id="d_v">4</span></div>
+              <div class="row"><label>Teknologi +ΔQ</label><input id="techshock" type="range" min="-100" max="100" value="0" /><span id="techshock_v">0</span></div>
+            </div>
+          </div>
+
+          <div class="grid grid-3" style="margin-top:10px">
+            <div>
+              <h4>Kebijakan</h4>
+              <div class="row"><input id="tax" type="checkbox" /> <label for="tax">Pajak per unit (T)</label><input id="taxval" type="range" min="0" max="50" value="0" /><span id="tax_v">0</span></div>
+              <div class="row"><input id="sub" type="checkbox" /> <label for="sub">Subsidi per unit (S)</label><input id="subval" type="range" min="0" max="50" value="0" /><span id="sub_v">0</span></div>
+              <small>Catatan: Pajak menggeser kurva <b>penawaran</b> ke kiri (naik biaya), subsidi ke kanan (turun biaya).</small>
+            </div>
+            <div class="kpi" style="grid-template-columns:1fr">
+              <div class="item">
+                <small>Harga Equilibrium (P*)</small>
+                <b id="pe">—</b>
+              </div>
+              <div class="item">
+                <small>Kuantitas Equilibrium (Q*)</small>
+                <b id="qe">—</b>
+              </div>
+            </div>
+            <div>
+              <button class="cta" id="reset">Reset Default</button>
+              <p class="hint" style="margin-top:8px">Gunakan untuk memulai ulang eksperimen.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="display:flex; gap:12px; align-items:center; justify-content:space-between">
+            <h3 style="margin:0">Kurva Permintaan & Penawaran</h3>
+            <small class="legend">Titik merah = Equilibrium</small>
+          </div>
+          <canvas id="marketChart" height="300"></canvas>
+          <div class="grid grid-2" style="margin-top:16px">
+            <img class="imgthumb" src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Supply-and-demand.svg" alt="Ilustrasi supply-demand (Wikimedia)" />
+            <img class="imgthumb" src="https://promise.co.id/wp-content/uploads/2021/02/Picture3-1-1030x824.jpg" alt="Rantai pasok & produksi (Unsplash)" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== REFLECTIVE QUESTIONS ===================== -->
+    <section id="pertanyaan">
+      <div class="card">
+        <h2>Pertanyaan Reflektif (Diskusi Kelas)</h2>
+        <ol>
+          <li>Faktor mana di PEST yang paling memengaruhi strategi harga Anda? Mengapa?</li>
+          <li>Dengan STEEPLE tinggi pada “Legal” dan “Ethical”, strategi diferensiasi apa yang paling rasional?</li>
+          <li>Bagaimana pajak per unit mengubah <i>surplus</i> konsumen-produsen? Apa implikasi bagi kesejahteraan sosial?</li>
+          <li>Jika terjadi <b>income boom</b> (ΔQ<sub>d</sub> &gt; 0), kapan harga naik lebih besar daripada kuantitas (elastis vs tidak elastis)?</li>
+        </ol>
+      </div>
+    </section>
+
+    <footer>
+      © 2025 — Economics for Business & AI • Session 01 • Interaktif HTML+JS
+    </footer>
+  </div>
+
+  <script>
+    // -------------- Helpers
+    const clamp = (x, lo, hi) => Math.max(lo, Math.min(x, hi));
+    const mean = arr => arr.reduce((a,b)=>a+b,0)/arr.length;
+
+    // -------------- PEST
+    const p_ids = ["pol","eco","soc","tech"];
+    const p_values = { pol:6, eco:5, soc:7, tech:8 };
+    const p_chart = new Chart(document.getElementById('pestChart'), {
+      type: 'radar',
+      data: {
+        labels: ['Political','Economic','Social','Technological'],
+        datasets: [{
+          label: 'PEST',
+          data: [p_values.pol,p_values.eco,p_values.soc,p_values.tech],
+          fill: true,
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display:false } },
+        scales: { r: { suggestedMin: 0, suggestedMax: 10, ticks: { stepSize:2 } } }
+      }
+    });
+
+    function updatePEST() {
+      const pol = +document.getElementById('p_pol').value;
+      const eco = +document.getElementById('p_eco').value;
+      const soc = +document.getElementById('p_soc').value;
+      const tech = +document.getElementById('p_tech').value;
+      document.getElementById('p_pol_v').textContent = pol;
+      document.getElementById('p_eco_v').textContent = eco;
+      document.getElementById('p_soc_v').textContent = soc;
+      document.getElementById('p_tech_v').textContent = tech;
+
+      const score = (pol*0.25 + eco*0.25 + soc*0.2 + tech*0.3).toFixed(1);
+      document.getElementById('pest_score').textContent = score;
+
+      // simple rule-based flags
+      const reg = document.getElementById('pest_reg_risk');
+      const ai  = document.getElementById('pest_ai');
+      const cons= document.getElementById('pest_cons');
+      reg.textContent = pol >=7 ? 'Rendah' : pol >=4 ? 'Sedang' : 'Tinggi';
+      reg.className = 'pill ' + (pol>=7? 'ok' : pol>=4? 'warn':'bad');
+      ai.textContent = tech >=7 ? 'Tinggi' : tech>=4 ? 'Sedang' : 'Rendah';
+      ai.className = 'pill ' + (tech>=7? 'ok' : tech>=4? 'warn':'bad');
+      const consSens = soc>=7 ? 'Rendah' : soc>=4 ? 'Sedang':'Tinggi';
+      cons.textContent = consSens;
+      cons.className = 'pill ' + (soc>=7? 'ok' : soc>=4? 'warn':'bad');
+
+      // advice
+      let advice = [];
+      if (tech>=7) advice.push('Skalakan otomasi & AI (CRM, pricing, demand forecast).');
+      if (eco<=4) advice.push('Lindungi margin (hedging biaya, efisiensi operasi).');
+      if (pol<=4) advice.push('Perkuat compliance & advokasi kebijakan.');
+      if (soc>=7) advice.push('Aktifkan diferensiasi nilai (brand purpose, community).');
+      if (advice.length===0) advice.push('Kondisi stabil; optimalkan eksekusi & continuous improvement.');
+      document.getElementById('pest_advice').textContent = advice.join(' ');
+
+      // update chart
+      p_chart.data.datasets[0].data = [pol,eco,soc,tech];
+      p_chart.update();
+    }
+    ['p_pol','p_eco','p_soc','p_tech'].forEach(id => {
+      document.getElementById(id).addEventListener('input', updatePEST);
+    });
+    updatePEST();
+
+    // -------------- STEEPLE
+    const s_ids = ['pol','eco','soc','tech','env','leg','eth'];
+    function val(id){ return +document.getElementById('s_'+id).value; }
+    function setv(id){ document.getElementById('s_'+id+'_v').textContent = val(id); }
+
+    const steepleChart = new Chart(document.getElementById('steepleChart'), {
+      type: 'radar',
+      data: {
+        labels: ['Political','Economic','Social','Technological','Environmental','Legal','Ethical'],
+        datasets: [{ label:'STEEPLE', data: [6,5,7,8,6,6,7], fill:true, borderWidth:2 }]
+      },
+      options: { responsive:true, plugins:{ legend:{display:false} }, scales:{ r:{ suggestedMin:0, suggestedMax:10, ticks:{ stepSize:2 } } } }
+    });
+
+    function updateSTEEPLE(){
+      s_ids.forEach(setv);
+      const arr = s_ids.map(x=>val(x));
+      const score = mean(arr).toFixed(1);
+      document.getElementById('steeple_score').textContent = score;
+
+      const legal = val('leg'), ethical = val('eth'), env = val('env'), tech = val('tech');
+      const risk = (legal>=7 && ethical>=7) ? ['Rendah','ok'] :
+                   (legal>=5 && ethical>=5) ? ['Sedang','warn'] : ['Tinggi','bad'];
+      document.getElementById('steeple_risk').textContent = risk[0];
+      document.getElementById('steeple_risk').className = 'pill ' + risk[1];
+
+      const green = env>=7 ? ['Menarik','ok'] : env>=5 ? ['Ada','warn'] : ['Rendah','bad'];
+      document.getElementById('steeple_green').textContent = green[0];
+      document.getElementById('steeple_green').className = 'pill ' + green[1];
+
+      const tstat = tech>=7 ? ['Baik','ok'] : tech>=5 ? ['Sedang','warn'] : ['Lemah','bad'];
+      document.getElementById('steeple_tech').textContent = tstat[0];
+      document.getElementById('steeple_tech').className = 'pill ' + tstat[1];
+
+      // strategy advice
+      let adv = [];
+      if (env>=7) adv.push('Kembangkan proposisi hijau (efisiensi energi, bahan berkelanjutan).');
+      if (legal<5) adv.push('Audit kepatuhan & perkuat SOP regulasi.');
+      if (ethical<6) adv.push('Bangun kode etik & transparansi rantai pasok.');
+      if (tech>=7) adv.push('Skalakan analytics/ML untuk pricing & personalisasi.');
+      if (adv.length===0) adv.push('Kondisi seimbang; fokus eksekusi dan branding.');
+      document.getElementById('steeple_advice').textContent = adv.join(' ');
+
+      // update chart
+      steepleChart.data.datasets[0].data = arr;
+      steepleChart.update();
+    }
+    s_ids.forEach(x => {
+      document.getElementById('s_'+x).addEventListener('input', updateSTEEPLE);
+    });
+    updateSTEEPLE();
+
+    // -------------- MARKET: Supply–Demand
+    const els = {
+      a: document.getElementById('a'), b: document.getElementById('b'),
+      c: document.getElementById('c'), d: document.getElementById('d'),
+      inc: document.getElementById('inc'), techshock: document.getElementById('techshock'),
+      tax: document.getElementById('tax'), taxval: document.getElementById('taxval'),
+      sub: document.getElementById('sub'), subval: document.getElementById('subval'),
+      a_v: document.getElementById('a_v'), b_v: document.getElementById('b_v'),
+      c_v: document.getElementById('c_v'), d_v: document.getElementById('d_v'),
+      inc_v: document.getElementById('inc_v'), techshock_v: document.getElementById('techshock_v'),
+      tax_v: document.getElementById('tax_v'), sub_v: document.getElementById('sub_v'),
+      pe: document.getElementById('pe'), qe: document.getElementById('qe'),
+      reset: document.getElementById('reset')
+    };
+
+    const marketChart = new Chart(document.getElementById('marketChart'), {
+      type: 'line',
+      data: {
+        labels: [], // will set dynamically as P grid
+        datasets: [
+          { label:'Permintaan Qd', data:[], pointRadius:0, borderWidth:2 },
+          { label:'Penawaran Qs', data:[], pointRadius:0, borderWidth:2 },
+          { label:'Equilibrium', data:[], pointRadius:5, borderWidth:0, showLine:false, backgroundColor:'#e11d48' }
+        ]
+      },
+      options: {
+        responsive:true, plugins:{ legend:{ position: 'bottom' } },
+        scales: {
+          x: { title:{ display:true, text:'Harga (P)' } },
+          y: { title:{ display:true, text:'Kuantitas (Q)' }, beginAtZero:true }
+        }
+      }
+    });
+
+    function updateMarket(){
+      // show values
+      els.a_v.textContent = els.a.value;
+      els.b_v.textContent = els.b.value;
+      els.c_v.textContent = els.c.value;
+      els.d_v.textContent = els.d.value;
+      els.inc_v.textContent = els.inc.value;
+      els.techshock_v.textContent = els.techshock.value;
+      els.tax_v.textContent = els.taxval.value;
+      els.sub_v.textContent = els.subval.value;
+
+      // parameters
+      const a = +els.a.value;
+      const b = +els.b.value;
+      const c = +els.c.value;
+      const d = +els.d.value;
+      const inc = +els.inc.value;       // demand shift
+      const tec = +els.techshock.value; // supply shift
+      const taxOn = els.tax.checked ? +els.taxval.value : 0;  // per-unit tax
+      const subOn = els.sub.checked ? +els.subval.value : 0;  // per-unit subsidy
+
+      // Effective supply intercept shifts: +tax shifts left (reduces Q at each P), +sub shifts right
+      const supplyShift = tec - taxOn + subOn;
+
+      // compute equilibrium: a + inc - bP = c + supplyShift + dP  =>  P* = (a + inc - c - supplyShift) / (b + d)
+      const denom = (b + d);
+      const Pstar = clamp((a + inc - c - supplyShift) / denom, 0, 1000);
+      const Qstar = clamp(a + inc - b*Pstar, 0, 100000);
+      els.pe.textContent = Pstar.toFixed(2);
+      els.qe.textContent = Qstar.toFixed(2);
+
+      // Generate curves
+      const Pmax = Math.max( (a+inc)/Math.max(b,1), 50);
+      const Pgrid = [];
+      for(let p=0; p<=Pmax; p += Math.max(1, Math.round(Pmax/40))) Pgrid.push(p);
+      const Qd = Pgrid.map(p => Math.max(0, a + inc - b*p));
+      const Qs = Pgrid.map(p => Math.max(0, c + supplyShift + d*p));
+
+      marketChart.data.labels = Pgrid;
+      marketChart.data.datasets[0].data = Qd;
+      marketChart.data.datasets[1].data = Qs;
+      marketChart.data.datasets[2].data = [{x:Pstar, y:Qstar}];
+      marketChart.update();
+    }
+
+    ['a','b','c','d','inc','techshock','taxval','subval'].forEach(id=>{
+      els[id].addEventListener('input', updateMarket);
+    });
+    ['tax','sub'].forEach(id=>{
+      els[id].addEventListener('change', updateMarket);
+    });
+    els.reset.addEventListener('click', ()=>{
+      els.a.value=300; els.b.value=3; els.c.value=50; els.d.value=4;
+      els.inc.value=0; els.techshock.value=0; els.tax.checked=false; els.sub.checked=false;
+      els.taxval.value=0; els.subval.value=0; updateMarket();
+    });
+    updateMarket();
+  </script>
+</body>
+</html>
