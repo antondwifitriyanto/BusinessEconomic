@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Session 03 Hub – Business in a Competitive Market</title>
+  <meta name="description" content="Pengantar & hub ke simulasi Coffee Shop Inc Level 1–3 (HTML)." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --ink:#0f172a; --muted:#475569; --line:#e2e8f0; --bg:#ffffff; --panel:#f8fafc;
+      --accent:#1d4ed8; --accent-2:#0ea5e9; --ok:#16a34a; --warn:#f59e0b;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,Segoe UI,Roboto,Arial}
+    header{position:sticky;top:0;z-index:40;background:#ffffff;border-bottom:1px solid var(--line)}
+    .hd{max-width:1120px;margin:0 auto;display:flex;gap:16px;align-items:center;padding:16px}
+    .brand{display:flex;gap:12px;align-items:center}
+    .brand img{height:44px;width:auto}
+    h1{font-size:22px;margin:0;color:#1e3a8a}
+    main{max-width:1120px;margin:0 auto;padding:18px}
+    .lead{color:var(--muted)}
+    .grid{display:grid;gap:16px}
+    .g3{grid-template-columns:repeat(3,1fr)}
+    .card{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 6px 18px rgba(15,23,42,.06)}
+    .panel{padding:16px}
+    .hero{display:grid;grid-template-columns:1.3fr .7fr;gap:16px}
+    .hero img{width:100%;height:100%;object-fit:cover;border-radius:16px;border:1px solid var(--line)}
+    .pill{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid var(--line);font-size:12px;background:#eef2ff;color:#1e3a8a}
+    .btn{display:inline-flex;gap:8px;align-items:center;padding:10px 14px;border-radius:12px;border:1px solid var(--accent);cursor:pointer;font-weight:700;text-decoration:none}
+    .btn.primary{background:var(--accent);color:#fff}
+    .btn.ghost{background:#eef2ff;color:#1e3a8a}
+    ul{margin:8px 0 0 18px}
+    .kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+    .k{background:#f1f5f9;border:1px solid var(--line);border-radius:12px;padding:12px}
+    .k .lb{font-size:12px;color:var(--muted)}
+    .k .vl{font-weight:800;font-size:18px;color:#1e3a8a}
+    footer{max-width:1120px;margin:24px auto 40px;color:#64748b;font-size:12px;padding:0 18px}
+    .lvlTitle{font-weight:800;color:#1e293b;margin:0 0 6px}
+    .lvlLead{color:#475569;margin:0 0 12px}
+    .row{display:flex;gap:10px;flex-wrap:wrap}
+    .illus{width:100%;border-radius:16px;border:1px solid var(--line)}
+    @media (max-width:980px){ .hero{grid-template-columns:1fr} .g3{grid-template-columns:1fr} }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="hd">
+      <div class="brand">
+        <img src="https://bbs.binus.ac.id/wp-content/uploads/2020/05/BBS-AACSB.svg" alt="BBS AACSB" />
+        <div>
+          <h1>Session 03 – Business in a Competitive Market</h1>
+          <div class="row"><span class="pill">ECON6099005</span><span class="pill">Even 2024/2025</span><span class="pill">Simulations Hub</span></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO INTRO -->
+    <section class="hero">
+      <div class="card panel">
+        <h2 style="margin:0 0 8px">Pengantar</h2>
+        <p class="lead">Sesi ini mempraktikkan konsep pasar kompetitif (permintaan–penawaran, elastisitas, biaya marjinal, kapasitas, pajak/PPN) melalui tiga level simulasi <b>Coffee Shop Inc</b>. Tujuan Anda: <b>memaksimalkan laba kumulatif</b> dengan keputusan harga, promosi, SDM, operasi, dan investasi—sambil merespon guncangan pasar dan kebijakan.</p>
+        <ul>
+          <li><b>LO1–LO2</b>: memetakan faktor PEST/PESTLE & konsep pasar.</li>
+          <li><b>LO3</b>: menerapkan keputusan harga–output–biaya (MB ≈ MC).</li>
+          <li><b>LO4</b>: menganalisis dampak kebijakan (PPN, upah), kompetisi, dan kapasitas pada profit & kepuasan.</li>
+        </ul>
+        <div class="row" style="margin-top:12px">
+          <a class="btn ghost" href="#levels">Lihat Level Simulasi</a>
+          <a class="btn primary" href="index.html">Mulai Level 1</a>
+        </div>
+      </div>
+      <div>
+        <img class="illus" alt="Coffee shop counter" src="https://images.unsplash.com/photo-1541167760496-1628856ab772?q=80&w=1600&auto=format&fit=crop" />
+        <p style="font-size:12px;color:#64748b;margin:6px 2px">Ilustrasi: coffee shop & operasi barista – Unsplash</p>
+      </div>
+    </section>
+
+    <!-- HOW TO PLAY / TIPS -->
+    <section class="card panel" style="margin-top:16px">
+      <h2 style="margin:0 0 8px">Cara Pakai & Prinsip Ekonomi</h2>
+      <div class="grid g3">
+        <div>
+          <h3 class="lvlTitle">1) Model Pasar</h3>
+          <p class="lvlLead">Gunakan kurva permintaan (ε), kurva biaya (MC), dan <i>capacity constraint</i> untuk menentukan harga & output.</p>
+          <ul>
+            <li>Aturan Lerner: (P−MC)/P ≈ 1/|ε|.</li>
+            <li>Capacitated service → antrian → <i>lost sales</i>.</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="lvlTitle">2) Kebijakan & Pajak</h3>
+          <p class="lvlLead">PPN menaikkan harga efektif konsumen; pajak per unit menggeser supply ke atas.</p>
+          <ul>
+            <li>Periksa dampak PPN pada TR, margin, dan arus kas.</li>
+            <li>Bandingkan skenario sebelum/sesudah kebijakan.</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="lvlTitle">3) SDM, Kualitas, Loyalitas</h3>
+          <p class="lvlLead">Gaji/training mempengaruhi layanan & kepuasan → permintaan berulang.</p>
+          <ul>
+            <li>“Happy employees → happy customers → profit”.</li>
+            <li>Loyalty & delivery memengaruhi elastisitas efektif.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEVELS -->
+    <section id="levels" class="grid g3" style="margin-top:16px">
+      <!-- LEVEL 1 CARD -->
+      <article class="card panel">
+        <h3 class="lvlTitle">Level 1 — Dasar Pasar Kompetitif</h3>
+        <p class="lvlLead">Satu produk, 12 bulan; kendali: harga, promosi, gaji, training, jam. KPI: profit kumulatif & kepuasan.</p>
+        <ul>
+          <li><b>Konsep:</b> D–S, TR=PxQ, biaya, margin, keseimbangan.</li>
+          <li><b>Skill:</b> menyetel harga & promosi sesuai elastisitas.</li>
+        </ul>
+        <div class="row" style="margin-top:10px">
+          <a class="btn primary" href="level_1.html">Buka Level 1</a>
+          <a class="btn" href="#l1-brief" onclick="toggleBrief('l1')">Ringkasan</a>
+        </div>
+        <div id="l1-brief" style="display:none;margin-top:8px;color:#475569;font-size:14px">Level dasar untuk memahami trade-off harga–kuantitas–biaya, serta efek promosi dan jam operasional pada permintaan.</div>
+      </article>
+
+      <!-- LEVEL 2 CARD -->
+      <article class="card panel">
+        <h3 class="lvlTitle">Level 2 — Produk & Kapasitas</h3>
+        <p class="lvlLead">Tambahan: dua produk (regular/premium), kapasitas & antrian, kompetisi (price index), inventori & waste, PPN, dan CAPEX.</p>
+        <ul>
+          <li><b>Konsep:</b> bauran produk, kapasitas bottleneck, pajak, biaya modal.</li>
+          <li><b>Skill:</b> optimasi harga–mix & keputusan investasi mesin.</li>
+        </ul>
+        <div class="row" style="margin-top:10px">
+          <a class="btn primary" href="level_2.html">Buka Level 2</a>
+          <a class="btn" href="#l2-brief" onclick="toggleBrief('l2')">Ringkasan</a>
+        </div>
+        <div id="l2-brief" style="display:none;margin-top:8px;color:#475569;font-size:14px">Fokus pada manajemen kapasitas vs permintaan, trade-off layanan, dan perpajakan terhadap arus kas.</div>
+      </article>
+
+      <!-- LEVEL 3 CARD -->
+      <article class="card panel">
+        <h3 class="lvlTitle">Level 3 — Multi-Toko & Strategi Lanjutan</h3>
+        <p class="lvlLead">Multi-toko (A/B), mid-year pricing, kanal delivery & loyalty, inflasi, shock kompetitor, NPV & break-even.</p>
+        <ul>
+          <li><b>Konsep:</b> ekspansi, channel economics, NPV & BEP.</li>
+          <li><b>Skill:</b> penentuan harga S1/S2, pengendalian stok & stockout, keputusan ekspansi store B.</li>
+        </ul>
+        <div class="row" style="margin-top:10px">
+          <a class="btn primary" href="level_3.html">Buka Level 3</a>
+          <a class="btn" href="#l3-brief" onclick="toggleBrief('l3')">Ringkasan</a>
+        </div>
+        <div id="l3-brief" style="display:none;margin-top:8px;color:#475569;font-size:14px">Latihan menyatukan pricing–ops–keuangan lintas toko untuk memaksimalkan profit & nilai (NPV) dalam lingkungan kompetitif dinamis.</div>
+      </article>
+    </section>
+
+    <!-- PRACTICAL CHECKLIST -->
+    <section class="card panel" style="margin-top:16px">
+      <h2 style="margin:0 0 8px">Checklist Eksperimen</h2>
+      <ol style="margin:0 0 0 18px">
+        <li>Harga +5% vs −5% (tetap variabel lain) → amati ΔQ, ΔTR, Δprofit.</li>
+        <li>Tambah staf atau mesin → cek antrian & <i>lost sales</i> → efek ke profit.</li>
+        <li>Aktifkan PPN → bandingkan margin & arus kas.</li>
+        <li>Ubah mix premium 10pp → lihat TR, COGS, margin, kepuasan.</li>
+        <li>Level 3: buka Store B bulan 6–9 → hitung bulan BEP & ΔNPV.</li>
+      </ol>
+    </section>
+
+    <!-- RESOURCES / LINKS -->
+    <section class="card panel" style="margin-top:16px">
+      <h2 style="margin:0 0 8px">Sumber & Referensi</h2>
+      <ul>
+        <li>Slides Session 03 – Business in a Competitive Market.</li>
+        <li>Slides Session 01–02 – Environment, Demand–Supply, Economist’s Approach.</li>
+        <li>Simulasi Coffee Shop Inc (L1–L3) – file HTML lokal (tautan di atas).</li>
+      </ul>
+      <p style="font-size:12px;color:#64748b">Catatan: Letakkan berkas ini (mis. <code>session03-hub.html</code>) di folder yang sama dengan <code>index.html</code> (Level 1), <code>level_2.html</code>, dan <code>level_3.html</code> agar tautan bekerja di GitHub Pages.</p>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 – Economics for Business (Teaching Use). Ilustrasi dari Unsplash.
+  </footer>
+
+  <script>
+    function toggleBrief(id){
+      const el = document.getElementById(id+'-brief');
+      el.style.display = (el.style.display==='none' || el.style.display==='') ? 'block' : 'none';
+    }
+  </script>
+</body>
+</html>
