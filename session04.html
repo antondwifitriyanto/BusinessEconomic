@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>AI Pricing Lab — Offline (No CDN)</title>
+<style>
+  :root{ --bg:#0b1220; --fg:#e5e7eb; --card:#111827; --muted:#9ca3af; --accent:#22d3ee; --good:#10b981; --bad:#ef4444; }
+  html,body{height:100%}
+  body{margin:0; font-family:system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif; background:var(--bg); color:var(--fg)}
+  .wrap{max-width:1200px; margin:0 auto; padding:24px}
+  .row{display:grid; grid-template-columns: repeat(12,1fr); gap:16px}
+  .col-4{grid-column: span 4}
+  .col-6{grid-column: span 6}
+  .col-12{grid-column: 1 / -1}
+  @media(max-width:1000px){ .col-4,.col-6{grid-column: 1 / -1} }
+  .card{background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:16px}
+  h1{margin:0 0 4px 0; font-size:24px}
+  h2{margin:0 0 12px 0; font-size:18px}
+  small{color:var(--muted)}
+  .kpi{font-size:28px; font-weight:700}
+  .muted{color:var(--muted)}
+  .controls label{display:flex; flex-direction:column; gap:6px; font-size:14px}
+  input[type=range]{width:100%}
+  .row-2{display:grid; grid-template-columns: repeat(2,1fr); gap:12px}
+  .row-3{display:grid; grid-template-columns: repeat(3,1fr); gap:12px}
+  button{background:#1f2937; color:#fff; border:1px solid rgba(255,255,255,.1); padding:10px 14px; border-radius:10px; cursor:pointer}
+  button.primary{background:linear-gradient(90deg,#06b6d4,#3b82f6); border:none}
+  .kpi.good{color:var(--good)} .kpi.bad{color:var(--bad)}
+  /* Simple SVG chart frame */
+  .chart{width:100%; height:320px; background:rgba(255,255,255,.02); border:1px solid rgba(255,255,255,.08); border-radius:10px}
+  .legend{display:flex; gap:12px; align-items:center; font-size:12px; color:var(--muted); margin-top:6px}
+  .dot{width:10px;height:10px;border-radius:50%}
+  .l-blue{background:#38bdf8} .l-green{background:#22c55e} .l-yellow{background:#facc15} .l-red{background:#ef4444}
+  textarea{width:100%; height:130px; background:#0f172a; color:#e5e7eb; border:1px solid #334155; border-radius:8px; padding:8px; font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas}
+  .foot{color:#94a3b8; text-align:center; margin-top:24px; font-size:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><div class="wrap brand"><img alt="Logo BINUS" src="logo.png" style="height:50px"/><div><div class="title">AI Pricing Lab</div><div class="sub">Economics for Business &amp; AI · BINUS Business School</div></div></div></header>
+<!-- KPIs -->
+<section class="row" style="margin-top:16px">
+<div class="card col-4"><div class="muted">Quantity Demanded</div><div class="kpi" id="kpiQ">0</div><small>unit / periode</small></div>
+<div class="card col-4"><div class="muted">Revenue</div><div class="kpi" id="kpiRev">Rp 0</div><small>Rp / periode</small></div>
+<div class="card col-4"><div class="muted">Operating Profit</div><div class="kpi" id="kpiProfit">Rp 0</div><small>Rp / periode</small></div>
+</section>
+<!-- Controls -->
+<section class="row" style="margin-top:8px">
+<div class="card col-6 controls">
+<h2>Market &amp; Competition</h2>
+<div class="row-2">
+<label>Base Demand (Q₀)
+          <input id="baseDemand" max="5000" min="200" step="50" type="range" value="1500"/>
+<small class="muted"><span id="baseDemandVal">1500</span> unit</small>
+</label>
+<label>Elasticity |e|
+          <input id="elasticity" max="3" min="0.5" step="0.1" type="range" value="1.5"/>
+<small class="muted"><span id="elasticityVal">1.5</span></small>
+</label>
+<label>Competitor Price (Rp)
+          <input id="pComp" max="60000" min="8000" step="500" type="range" value="22000"/>
+<small class="muted">Rp <span id="pCompVal">22,000</span></small>
+</label>
+<label>Seasonality (x)
+          <input id="season" max="1.5" min="0.6" step="0.05" type="range" value="1.00"/>
+<small class="muted">x <span id="seasonVal">1.00</span></small>
+</label>
+</div>
+<div class="row-3" style="margin-top:8px">
+<label>Your Price (Rp)
+          <input id="pOur" max="60000" min="8000" step="500" type="range" value="24000"/>
+<small class="muted">Rp <span id="pOurVal">24,000</span></small>
+</label>
+<label>Promotion (Rp)
+          <input id="promo" max="20000000" min="0" step="250000" type="range" value="2000000"/>
+<small class="muted">Rp <span id="promoVal">2,000,000</span></small>
+</label>
+<label>Unit Cost (Rp)
+          <input id="unitCost" max="25000" min="2000" step="500" type="range" value="8000"/>
+<small class="muted">Rp <span id="unitCostVal">8,000</span></small>
+</label>
+</div>
+<div class="row-3" style="margin-top:8px">
+<label>Fixed Cost (Rp)
+          <input id="fixedCost" max="100000000" min="0" step="1000000" type="range" value="20000000"/>
+<small class="muted">Rp <span id="fixedCostVal">20,000,000</span></small>
+</label>
+<label style="display:flex; align-items:center; gap:8px; margin-top:20px">
+<input id="shockToggle" type="checkbox"/> Enable PESTLE Shock
+        </label>
+<div style="display:flex; gap:8px; align-items:center; margin-top:18px">
+<button class="primary" id="btnSim">Simulate Period</button>
+<button id="btnReset">Reset</button>
+</div>
+</div>
+</div>
+<div class="card col-6">
+<h2>AI Assistant (Demand Model)</h2>
+<small class="muted">Model log-linear sederhana; memberikan saran harga laba-maksimum berdasarkan data training.</small>
+<div class="row-2" style="margin-top:8px">
+<button class="primary" id="btnSuggest">Suggest Optimal Price</button>
+<button id="btnApply">Apply Suggested Price</button>
+</div>
+<div class="row-2" style="margin-top:8px">
+<div class="card"><div class="muted">Estimated |e|</div><div class="kpi" id="aiE">—</div></div>
+<div class="card"><div class="muted">AI Suggested Price</div><div class="kpi" id="aiP">—</div></div>
+</div>
+<details style="margin-top:10px">
+<summary><b>Training Data (CSV)</b></summary>
+<small class="muted">Kolom: price,p_comp,promo,season,quantity — minimal 6 baris.</small>
+<textarea id="trainData">price,p_comp,promo,season,quantity
+24000,22000,2000000,1.00,1200
+25000,22000,2500000,1.10,1285
+22000,23000,1500000,0.90,1300
+26000,24000,3000000,1.20,1350
+20000,23000,500000,0.80,1100
+28000,24000,3500000,1.10,1260
+</textarea>
+<div style="display:flex; gap:8px; align-items:center"><button class="primary" id="btnFit">Fit AI Model</button><small class="muted" id="fitMsg"></small></div>
+</details>
+</div>
+</section>
+<!-- Charts -->
+<section class="row" style="margin-top:8px">
+<div class="card col-6">
+<div style="display:flex; justify-content:space-between; align-items:center">
+<h2>Demand Curve (current params)</h2>
+<small class="muted">Q = Q0 · (P/Pc)^-e · exp(β·promo) · season</small>
+</div>
+<svg class="chart" id="chartDemand"></svg>
+<div class="legend"><div class="dot l-blue"></div>Kurva Permintaan <div class="dot l-red"></div>Titik Saat Ini</div>
+</div>
+<div class="card col-6">
+<div style="display:flex; justify-content:space-between; align-items:center">
+<h2>Revenue vs Price</h2>
+<small class="muted">Area laba vs pendapatan</small>
+</div>
+<svg class="chart" id="chartRev"></svg>
+<div class="legend"><div class="dot l-green"></div>Pendapatan <div class="dot l-yellow"></div>Laba <div class="dot l-red"></div>Harga Saat Ini</div>
+</div>
+</section>
+<section class="row" style="margin-top:8px">
+<div class="card col-12">
+<h2>Time Series — Decisions &amp; Outcomes</h2>
+<svg class="chart" id="chartTime"></svg>
+<div class="legend"><div class="dot l-red"></div>Profit (Rp) <div class="dot l-blue"></div>Harga <div class="dot l-green"></div>Kuantitas</div>
+<div class="muted" id="news" style="margin-top:8px"></div>
+<div style="margin-top:8px"><button id="btnExport">Export CSV</button></div>
+</div>
+</section>
+<section class="card" style="margin-top:8px">
+<h2>Pertanyaan Diskusi</h2>
+<ol>
+<li>Apakah harga yang memaksimalkan pendapatan berbeda dari yang memaksimalkan laba? Hubungkan dengan elastisitas dan biaya marjinal.</li>
+<li>Apa dampak kenaikan biaya unit 20% terhadap rekomendasi AI dan profit?</li>
+<li>Bandingkan strategi pada pasar elastis vs inelastis.</li>
+</ol>
+</section>
+<div class="foot">© 2025 — Materi ajar bebas pakai oleh Dr. Anton Dwi Fitriyanto.</div>
+</div>
+<script>
+  // ==== Helpers ====
+  const fmt = new Intl.NumberFormat('id-ID');
+  const Rp = n => 'Rp ' + fmt.format(Math.round(n));
+  const g = id => document.getElementById(id);
+  function syncRange(id, lab, fmtFn){ const el=g(id); const f=fmtFn||((v)=>v); const set=()=>g(lab).textContent=f(+el.value); el.addEventListener('input',set); set(); }
+  function clamp(x,a,b){ return Math.max(a, Math.min(b,x)); }
+
+  // ==== State ====
+  const state = { t:0, hist:[], ai:null, betaPromo: 0.00000005 };
+
+  // bind displayed values
+  syncRange('baseDemand','baseDemandVal',v=>fmt.format(v));
+  syncRange('elasticity','elasticityVal',v=>v.toFixed(1));
+  syncRange('pComp','pCompVal',v=>fmt.format(v));
+  syncRange('season','seasonVal',v=>(+v).toFixed(2));
+  syncRange('pOur','pOurVal',v=>fmt.format(v));
+  syncRange('promo','promoVal',v=>fmt.format(v));
+  syncRange('unitCost','unitCostVal',v=>fmt.format(v));
+  syncRange('fixedCost','fixedCostVal',v=>fmt.format(v));
+
+  // ==== Economics core ====
+  function demandQ({Q0,e,P,Pc,Promo,Season}){
+    const rel = P/Pc;
+    const q = Q0 * Math.pow(rel, -e) * Math.exp(state.betaPromo*Promo) * Season;
+    return Math.max(0, q);
+  }
+
+  function shock(){
+    if(!g('shockToggle').checked) return {mult:1, note:''};
+    const r=Math.random();
+    if(r<0.25){ const k=1+(Math.random()*0.25); g('unitCost').value = Math.round(+g('unitCost').value*k/500)*500; g('unitCostVal').textContent = fmt.format(+g('unitCost').value); return {mult:1, note:`Cost shock +${((k-1)*100).toFixed(0)}%`}; }
+    else if(r<0.5){ const k=0.8+Math.random()*0.15; return {mult:k, note:`Demand shock ${(k-1>0?'+':'')}${((k-1)*100).toFixed(0)}%`}; }
+    else if(r<0.75){ const k=1.05+Math.random()*0.25; return {mult:k, note:`Demand surge +${((k-1)*100).toFixed(0)}%`}; }
+    else { const k=0.9+Math.random()*0.2; g('pComp').value = Math.round(+g('pComp').value*k/500)*500; g('pCompVal').textContent = fmt.format(+g('pComp').value); return {mult:1, note:`Competitor price move ${(k>=1?'+':'')}${((k-1)*100).toFixed(0)}%`}; }
+  }
+
+  function simulate(){
+    const Q0=+g('baseDemand').value, e=+g('elasticity').value, P=+g('pOur').value, Pc=+g('pComp').value, Promo=+g('promo').value, Season=+g('season').value;
+    const S=shock();
+    const q = demandQ({Q0,e,P,Pc,Promo,Season:Season*S.mult});
+    const rev=P*q; const cost=(+g('unitCost').value)*q + (+g('fixedCost').value) + Promo; const prof=rev-cost;
+    state.t++; state.hist.push({t:state.t,P,Pc,Promo,Season:Season*S.mult,q,rev,prof, unit:+g('unitCost').value, fixed:+g('fixedCost').value, shock:S.note});
+    updateKPIs(q,rev,prof);
+    drawAll();
+    if(S.note) g('news').textContent = `NEWS (t=${state.t}): ${S.note}`; else g('news').textContent='';
+  }
+
+  function updateKPIs(q,rev,prof){
+    g('kpiQ').textContent=fmt.format(q);
+    g('kpiRev').textContent=Rp(rev);
+    const el=g('kpiProfit'); el.textContent=Rp(prof); el.classList.remove('good','bad'); el.classList.add(prof>=0?'good':'bad');
+  }
+
+  // ==== AI Suggest (no external lib) ====
+  // Fit ln Q = a + b ln P + c ln Pc + d ln(1+promo/M) + s ln season
+  function fitAI(){
+    try{
+      const lines=g('trainData').value.trim().split(/\n+/); const head=lines.shift().split(',').map(s=>s.trim()); const id=Object.fromEntries(head.map((h,i)=>[h,i]));
+      const rows=lines.map(L=>L.split(',').map(x=>+x.trim()));
+      if(rows.length<6) throw Error('butuh ≥6 baris');
+      const X=[], y=[]; const M=1e7;
+      for(const r of rows){
+        const p=r[id.price], pc=r[id.p_comp], pr=r[id.promo], se=r[id.season], q=r[id.quantity];
+        X.push([1, Math.log(p), Math.log(pc), Math.log(1+pr/M), Math.log(se)]); y.push(Math.log(Math.max(1,q)));
+      }
+      // OLS via normal equations X'X beta = X'y (tiny matrix, do Gauss-Jordan)
+      function matmul(A,B){ const m=A.length,n=B[0].length,k=B.length; const R=Array.from({length:m},()=>Array(n).fill(0)); for(let i=0;i<m;i++) for(let j=0;j<n;j++) for(let t=0;t<k;t++) R[i][j]+=A[i][t]*B[t][j]; return R; }
+      function transpose(A){ return A[0].map((_,i)=>A.map(r=>r[i])); }
+      const Xt=transpose(X); const XtX=matmul(Xt,X); const Xty=matmul(Xt,y.map(v=>[v]));
+      // Gauss-Jordan
+      const n=XtX.length; const A=XtX.map(r=>r.slice()); const b=Xty.map(r=>r[0]);
+      for(let i=0;i<n;i++){
+        // pivot
+        let p=i; for(let r=i;r<n;r++){ if(Math.abs(A[r][i])>Math.abs(A[p][i])) p=r; }
+        [A[i],A[p]]=[A[p],A[i]]; [b[i],b[p]]=[b[p],b[i]];
+        const s=A[i][i]; if(Math.abs(s)<1e-12) throw Error('singular');
+        for(let j=i;j<n;j++) A[i][j]/=s; b[i]/=s;
+        for(let r=0;r<n;r++){ if(r===i) continue; const f=A[r][i]; if(f===0) continue; for(let j=i;j<n;j++) A[r][j]-=f*A[i][j]; b[r]-=f*b[i]; }
+      }
+      state.ai={a:b[0], b:b[1], c:b[2], d:b[3], s:b[4]};
+      g('aiE').textContent=Math.abs(b[1]).toFixed(2);
+      const suggest = aiSuggest();
+      g('aiP').textContent=Rp(suggest.pStar);
+      g('fitMsg').textContent='Model fitted ✓';
+    }catch(err){ g('fitMsg').textContent='Gagal fit: '+err.message; }
+  }
+
+  function aiSuggest(){
+    let eHat=+g('elasticity').value; if(state.ai) eHat=Math.abs(state.ai.b);
+    const c=+g('unitCost').value; if(eHat<=1.01) eHat=1.01;
+    let pStar = (eHat/(eHat-1))*c; // markup rule
+    // jaga agar tidak jauh dari kompetitor (±30%), koreksi ringan promosi & season
+    const Pc=+g('pComp').value, Promo=+g('promo').value, Season=+g('season').value;
+    const relAdj = clamp(1 + 0.1*Math.tanh((Promo/2e6) + (Season-1)*3), 0.85, 1.15);
+    pStar = clamp(pStar, 0.7*Pc, 1.3*Pc) * relAdj;
+    return { eHat, pStar };
+  }
+
+  // ==== SVG Charts (no library) ====
+  function plotXY(svg, xs, ys, color){
+    const w=svg.clientWidth, h=svg.clientHeight, pad=34;
+    const xmin=Math.min(...xs), xmax=Math.max(...xs), ymin=Math.min(...ys,0), ymax=Math.max(...ys);
+    const sx=x=> pad + (x-xmin)/(xmax-xmin||1) * (w-2*pad);
+    const sy=y=> h-pad - (y-ymin)/(ymax-ymin||1) * (h-2*pad);
+    // axes
+    svg.innerHTML='';
+    const ax=document.createElementNS('http://www.w3.org/2000/svg','path'); ax.setAttribute('d',`M ${pad} ${h-pad} L ${w-pad} ${h-pad} M ${pad} ${h-pad} L ${pad} ${pad}`); ax.setAttribute('stroke','rgba(148,163,184,.6)'); ax.setAttribute('fill','none'); svg.appendChild(ax);
+    // grid (light)
+    for(let i=1;i<=4;i++){ const y=pad+i*(h-2*pad)/5; const gl=document.createElementNS('http://www.w3.org/2000/svg','line'); gl.setAttribute('x1',pad); gl.setAttribute('x2',w-pad); gl.setAttribute('y1',y); gl.setAttribute('y2',y); gl.setAttribute('stroke','rgba(148,163,184,.2)'); svg.appendChild(gl); }
+    // line
+    const pts=xs.map((x,i)=>`${sx(x)},${sy(ys[i])}`).join(' ');
+    const poly=document.createElementNS('http://www.w3.org/2000/svg','polyline'); poly.setAttribute('points',pts); poly.setAttribute('fill','none'); poly.setAttribute('stroke',color); poly.setAttribute('stroke-width','2'); svg.appendChild(poly);
+    return {sx,sy}
+  }
+
+  function drawDemand(){
+    const svg=g('chartDemand'); const Q0=+g('baseDemand').value, e=+g('elasticity').value, Pc=+g('pComp').value, Promo=+g('promo').value, Season=+g('season').value; const c=+g('unitCost').value;
+    const Pmin=Math.max(3000,c*0.8), Pmax=Math.max(Pmin+5000,+g('pOur').max);
+    const xs=[] , ys=[]; for(let P=Pmin; P<=Pmax; P+=1000){ xs.push(P); ys.push( demandQ({Q0,e,P,Pc,Promo,Season}) ); }
+    const {sx,sy}=plotXY(svg,xs,ys,'#38bdf8');
+    // current point
+    const Pnow=+g('pOur').value; const qNow=demandQ({Q0,e,P:Pnow,Pc,Promo,Season});
+    const dot=document.createElementNS('http://www.w3.org/2000/svg','circle'); dot.setAttribute('cx',sx(Pnow)); dot.setAttribute('cy',sy(qNow)); dot.setAttribute('r','5'); dot.setAttribute('fill','#ef4444'); svg.appendChild(dot);
+  }
+
+  function drawRev(){
+    const svg=g('chartRev'); const Q0=+g('baseDemand').value, e=+g('elasticity').value, Pc=+g('pComp').value, Promo=+g('promo').value, Season=+g('season').value; const c=+g('unitCost').value;
+    const Pmin=Math.max(3000,c*0.8), Pmax=Math.max(Pmin+5000,+g('pOur').max);
+    const xs=[], rev=[], prof=[];
+    for(let P=Pmin; P<=Pmax; P+=1000){
+      const q=demandQ({Q0,e,P,Pc,Promo,Season});
+      const r=P*q; const p=r - c*q - (+g('fixedCost').value) - (+g('promo').value);
+      xs.push(P); rev.push(r); prof.push(p);
+    }
+    const {sx,sy}=plotXY(svg,xs,rev,'#22c55e');
+    plotXY(svg,xs,prof,'#facc15'); // second line (draw on top by calling again)
+    const Pnow=+g('pOur').value; const q=demandQ({Q0,e,P:Pnow,Pc,Promo,Season}); const r=Pnow*q; const dot=document.createElementNS('http://www.w3.org/2000/svg','circle'); dot.setAttribute('cx',sx(Pnow)); dot.setAttribute('cy',sy(r)); dot.setAttribute('r','5'); dot.setAttribute('fill','#ef4444'); svg.appendChild(dot);
+    // show AI suggestion
+    const info=aiSuggest(); g('aiE').textContent=info.eHat.toFixed(2); g('aiP').textContent=Rp(info.pStar);
+  }
+
+  function drawTime(){
+    const svg=g('chartTime'); if(state.hist.length===0){ svg.innerHTML=''; return; }
+    const xs=state.hist.map(r=>r.t);
+    // three series scaled into same chart by separate min/max
+    const w=svg.clientWidth, h=svg.clientHeight, pad=34; svg.innerHTML='';
+    const ax=document.createElementNS('http://www.w3.org/2000/svg','path'); ax.setAttribute('d',`M ${pad} ${h-pad} L ${w-pad} ${h-pad} M ${pad} ${h-pad} L ${pad} ${pad}`); ax.setAttribute('stroke','rgba(148,163,184,.6)'); ax.setAttribute('fill','none'); svg.appendChild(ax);
+    function scale(arr, minPad){ const min=Math.min(...arr), max=Math.max(...arr); const sx=x=> pad + (x-1)/(xs[xs.length-1]-1||1)*(w-2*pad); const sy=v=> h-pad - (v-min)/(max-min||1)*(h-2*pad); return {sx,sy}; }
+    // price
+    const sP=scale(state.hist.map(r=>r.P));
+    const ptsP=xs.map((t,i)=>`${sP.sx(t)},${sP.sy(state.hist[i].P)}`).join(' '); const polyP=document.createElementNS('http://www.w3.org/2000/svg','polyline'); polyP.setAttribute('points',ptsP); polyP.setAttribute('stroke','#38bdf8'); polyP.setAttribute('fill','none'); polyP.setAttribute('stroke-width','2'); svg.appendChild(polyP);
+    // quantity
+    const sQ=scale(state.hist.map(r=>r.q)); const ptsQ=xs.map((t,i)=>`${sQ.sx(t)},${sQ.sy(state.hist[i].q)}`).join(' '); const polyQ=document.createElementNS('http://www.w3.org/2000/svg','polyline'); polyQ.setAttribute('points',ptsQ); polyQ.setAttribute('stroke','#22c55e'); polyQ.setAttribute('fill','none'); polyQ.setAttribute('stroke-width','2'); svg.appendChild(polyQ);
+    // profit
+    const sF=scale(state.hist.map(r=>r.prof)); const ptsF=xs.map((t,i)=>`${sF.sx(t)},${sF.sy(state.hist[i].prof)}`).join(' '); const polyF=document.createElementNS('http://www.w3.org/2000/svg','polyline'); polyF.setAttribute('points',ptsF); polyF.setAttribute('stroke','#ef4444'); polyF.setAttribute('fill','none'); polyF.setAttribute('stroke-width','2'); svg.appendChild(polyF);
+  }
+
+  function drawAll(){ drawDemand(); drawRev(); drawTime(); }
+
+  // events
+  g('btnSim').addEventListener('click', simulate);
+  g('btnReset').addEventListener('click', ()=>{ state.t=0; state.hist=[]; g('news').textContent=''; updateKPIs(0,0,0); drawAll(); });
+  ['baseDemand','elasticity','pComp','season','pOur','promo','unitCost','fixedCost'].forEach(id=> g(id).addEventListener('input', drawAll));
+  g('btnSuggest').addEventListener('click', ()=>{ const s=aiSuggest(); g('aiE').textContent=s.eHat.toFixed(2); g('aiP').textContent=Rp(s.pStar); });
+  g('btnApply').addEventListener('click', ()=>{ const s=aiSuggest(); g('pOur').value = Math.round(s.pStar/500)*500; g('pOurVal').textContent = fmt.format(+g('pOur').value); drawAll(); });
+  g('btnFit').addEventListener('click', fitAI);
+  g('btnExport').addEventListener('click', ()=>{
+    const header=['t','price','pComp','promo','season','unitCost','fixed','q','rev','profit','shock'];
+    const rows=state.hist.map(r=>[r.t,r.P,r.Pc,r.Promo,r.Season,r.unit,r.fixed,r.q,r.rev,r.prof,r.shock||'']);
+    const csv=[header.join(',')].concat(rows.map(a=>a.join(','))).join('\n');
+    const blob=new Blob([csv],{type:'text/csv'}); const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download='ai_pricing_lab_runs.csv'; a.click(); URL.revokeObjectURL(url);
+  });
+
+  // first draw
+  drawAll(); updateKPIs(0,0,0);
+</script>
+&lt;/</body></html>
