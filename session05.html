@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sesi 05 – Permintaan & Konsumen | Studi Kasus Interaktif</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root{ --brand:#1d4ed8; --brandSoft:#eaf2ff; }
+    body{ background:linear-gradient(180deg,#ffffff 0%,#f0f6ff 100%);} 
+    canvas{ background:#ffffff; border-radius:0.75rem; }
+    .card{ border-radius:1.25rem; box-shadow:0 8px 24px rgba(2,28,71,.08); background:#fff; border:1px solid #e5e7eb; }
+    .btn{ border:1px solid var(--brand); color:var(--brand);}
+    .btn:hover{ background:var(--brand); color:#fff;}
+    .tag{ background:var(--brandSoft); color:var(--brand); border:1px solid #c7dcff;}
+    .badge{font-size:.7rem}
+    .navbtn:hover{ background:#f1f5ff;}
+    img.helper{ border-radius:0.75rem; border:1px solid #e5e7eb; }
+  </style>
+</head>
+<body class="min-h-screen text-slate-800">
+  <!-- HEADER -->
+  <header class="sticky top-0 z-30 bg-white/90 backdrop-blur border-b">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <img src="https://bbs.binus.ac.id/wp-content/uploads/2020/05/BBS-AACSB.svg" alt="BINUS Business School" class="h-10 w-auto" />
+        <div>
+          <h1 class="text-xl font-semibold leading-tight text-slate-900">Sesi 05 – Permintaan & Perilaku Konsumen</h1>
+          <p class="text-xs text-slate-500">LO1: Demand • Consumer Behavior • Elasticity</p>
+        </div>
+      </div>
+      <nav class="hidden md:flex items-center gap-2">
+        <button class="navbtn px-3 py-2 rounded-xl text-sm font-medium" data-tab="case1">Kasus 1: Iklan Global</button>
+        <button class="navbtn px-3 py-2 rounded-xl text-sm font-medium" data-tab="case2">Kasus 2: Cukai Rokok</button>
+        <button class="navbtn px-3 py-2 rounded-xl text-sm font-medium" data-tab="case3">Kasus 3: Coffee Shop Inc</button>
+        <button class="btn px-3 py-2 rounded-xl text-sm font-medium" id="printBtn" title="Cetak / Simpan PDF">🖨️ Export</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 py-6 space-y-6">
+    <!-- OVERVIEW / AGENDA -->
+    <section class="card p-5" id="overview">
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <h2 class="text-lg font-semibold mb-1 text-slate-900">Agenda & Capaian Pembelajaran</h2>
+          <p class="text-sm text-slate-600">Kita mengeksplorasi bagaimana permintaan dibentuk oleh preferensi, harga, kebijakan, dan konteks. Tiap kasus berisi ringkasan, mini-simulasi, gambar pendukung, serta pertanyaan diskusi.</p>
+        </div>
+        <span class="badge tag px-2 py-1 rounded">Tema: Biru–Putih BINUS</span>
+      </div>
+      <div class="grid md:grid-cols-3 gap-4 mt-4">
+        <div class="p-4 rounded-2xl" style="background:var(--brandSoft); border:1px solid #dbe7ff;">
+          <h3 class="font-semibold text-slate-900">Kasus 1 – Iklan Global</h3>
+          <p class="text-sm text-slate-700">Personalisasi AI, FOMO, dan pergeseran kurva permintaan melalui perubahan preferensi.</p>
+        </div>
+        <div class="p-4 rounded-2xl bg-white border">
+          <h3 class="font-semibold text-slate-900">Kasus 2 – Cukai Rokok</h3>
+          <p class="text-sm text-slate-700">Cukai sebagai instrumen menurunkan konsumsi barang demerit dengan permintaan inelastis.</p>
+        </div>
+        <div class="p-4 rounded-2xl bg-white border">
+          <h3 class="font-semibold text-slate-900">Kasus 3 – Coffee Shop Inc</h3>
+          <p class="text-sm text-slate-700">Elastisitas tersegmentasi (Kampus vs Pusat Kota), mutu layanan & dampaknya pada permintaan.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- KASUS 1: IKLAN GLOBAL -->
+    <section class="card p-5" id="case1">
+      <div class="flex items-start justify-between gap-4 mb-3">
+        <div>
+          <h2 class="text-lg font-semibold text-slate-900">Kasus 1 – Tren Iklan Global (Personalisasi AI)</h2>
+          <p class="text-sm text-slate-600">Bagaimana iklan tertarget menggeser permintaan melalui preferensi & bias perilaku.</p>
+        </div>
+        <span class="badge tag px-2 py-1 rounded">Determinants of Demand • Behavioral Economics</span>
+      </div>
+      <div class="grid md:grid-cols-2 gap-5">
+        <div class="space-y-3">
+          <img class="helper w-full" alt="Ilustrasi iklan digital" src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1200&auto=format&fit=crop"/>
+          <div class="p-4 rounded-xl bg-slate-50 border">
+            <h3 class="font-medium text-slate-900">Ringkasan</h3>
+            <p class="text-sm text-slate-700">Platform e-commerce menjalankan iklan video yang dipersonalisasi dengan AI. Peningkatan intensitas iklan dan framing FOMO menaikkan <em>willingness-to-pay</em> (WTP) dan menggeser kurva permintaan ke kanan.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-white border">
+            <h3 class="font-medium mb-2 text-slate-900">Pertanyaan Diskusi</h3>
+            <ul class="list-disc pl-5 text-sm text-slate-700 space-y-1">
+              <li>Apakah iklan AI membuat konsumen lebih rasional atau makin rentan bias?</li>
+              <li>Bagaimana menyeimbangkan lift penjualan vs etika periklanan?</li>
+              <li>Bukti apa yang menegaskan pergeseran permintaan (bukan sekadar pergerakan sepanjang kurva)?</li>
+            </ul>
+          </div>
+        </div>
+        <!-- Mini-Sim -->
+        <div class="p-4 rounded-xl bg-white border space-y-3">
+          <h3 class="font-medium text-slate-900">Mini-Sim: Intensitas Iklan & FOMO → Pergeseran Permintaan</h3>
+          <div class="grid grid-cols-2 gap-3 text-sm">
+            <label class="flex flex-col">Intensitas Iklan
+              <input id="adIntensity" type="range" min="0" max="100" value="40" class="w-full" />
+              <span class="text-xs text-slate-500" id="adIntensityVal">40</span>
+            </label>
+            <label class="flex flex-col">Kekuatan FOMO / Framing
+              <input id="fomo" type="range" min="0" max="100" value="30" class="w-full" />
+              <span class="text-xs text-slate-500" id="fomoVal">30</span>
+            </label>
+          </div>
+          <canvas id="chart1" width="520" height="280"></canvas>
+          <p class="text-xs text-slate-500">Fungsi permintaan: Q = a − bP. Iklan & FOMO menaikkan <code>a</code> (intersep) → kurva bergeser ke kanan; <code>b</code> tetap.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- KASUS 2: CUKAI ROKOK -->
+    <section class="card p-5" id="case2">
+      <div class="flex items-start justify-between gap-4 mb-3">
+        <div>
+          <h2 class="text-lg font-semibold text-slate-900">Kasus 2 – Kebijakan Cukai Rokok (Indonesia)</h2>
+          <p class="text-sm text-slate-600">Cukai menaikkan harga untuk menurunkan konsumsi barang demerit dengan permintaan inelastis.</p>
+        </div>
+        <span class="badge tag px-2 py-1 rounded">Elasticity • Tax Incidence • Welfare</span>
+      </div>
+      <div class="grid md:grid-cols-2 gap-5">
+        <div class="space-y-3">
+          <img class="helper w-full" alt="Ilustrasi kebijakan kesehatan" src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200&auto=format&fit=crop"/>
+          <div class="p-4 rounded-xl bg-slate-50 border">
+            <h3 class="font-medium text-slate-900">Ringkasan</h3>
+            <p class="text-sm text-slate-700">Pemerintah menaikkan cukai per bungkus. Karena permintaan inelastis, kuantitas turun moderat, namun belanja konsumen dan penerimaan pajak bisa tetap naik. Dampak kesehatan tergantung elastisitas dan substitusi ilegal.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-white border">
+            <h3 class="font-medium mb-2 text-slate-900">Pertanyaan Diskusi</h3>
+            <ul class="list-disc pl-5 text-sm text-slate-700 space-y-1">
+              <li>Mengapa permintaan rokok inelastis? (adiksi, substitusi terbatas)</li>
+              <li>Bagaimana menekan perdagangan ilegal saat cukai naik?</li>
+              <li>Kebijakan pendamping apa yang membuat elastisitas membesar dalam jangka panjang?</li>
+            </ul>
+          </div>
+        </div>
+        <!-- Mini-Sim -->
+        <div class="p-4 rounded-xl bg-white border space-y-3">
+          <h3 class="font-medium text-slate-900">Mini-Sim: Cukai & Permintaan Inelastis</h3>
+          <div class="grid grid-cols-2 gap-3 text-sm">
+            <label class="flex flex-col">Harga Dasar per Bungkus (Rp)
+              <input id="basePrice" type="number" value="35000" class="border rounded-lg px-2 py-1" />
+            </label>
+            <label class="flex flex-col">Kenaikan Cukai (%)
+              <input id="taxPct" type="range" min="0" max="50" value="10" />
+              <span class="text-xs text-slate-500" id="taxPctVal">10%</span>
+            </label>
+            <label class="flex flex-col">Elastisitas Harga (|E|)
+              <input id="elasticity" type="range" min="0.1" max="0.8" step="0.1" value="0.3" />
+              <span class="text-xs text-slate-500" id="elasticityVal">0.3 (inelastis)</span>
+            </label>
+            <label class="flex flex-col">Kuantitas Dasar (bungkus/hari)
+              <input id="q0" type="number" value="10000" class="border rounded-lg px-2 py-1" />
+            </label>
+          </div>
+          <canvas id="chart2" width="520" height="280"></canvas>
+          <div class="grid grid-cols-2 gap-3 text-sm">
+            <div class="p-3 rounded-xl bg-slate-50 border">
+              <div class="text-xs text-slate-500">Harga Setelah Cukai</div>
+              <div class="text-lg font-semibold" id="ptOut">Rp 38.500</div>
+            </div>
+            <div class="p-3 rounded-xl bg-slate-50 border">
+              <div class="text-xs text-slate-500">Kuantitas Baru</div>
+              <div class="text-lg font-semibold" id="q1Out">9.700</div>
+            </div>
+            <div class="p-3 rounded-xl bg-slate-50 border">
+              <div class="text-xs text-slate-500">Belanja Konsumen (P×Q)</div>
+              <div class="text-lg font-semibold" id="expOut">—</div>
+            </div>
+            <div class="p-3 rounded-xl bg-slate-50 border">
+              <div class="text-xs text-slate-500">Penerimaan Cukai (ΔP×Q)</div>
+              <div class="text-lg font-semibold" id="revOut">—</div>
+            </div>
+          </div>
+          <p class="text-xs text-slate-500">Pendekatan: %ΔQ = −|E| × %ΔP. Diagram menunjukkan demand curam (inelastis) serta titik sebelum–sesudah cukai.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- KASUS 3: COFFEE SHOP INC -->
+    <section class="card p-5" id="case3">
+      <div class="flex items-start justify-between gap-4 mb-3">
+        <div>
+          <h2 class="text-lg font-semibold text-slate-900">Kasus 3 – Coffee Shop Inc (Simulasi Harvard)</h2>
+          <p class="text-sm text-slate-600">Penetapan harga tersegmentasi & mutu layanan: Kampus vs Pusat Kota.</p>
+        </div>
+        <span class="badge tag px-2 py-1 rounded">Price Elasticity • Service Quality • Revenue</span>
+      </div>
+      <div class="grid md:grid-cols-2 gap-5">
+        <div class="space-y-3">
+          <img class="helper w-full" alt="Kedai kopi" src="https://images.unsplash.com/photo-1498804103079-a6351b050096?q=80&w=1200&auto=format&fit=crop"/>
+          <div class="p-4 rounded-xl bg-slate-50 border">
+            <h3 class="font-medium text-slate-900">Ringkasan</h3>
+            <p class="text-sm text-slate-700">Segmen kampus sangat sensitif harga; pekerja kantor di pusat kota lebih menghargai kualitas & kecepatan layanan. Kepuasan karyawan → kepuasan pelanggan → permintaan.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-white border">
+            <h3 class="font-medium mb-2 text-slate-900">Pertanyaan Diskusi</h3>
+            <ul class="list-disc pl-5 text-sm text-slate-700 space-y-1">
+              <li>Bagaimana strategi harga & promosi yang tepat per segmen?</li>
+              <li>Tuas HR (gaji, pelatihan) mana yang paling efektif menaikkan permintaan via layanan?</li>
+              <li>Kapan integrasi vertikal (roasting) lebih bernilai dibanding tambahan promosi?</li>
+            </ul>
+          </div>
+        </div>
+        <!-- Mini-Sim -->
+        <div class="p-4 rounded-xl bg-white border space-y-3">
+          <h3 class="font-medium text-slate-900">Mini-Sim: Strategi Segmen & Pendapatan</h3>
+          <div class="grid grid-cols-2 gap-3 text-sm">
+            <label class="flex flex-col">Segmen
+              <select id="segment" class="border rounded-lg px-2 py-1">
+                <option value="campus">Kampus (elastis)</option>
+                <option value="city">Pusat Kota (kurang elastis)</option>
+              </select>
+            </label>
+            <label class="flex flex-col">Harga per Cangkir (Rp)
+              <input id="price" type="number" value="25000" class="border rounded-lg px-2 py-1" />
+            </label>
+            <label class="flex flex-col">Permintaan Dasar (cangkir/hari)
+              <input id="baseQ" type="number" value="1200" class="border rounded-lg px-2 py-1" />
+            </label>
+            <label class="flex flex-col">Harga Acuan (benchmark)
+              <input id="pRef" type="number" value="25000" class="border rounded-lg px-2 py-1" />
+            </label>
+            <label class="flex flex-col">Kualitas Layanan (Indeks HR)
+              <input id="hrIdx" type="range" min="0" max="100" value="60" />
+              <span class="text-xs text-slate-500" id="hrIdxVal">60</span>
+            </label>
+            <label class="flex flex-col">Promosi (Rp/hari)
+              <input id="promo" type="number" value="500000" class="border rounded-lg px-2 py-1" />
+            </label>
+          </div>
+          <canvas id="chart3" width="520" height="280"></canvas>
+          <div class="grid grid-cols-3 gap-3 text-sm">
+            <div class="p-3 rounded-xl bg-slate-50 border"><div class="text-xs text-slate-500">Perkiraan Kuantitas</div><div class="text-lg font-semibold" id="qCoffee">—</div></div>
+            <div class="p-3 rounded-xl bg-slate-50 border"><div class="text-xs text-slate-500">Pendapatan Harian</div><div class="text-lg font-semibold" id="revCoffee">—</div></div>
+            <div class="p-3 rounded-xl bg-slate-50 border"><div class="text-xs text-slate-500">Catatan</div><div class="text-xs" id="noteCoffee">Elastisitas & HR multiplier diterapkan.</div></div>
+          </div>
+          <p class="text-xs text-slate-500">Model: Q = Q<sub>0</sub> × (1 − E × (P − P<sub>ref</sub>)/P<sub>ref</sub>) × (1 + 0.004×HR) × (1 + k<sub>promo</sub>). Kampus E≈1.5; Pusat Kota E≈0.4. k<sub>promo</sub> = ln(1 + Promo/1e6)×0.05.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER / TEACHING TIPS -->
+    <section class="card p-5">
+      <h2 class="text-lg font-semibold mb-2 text-slate-900">Tips Pengajaran</h2>
+      <ul class="list-disc pl-5 text-sm text-slate-700 space-y-1">
+        <li>Gunakan setiap mini-sim untuk eksperimen 3–5 menit. Minta prediksi mahasiswa sebelum ubah slider.</li>
+        <li>Minta kelompok melakukan tangkapan layar pengaturan & hasil, lalu paparkan tuas mana paling efektif menggeser permintaan.</li>
+        <li>Tautkan kembali ke LO1: determinan permintaan, pergeseran vs pergerakan, elastisitas, dan faktor perilaku.</li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    // Util format
+    const fmtIDR = (n) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(n);
+    const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+
+    // Nav scroll
+    document.querySelectorAll('[data-tab]').forEach(btn => {
+      btn.addEventListener('click', () => document.getElementById(btn.dataset.tab).scrollIntoView({ behavior: 'smooth', block: 'start' }));
+    });
+    document.getElementById('printBtn').addEventListener('click', () => window.print());
+
+    // ===== KASUS 1: Iklan & FOMO =====
+    const adIntensity = document.getElementById('adIntensity');
+    const adIntensityVal = document.getElementById('adIntensityVal');
+    const fomo = document.getElementById('fomo');
+    const fomoVal = document.getElementById('fomoVal');
+    const c1 = document.getElementById('chart1');
+    const g1 = c1.getContext('2d');
+    function drawCase1(){
+      adIntensityVal.textContent = adIntensity.value;
+      fomoVal.textContent = fomo.value;
+      const a0=120, b=0.2; // Q=a-bP
+      const aShift = a0 + 0.3*(+adIntensity.value) + 0.25*(+fomo.value);
+      const Pmax=500; const pad=40; const w=c1.width-pad*2, h=c1.height-pad*2; const ox=pad, oy=c1.height-pad; 
+      g1.clearRect(0,0,c1.width,c1.height);
+      // axes
+      g1.strokeStyle='#1f2937'; g1.lineWidth=1.2; g1.beginPath(); g1.moveTo(ox,oy); g1.lineTo(ox+w,oy); g1.moveTo(ox,oy); g1.lineTo(ox,oy-h); g1.stroke();
+      function qFromP(a,p){ return Math.max(0, a-b*p);} function x(p){ return ox + (p/Pmax)*w;} function y(q){ const Qmax=160; return oy - (q/Qmax)*h; }
+      const paths=[{a:a0,color:'#94a3b8',w:1.6,label:'Demand (awal)'},{a:aShift,color:'#1d4ed8',w:2.2,label:'Demand (dengan Iklan & FOMO)'}];
+      paths.forEach((d,i)=>{ g1.beginPath(); for(let p=0;p<=Pmax;p+=5){ const q=qFromP(d.a,p); const X=x(p), Y=y(q); if(p===0) g1.moveTo(X,Y); else g1.lineTo(X,Y);} g1.strokeStyle=d.color; g1.lineWidth=d.w; g1.stroke(); });
+      // legend
+      g1.fillStyle='#0f172a'; g1.font='12px system-ui'; g1.fillText('Demand (awal)', ox+10, oy-h+18); g1.fillStyle='#1d4ed8'; g1.fillText('Demand (dengan Iklan & FOMO)', ox+120, oy-h+18);
+      g1.fillStyle='#94a3b8'; g1.fillRect(ox-6, oy-h+10, 8,8); g1.fillStyle='#1d4ed8'; g1.fillRect(ox+108, oy-h+10, 8,8);
+    }
+    adIntensity.addEventListener('input', drawCase1); fomo.addEventListener('input', drawCase1);
+
+    // ===== KASUS 2: Cukai Rokok =====
+    const basePrice = document.getElementById('basePrice');
+    const taxPct = document.getElementById('taxPct');
+    const taxPctVal = document.getElementById('taxPctVal');
+    const elasticity = document.getElementById('elasticity');
+    const elasticityVal = document.getElementById('elasticityVal');
+    const q0 = document.getElementById('q0');
+    const c2 = document.getElementById('chart2');
+    const g2 = c2.getContext('2d');
+    const ptOut = document.getElementById('ptOut');
+    const q1Out = document.getElementById('q1Out');
+    const expOut = document.getElementById('expOut');
+    const revOut = document.getElementById('revOut');
+    function drawCase2(){
+      taxPctVal.textContent = taxPct.value + '%'; elasticityVal.textContent = (+elasticity.value).toFixed(1) + ' (inelastis)';
+      const P0 = +basePrice.value; const t = +taxPct.value/100; const PT=P0*(1+t); const E=+elasticity.value; const Q0=+q0.value; const pctDP=t; const pctDQ=-E*pctDP; const Q1=Math.max(0, Q0*(1+pctDQ));
+      ptOut.textContent = fmtIDR(PT); q1Out.textContent = Q1.toLocaleString('id-ID'); expOut.textContent = fmtIDR(PT*Q1); const taxPer=PT-P0; revOut.textContent = fmtIDR(taxPer*Q1);
+      // draw
+      g2.clearRect(0,0,c2.width,c2.height); const pad=40, w=c2.width-pad*2, h=c2.height-pad*2, ox=pad, oy=c2.height-pad; g2.strokeStyle='#1f2937'; g2.lineWidth=1.2; g2.beginPath(); g2.moveTo(ox,oy); g2.lineTo(ox+w,oy); g2.moveTo(ox,oy); g2.lineTo(ox,oy-h); g2.stroke();
+      const A=20000, b=0.3; function qFromP2(p){ return clamp(A - b*p, 0, A);} function x2(p){ const Pmax=P0*1.8; return ox + (p/Pmax)*w;} function y2(q){ const Qmax=A; return oy - (q/Qmax)*h; }
+      g2.beginPath(); for(let p=0;p<=P0*1.8;p+=500){ const q=qFromP2(p); const X=x2(p), Y=y2(q); if(p===0) g2.moveTo(X,Y); else g2.lineTo(X,Y);} g2.strokeStyle='#1d4ed8'; g2.lineWidth=2; g2.stroke();
+      const X0=x2(P0), Y0=y2(Q0); const XT=x2(PT), YT=y2(Q1); g2.fillStyle='#111827'; g2.beginPath(); g2.arc(X0,Y0,4,0,Math.PI*2); g2.fill(); g2.fillStyle='#ef4444'; g2.beginPath(); g2.arc(XT,YT,4,0,Math.PI*2); g2.fill();
+      g2.setLineDash([5,4]); g2.strokeStyle='#94a3b8'; g2.beginPath(); g2.moveTo(X0,oy); g2.lineTo(X0,Y0); g2.lineTo(ox,Y0); g2.stroke(); g2.beginPath(); g2.moveTo(XT,oy); g2.lineTo(XT,YT); g2.lineTo(ox,YT); g2.stroke(); g2.setLineDash([]);
+      g2.font='12px system-ui'; g2.fillStyle='#111827'; g2.fillText('P₀', X0-8, oy+16); g2.fillText('Q₀', ox-26, Y0+4); g2.fillStyle='#ef4444'; g2.fillText('P₁', XT-8, oy+16); g2.fillText('Q₁', ox-26, YT+4);
+    }
+    ;['input','change'].forEach(ev=>{ basePrice.addEventListener(ev, drawCase2); taxPct.addEventListener(ev, drawCase2); elasticity.addEventListener(ev, drawCase2); q0.addEventListener(ev, drawCase2);});
+
+    // ===== KASUS 3: Coffee Shop =====
+    const segment = document.getElementById('segment');
+    const price = document.getElementById('price');
+    const baseQ = document.getElementById('baseQ');
+    const pRef = document.getElementById('pRef');
+    const hrIdx = document.getElementById('hrIdx');
+    const hrIdxVal = document.getElementById('hrIdxVal');
+    const promo = document.getElementById('promo');
+    const c3 = document.getElementById('chart3');
+    const g3 = c3.getContext('2d');
+    const qCoffee = document.getElementById('qCoffee');
+    const revCoffee = document.getElementById('revCoffee');
+    function drawCase3(){
+      hrIdxVal.textContent = hrIdx.value; const seg=segment.value; const E = seg==='campus'?1.5:0.4; const P=+price.value, Pref=+pRef.value; const Q0=+baseQ.value; const HR=+hrIdx.value; const Promo=+promo.value; const promoK=Math.log(1+Promo/1_000_000)*0.05;
+      const priceFactor = (1 - E*((P-Pref)/Pref)); const hrFactor = 1 + 0.004*HR; const qEst = Math.max(0, Q0*priceFactor*hrFactor*(1+promoK)); const rev=qEst*P; qCoffee.textContent=Math.round(qEst).toLocaleString('id-ID'); revCoffee.textContent=fmtIDR(rev);
+      // revenue vs price
+      g3.clearRect(0,0,c3.width,c3.height); const pad=40, w=c3.width-pad*2, h=c3.height-pad*2, ox=pad, oy=c3.height-pad; g3.strokeStyle='#1f2937'; g3.lineWidth=1.2; g3.beginPath(); g3.moveTo(ox,oy); g3.lineTo(ox+w,oy); g3.moveTo(ox,oy); g3.lineTo(ox,oy-h); g3.stroke();
+      const Pmin=Pref*0.7, Pmax=Pref*1.3; function x3(p){ return ox + ((p-Pmin)/(Pmax-Pmin))*w;} function y3(r){ const Rmax=Pref*Q0*2.2; return oy - (r/Rmax)*h; }
+      g3.beginPath(); for(let pp=Pmin; pp<=Pmax; pp+= (Pmax-Pmin)/60){ const pf=(1 - E*((pp-Pref)/Pref)); const q=Math.max(0, Q0*pf*hrFactor*(1+promoK)); const r=q*pp; const X=x3(pp), Y=y3(r); if(pp===Pmin) g3.moveTo(X,Y); else g3.lineTo(X,Y);} g3.strokeStyle='#2563eb'; g3.lineWidth=2; g3.stroke();
+      const XM=x3(P), YM=y3(rev); g3.fillStyle='#2563eb'; g3.beginPath(); g3.arc(XM,YM,4,0,Math.PI*2); g3.fill(); g3.font='12px system-ui'; g3.fillText('Saat ini', XM+6, YM-6);
+    }
+    ;['input','change'].forEach(ev=>{ segment.addEventListener(ev, drawCase3); price.addEventListener(ev, drawCase3); baseQ.addEventListener(ev, drawCase3); pRef.addEventListener(ev, drawCase3); hrIdx.addEventListener(ev, drawCase3); promo.addEventListener(ev, drawCase3);});
+
+    // init
+    drawCase1(); drawCase2(); drawCase3();
+  </script>
+</body>
+</html>
