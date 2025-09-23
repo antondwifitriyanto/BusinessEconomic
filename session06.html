@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Session 06 – Estimating Demand & Supply</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    .card { @apply bg-white shadow-lg rounded-2xl p-5 border border-gray-200; }
+    .kpi { @apply text-center p-4 rounded-xl bg-gray-50 border border-gray-200; }
+    .mono { font-variant-numeric: tabular-nums; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-900">
+  <!-- Header -->
+  <header class="bg-blue-700 text-white">
+    <div class="max-w-7xl mx-auto px-4 py-6 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-white/10 grid place-items-center font-bold">S06</div>
+        <div>
+          <h1 class="text-xl md:text-2xl font-semibold">Economics for Business & AI — Session 06</h1>
+          <p class="text-white/80 text-sm">Estimating Demand & Supply · Equilibrium · Elasticity · Policy/Marketing Shifts</p>
+        </div>
+      </div>
+      <div class="hidden md:block text-right">
+        <p class="text-xs uppercase tracking-wider text-white/70">Learning Outcomes</p>
+        <p class="text-sm">LO1–Pengetahuan, LO2–Pemahaman, LO3–Aplikasi, LO4–Analisis</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 py-6 space-y-6">
+
+    <!-- 0. Theory & Learning Outcomes -->
+    <section class="card">
+      <h2 class="text-xl font-semibold mb-1">0. Theory & Learning Outcomes</h2>
+      <div class="grid md:grid-cols-12 gap-4">
+        <div class="md:col-span-7">
+          <ul class="list-disc pl-6 text-sm leading-7 text-gray-700">
+            <li><span class="font-semibold">Model Linier:</span> Permintaan dan penawaran diperkirakan sebagai garis lurus: <span class="mono">P = a + bQ</span>. Untuk permintaan, <span class="mono">b &lt; 0</span>; untuk penawaran, <span class="mono">b &gt; 0</span>.</li>
+            <li><span class="font-semibold">Keseimbangan (Equilibrium):</span> terjadi saat <span class="mono">P_D(Q) = P_S(Q)</span>. Selesaikan <span class="mono">a + bQ = c + dQ</span> → dapatkan <span class="mono">Q*</span> & <span class="mono">P*</span>.</li>
+            <li><span class="font-semibold">Elastisitas Titik:</span> untuk <span class="mono">P = a + bQ</span>, <span class="mono">E = (P/(bQ))</span>. Untuk permintaan interpretasi menggunakan nilai absolut.</li>
+            <li><span class="font-semibold">Shifters:</span> Perubahan preferensi/pendapatan/promosi/AI targeting menggeser <em>kurva permintaan</em> (kanan/kiri). Perubahan teknologi/efisiensi/logistik/AI ops menggeser <em>kurva penawaran</em>.</li>
+            <li><span class="font-semibold">Kebijakan:</span> Pajak spesifik per unit cenderung memutar/menambah intercept efektif penawaran; subsidi menurunkannya. Gunakan slider untuk mem-<em>approximate</em> pergeseran horizontal.</li>
+          </ul>
+        </div>
+        <div class="md:col-span-5">
+          <div class="kpi text-left">
+            <p class="text-xs uppercase text-gray-500">Learning Outcomes (LO1–LO4)</p>
+            <ol class="list-decimal pl-5 text-sm mt-2 space-y-1">
+              <li><span class="font-semibold">LO1 Pengetahuan:</span> Mahasiswa memahami bentuk umum fungsi permintaan/penawaran & konsep ekuilibrium.</li>
+              <li><span class="font-semibold">LO2 Pemahaman:</span> Mahasiswa menjelaskan dampak pergeseran kurva akibat strategi pemasaran/policy.</li>
+              <li><span class="font-semibold">LO3 Aplikasi:</span> Mahasiswa mengestimasi parameter dari dua titik/koefisien, menghitung Q*, P*, Ed, Es pada skenario bisnis.</li>
+              <li><span class="font-semibold">LO4 Analisis:</span> Mahasiswa membandingkan skenario (tanpa AI vs dengan AI; tanpa kebijakan vs dengan pajak/subsidi) dan mengevaluasi implikasi profitabilitas & kesejahteraan.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 0.1 Cara Menggunakan Simulasi -->
+    <section class="card">
+      <h2 class="text-xl font-semibold mb-1">Cara Menggunakan Simulasi</h2>
+      <ol class="list-decimal pl-5 text-sm leading-7 text-gray-700">
+        <li><span class="font-semibold">Mulai dari Guided Example (A):</span> Klik <em>Muat Contoh</em> untuk melihat cara sistem menurunkan <span class="mono">P = a + bQ</span> dari dua titik, lalu membaca Q*, P*, Ed, Es.</li>
+        <li><span class="font-semibold">Eksplor di Sandbox (B):</span> Masukkan dua titik atau langsung koefisien (a,b untuk permintaan; c,d untuk penawaran). Atur slider <em>Perubahan Permintaan/Penawaran</em> untuk mensimulasikan promosi/AI ops.</li>
+        <li><span class="font-semibold">Latihan Mandiri (C):</span> Masukkan persamaan dalam format <span class="mono">P = A ± BQ</span>. Tekan <em>Hitung Ekuilibrium</em> untuk memperoleh Q* dan P* serta Ed/Es.</li>
+        <li><span class="font-semibold">Diskusi (D):</span> Gunakan catatan metodologis untuk memeriksa langkah-langkah dan menyiapkan argumen analitis (mengapa kurva bergeser? seberapa besar dampaknya?).</li>
+      </ol>
+    </section>
+
+    <!-- A. Guided Example (from the handout) -->
+    <section class="card">
+      <h2 class="text-xl font-semibold mb-1">A. Guided Example — Membangun Fungsi Permintaan & Penawaran dari 2 Titik</h2>
+      <p class="text-sm text-gray-600 mb-4">Contoh menggunakan data: (Q,P) Permintaan (1400,10) & (400,20); Penawaran (720,10) & (1920,20). Sistem otomatis menghitung fungsi linier, menggambar kurva, serta menurunkan harga & kuantitas ekuilibrium.</p>
+
+      <div class="grid md:grid-cols-12 gap-4">
+        <div class="md:col-span-4 space-y-4">
+          <div class="kpi">
+            <p class="text-xs text-gray-500">Fungsi Permintaan (P = a + bQ)</p>
+            <p id="demand-eq" class="mono text-lg font-semibold">—</p>
+          </div>
+          <div class="kpi">
+            <p class="text-xs text-gray-500">Fungsi Penawaran (P = c + dQ)</p>
+            <p id="supply-eq" class="mono text-lg font-semibold">—</p>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="kpi">
+              <p class="text-xs text-gray-500">Equilibrium Q*</p>
+              <p id="eq-q" class="mono text-xl font-bold">—</p>
+            </div>
+            <div class="kpi">
+              <p class="text-xs text-gray-500">Equilibrium P*</p>
+              <p id="eq-p" class="mono text-xl font-bold">—</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div class="kpi">
+              <p class="text-xs text-gray-500">Ed di Q*</p>
+              <p id="ed" class="mono text-lg font-semibold">—</p>
+            </div>
+            <div class="kpi">
+              <p class="text-xs text-gray-500">Es di Q*</p>
+              <p id="es" class="mono text-lg font-semibold">—</p>
+            </div>
+          </div>
+
+          <div class="flex gap-2">
+            <button id="btnLoadExample" class="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700">Muat Contoh</button>
+            <button id="btnReset" class="px-4 py-2 bg-gray-200 rounded-xl hover:bg-gray-300">Reset</button>
+          </div>
+        </div>
+
+        <div class="md:col-span-8">
+          <canvas id="chartExample" height="220"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- B. Sandbox: masukkan 2 titik atau langsung koefisien -->
+    <section class="card">
+      <h2 class="text-xl font-semibold mb-1">B. Sandbox — Estimasi dari Titik atau Koefisien</h2>
+      <p class="text-sm text-gray-600 mb-4">Anda dapat memasukkan dua titik (Q,P) untuk mengestimasi garis permintaan & penawaran <em>atau</em> langsung memasukkan koefisiennya. Sistem akan menggambar kurva dan menghitung ekuilibrium & elastisitas titik.</p>
+
+      <div class="grid md:grid-cols-12 gap-4">
+        <div class="md:col-span-4 space-y-4">
+
+          <!-- Input via Points -->
+          <fieldset class="border rounded-xl p-3">
+            <legend class="px-2 text-sm font-semibold">Input via 2 Titik</legend>
+            <div class="grid grid-cols-2 gap-2">
+              <label class="text-sm">Permintaan Q1 <input id="dQ1" type="number" class="w-full mt-1 rounded border-gray-300" value="1400"></label>
+              <label class="text-sm">Permintaan P1 <input id="dP1" type="number" class="w-full mt-1 rounded border-gray-300" value="10"></label>
+              <label class="text-sm">Permintaan Q2 <input id="dQ2" type="number" class="w-full mt-1 rounded border-gray-300" value="400"></label>
+              <label class="text-sm">Permintaan P2 <input id="dP2" type="number" class="w-full mt-1 rounded border-gray-300" value="20"></label>
+            </div>
+            <div class="h-2"></div>
+            <div class="grid grid-cols-2 gap-2">
+              <label class="text-sm">Penawaran Q1 <input id="sQ1" type="number" class="w-full mt-1 rounded border-gray-300" value="720"></label>
+              <label class="text-sm">Penawaran P1 <input id="sP1" type="number" class="w-full mt-1 rounded border-gray-300" value="10"></label>
+              <label class="text-sm">Penawaran Q2 <input id="sQ2" type="number" class="w-full mt-1 rounded border-gray-300" value="1920"></label>
+              <label class="text-sm">Penawaran P2 <input id="sP2" type="number" class="w-full mt-1 rounded border-gray-300" value="20"></label>
+            </div>
+            <div class="mt-3 flex gap-2">
+              <button id="btnFitFromPoints" class="px-3 py-2 bg-blue-600 text-white rounded-lg">Estimasi dari Titik</button>
+              <button id="btnRandomize" class="px-3 py-2 bg-blue-100 rounded-lg">Acak Latihan</button>
+            </div>
+          </fieldset>
+
+          <!-- Input via Coefficients -->
+          <fieldset class="border rounded-xl p-3">
+            <legend class="px-2 text-sm font-semibold">Input via Koefisien (P = a + bQ; P = c + dQ)</legend>
+            <div class="grid grid-cols-2 gap-2">
+              <label class="text-sm">a (Intercept D) <input id="a" type="number" class="w-full mt-1 rounded border-gray-300" placeholder="mis. 24"></label>
+              <label class="text-sm">b (Slope D) <input id="b" type="number" class="w-full mt-1 rounded border-gray-300" placeholder="mis. -0.01"></label>
+              <label class="text-sm">c (Intercept S) <input id="c" type="number" class="w-full mt-1 rounded border-gray-300" placeholder="mis. 4"></label>
+              <label class="text-sm">d (Slope S) <input id="d" type="number" class="w-full mt-1 rounded border-gray-300" placeholder="mis. 0.008333"></label>
+            </div>
+            <div class="mt-3 flex gap-2">
+              <button id="btnPlotCoeffs" class="px-3 py-2 bg-emerald-600 text-white rounded-lg">Gambar dari Koefisien</button>
+              <button id="btnClearCoeffs" class="px-3 py-2 bg-gray-200 rounded-lg">Bersihkan</button>
+            </div>
+          </fieldset>
+
+          <!-- Shifters -->
+          <fieldset class="border rounded-xl p-3">
+            <legend class="px-2 text-sm font-semibold">Shifter (Simulasi)</legend>
+            <label class="text-sm block">Perubahan Permintaan (ΔQ pada setiap P)
+              <input id="shiftDemand" type="range" min="-500" max="500" value="0" class="w-full">
+            </label>
+            <label class="text-sm block mt-2">Perubahan Penawaran (ΔQ pada setiap P)
+              <input id="shiftSupply" type="range" min="-500" max="500" value="0" class="w-full">
+            </label>
+            <p class="text-xs text-gray-500 mt-1">Gunakan untuk mensimulasikan dampak promosi/AI-targeted marketing (menggeser D) atau efisiensi teknologi/AI ops (menggeser S).</p>
+          </fieldset>
+        </div>
+
+        <div class="md:col-span-8">
+          <canvas id="chartSandbox" height="260"></canvas>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4">
+            <div class="kpi"><p class="text-xs">Q*</p><p id="sb-q" class="mono text-lg font-semibold">—</p></div>
+            <div class="kpi"><p class="text-xs">P*</p><p id="sb-p" class="mono text-lg font-semibold">—</p></div>
+            <div class="kpi"><p class="text-xs">Ed (Q*)</p><p id="sb-ed" class="mono text-lg font-semibold">—</p></div>
+            <div class="kpi"><p class="text-xs">Es (Q*)</p><p id="sb-es" class="mono text-lg font-semibold">—</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- C. Quick Checks / Quiz -->
+    <section class="card">
+      <h2 class="text-xl font-semibold mb-1">C. Quick Checks — Latihan Mandiri</h2>
+      <p class="text-sm text-gray-600 mb-4">Masukkan persamaan (atau gunakan template) untuk menghitung harga & kuantitas ekuilibrium. Bandingkan dengan jawaban sistem.</p>
+
+      <div class="grid md:grid-cols-12 gap-4">
+        <div class="md:col-span-4 space-y-3">
+          <div>
+            <label class="text-sm">Permintaan (format: P = A − BQ) </label>
+            <input id="qcd-D" type="text" class="w-full mt-1 rounded border-gray-300" value="P = 380 - 2Q" />
+          </div>
+          <div>
+            <label class="text-sm">Penawaran (format: P = C + DQ)</label>
+            <input id="qcd-S" type="text" class="w-full mt-1 rounded border-gray-300" value="P = 4Q + 20" />
+          </div>
+          <div class="flex gap-2 mt-2">
+            <button id="btnSolveQC" class="px-3 py-2 bg-blue-600 text-white rounded-lg">Hitung Ekuilibrium</button>
+            <button id="btnSample2" class="px-3 py-2 bg-blue-100 rounded-lg">Contoh Alternatif</button>
+          </div>
+          <p class="text-xs text-gray-500">Contoh alternatif setara dengan Qd = 40 − 4P dan Qs = −20 + 8P (hasil P=5, Q=20).</p>
+        </div>
+
+        <div class="md:col-span-8 grid grid-cols-2 gap-3 items-start">
+          <div class="kpi"><p class="text-xs">Q*</p><p id="qc-q" class="mono text-xl font-bold">—</p></div>
+          <div class="kpi"><p class="text-xs">P*</p><p id="qc-p" class="mono text-xl font-bold">—</p></div>
+          <div class="kpi"><p class="text-xs">Ed (Q*)</p><p id="qc-ed" class="mono text-lg font-semibold">—</p></div>
+          <div class="kpi"><p class="text-xs">Es (Q*)</p><p id="qc-es" class="mono text-lg font-semibold">—</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- D. Catatan Metodologis & Diskusi Kelas -->
+    <section class="card">
+      <h2 class="text-xl font-semibold mb-1">D. Catatan Metodologis & Diskusi</h2>
+      <ul class="list-disc pl-6 text-sm leading-7 text-gray-700">
+        <li><span class="font-semibold">Estimasi Linier 2 Titik:</span> slope <span class="mono">m = ΔP/ΔQ</span>, lalu <span class="mono">P - P₁ = m (Q - Q₁)</span>; cocok untuk <em>intro</em> estimasi demand/supply.</li>
+        <li><span class="font-semibold">Equilibrium:</span> cari Q* dari <span class="mono">a + bQ = c + dQ</span>; lalu P* dengan substitusi.</li>
+        <li><span class="font-semibold">Elasticity (titik):</span> untuk <span class="mono">P = a + bQ</span>, maka <span class="mono">dQ/dP = 1/b</span> dan <span class="mono">E = (dQ/dP)·(P/Q)</span>. Dengan <span class="mono">b &lt; 0</span> (permintaan) → nilai negatif (gunakan nilai absolut saat interpretasi).</li>
+        <li><span class="font-semibold">Shifters & AI:</span> Kampanye digital/AI targeting → geser permintaan; otomatisasi/AI ops → geser penawaran. Diskusikan implikasi profit, consumer surplus, dan kebijakan.</li>
+      </ul>
+    </section>
+
+    <!-- E. Study Cases (Preset & Tugas Diskusi) -->
+    <section class="card">
+      <h2 class="text-xl font-semibold mb-1">E. Study Cases — Preset Skenario & Pertanyaan Diskusi</h2>
+      <p class="text-sm text-gray-600 mb-3">Klik salah satu preset untuk memuat parameter ke <em>Sandbox</em>. Setelah itu, amati perubahan Q*, P*, Ed, Es, lalu jawab pertanyaan diskusi.</p>
+
+      <div class="grid md:grid-cols-12 gap-4">
+        <div class="md:col-span-5 space-y-3">
+          <button id="btnCase1" class="w-full px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 text-left">
+            Case 1 — Iklan Global (AI-targeted Marketing) untuk Minuman RTD
+          </button>
+          <div class="text-xs text-gray-600">Asumsi awal (baseline): <span class="mono">P = 24 − 0.01Q</span> (permintaan), <span class="mono">P = 4 + 0.00833Q</span> (penawaran). Kampanye AI menaikkan preferensi → pergeseran permintaan ke kanan (gunakan ΔQ &gt; 0).</div>
+
+          <button id="btnCase2" class="w-full px-4 py-2 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 text-left">
+            Case 2 — Cukai Rokok (Pajak Spesifik per Unit)
+          </button>
+          <div class="text-xs text-gray-600">Cukai meningkatkan biaya per unit → kurva penawaran efektif bergeser ke kiri. Approx: tetap gunakan <span class="mono">P = 4 + 0.00833Q</span> namun geser ΔQ &lt; 0 untuk representasi beban pajak pada produsen.</div>
+
+          <button id="btnCase3" class="w-full px-4 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 text-left">
+            Case 3 — Coffee Shop Inc (Harga, Promosi, & Biaya Bahan Baku)
+          </button>
+          <div class="text-xs text-gray-600">Permintaan awal: <span class="mono">P = 28 − 0.012Q</span>; penawaran awal: <span class="mono">P = 6 + 0.007Q</span>. Simulasikan promosi (ΔQ permintaan &gt; 0) vs kenaikan harga cup/biji (ΔQ penawaran &lt; 0). Bandingkan Q*, P*, Ed, Es.</div>
+
+          <div class="border rounded-xl p-3 text-sm">
+            <p class="font-semibold mb-1">Pertanyaan Diskusi (contoh):</p>
+            <ul class="list-disc pl-6 text-gray-700 space-y-1">
+              <li>Bagaimana perubahan Q* & P* setelah intervensi (iklan/pajak/biaya)?</li>
+              <li>Apakah permintaan menjadi lebih/kurang elastis di sekitar ekuilibrium baru? Implikasi pada pendapatan/penerimaan pajak?</li>
+              <li>Jika tujuan manajer adalah profit jangka pendek vs pangsa pasar, kebijakan mana yang efektif?</li>
+            </ul>
+          </div>
+        </div>
+        <div class="md:col-span-7">
+          <div class="kpi text-left mb-3">
+            <p class="text-xs uppercase text-gray-500">Outcome Pembelajaran Saat Menggunakan Simulasi</p>
+            <ul class="list-disc pl-6 text-sm text-gray-700">
+              <li>Menghasilkan estimasi fungsi dan parameter yang <em>traceable</em> dari data titik atau koefisien.</li>
+              <li>Mengkuantifikasi dampak strategi pemasaran/kebijakan pada Q*, P*, dan elastisitas titik.</li>
+              <li>Menyusun rekomendasi keputusan (harga, produksi, promosi) berbasis analisis kurva & elastisitas.</li>
+              <li>Menghubungkan hasil ke <em>profitability</em> (revenue ≈ P×Q) dan <em>sustainability</em> (mis. beban cukai utk kesehatan publik).</li>
+            </ul>
+          </div>
+          <div class="text-xs text-gray-500">Tips: Gunakan tombol preset lalu <em>tweak</em> slider ΔQ untuk menguji sensivitas skenario.</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="text-center text-xs text-gray-500 py-10">
+    © 2025 — Session 06 Teaching Aid. Bebas digunakan untuk pembelajaran.
+  </footer>
+
+  <script>
+    // ---------------------- Util ----------------------
+    const fmt = new Intl.NumberFormat('id-ID');
+    function lineFromTwoPoints(Q1, P1, Q2, P2) {
+      // Return {a, b} for P = a + bQ
+      const b = (P2 - P1) / (Q2 - Q1);
+      const a = P1 - b * Q1;
+      return { a, b };
+    }
+    function eqFromCoeffs(a, b, c, d) {
+      // Solve a + bQ = c + dQ
+      const denom = (b - d);
+      if (Math.abs(denom) < 1e-9) return { Q: NaN, P: NaN };
+      const Q = (c - a) / (b - d);
+      const P = a + b * Q;
+      return { Q, P };
+    }
+    function elasticityAt(a, b, Q, P) {
+      // P = a + bQ → dQ/dP = 1/b → E = (dQ/dP)*(P/Q) = (P / (b*Q))
+      if (Math.abs(b) < 1e-12 || Math.abs(Q) < 1e-12) return NaN;
+      return P / (b * Q);
+    }
+    function genLineData(a, b, Qmin, Qmax, step, shiftQ = 0) {
+      const pts = [];
+      for (let Q = Qmin; Q <= Qmax; Q += step) {
+        const Qs = Q + shiftQ; // horizontal shift in Q-space
+        const P = a + b * Qs;
+        if (Qs >= 0) pts.push({ x: Qs, y: P });
+      }
+      return pts;
+    }
+
+    // ---------------------- Chart A (Guided) ----------------------
+    const ceCtx = document.getElementById('chartExample').getContext('2d');
+    const ce = new Chart(ceCtx, {
+      type: 'scatter',
+      data: { datasets: [] },
+      options: {
+        animation: false,
+        plugins: { legend: { position: 'bottom' } },
+        scales: {
+          x: { title: { display: true, text: 'Kuantitas (Q)' } },
+          y: { title: { display: true, text: 'Harga (P)' } }
+        }
+      }
+    });
+
+    function loadGuided() {
+      const d = lineFromTwoPoints(1400, 10, 400, 20); // demand
+      const s = lineFromTwoPoints(720, 10, 1920, 20); // supply
+      const eq = eqFromCoeffs(d.a, d.b, s.a, s.b);
+
+      document.getElementById('demand-eq').textContent = `P = ${d.a.toFixed(3)} + (${d.b.toFixed(6)})·Q`;
+      document.getElementById('supply-eq').textContent = `P = ${s.a.toFixed(3)} + (${s.b.toFixed(6)})·Q`;
+      document.getElementById('eq-q').textContent = isFinite(eq.Q) ? fmt.format(eq.Q.toFixed(2)) : '—';
+      document.getElementById('eq-p').textContent = isFinite(eq.P) ? fmt.format(eq.P.toFixed(2)) : '—';
+
+      const Ed = elasticityAt(d.a, d.b, eq.Q, eq.P);
+      const Es = elasticityAt(s.a, s.b, eq.Q, eq.P);
+      document.getElementById('ed').textContent = isFinite(Ed) ? Ed.toFixed(3) : '—';
+      document.getElementById('es').textContent = isFinite(Es) ? Es.toFixed(3) : '—';
+
+      const Qmax = Math.max(2200, eq.Q * 1.2);
+      ce.data.datasets = [
+        {
+          type: 'line', label: 'Permintaan (guided)', borderColor: '#2563eb', borderWidth: 2, fill: false,
+          parsing: false, data: genLineData(d.a, d.b, 0, Qmax, 10)
+        },
+        {
+          type: 'line', label: 'Penawaran (guided)', borderColor: '#059669', borderWidth: 2, fill: false,
+          parsing: false, data: genLineData(s.a, s.b, 0, Qmax, 10)
+        },
+        {
+          type: 'scatter', label: 'Equilibrium', borderColor: '#111827', backgroundColor: '#111827', pointRadius: 5,
+          data: [{ x: eq.Q, y: eq.P }]
+        },
+        { type: 'scatter', label: 'Titik D (1400,10) & (400,20)', backgroundColor: '#93c5fd', data: [ {x:1400,y:10}, {x:400,y:20} ] },
+        { type: 'scatter', label: 'Titik S (720,10) & (1920,20)', backgroundColor: '#6ee7b7', data: [ {x:720,y:10}, {x:1920,y:20} ] },
+      ];
+      ce.update();
+    }
+
+    document.getElementById('btnLoadExample').addEventListener('click', loadGuided);
+    document.getElementById('btnReset').addEventListener('click', () => {
+      ce.data.datasets = []; ce.update();
+      ['demand-eq','supply-eq','eq-q','eq-p','ed','es'].forEach(id => document.getElementById(id).textContent = '—');
+    });
+
+    // ---------------------- Chart B (Sandbox) ----------------------
+    const sbCtx = document.getElementById('chartSandbox').getContext('2d');
+    const sb = new Chart(sbCtx, {
+      type: 'scatter',
+      data: { datasets: [] },
+      options: {
+        animation: false,
+        plugins: { legend: { position: 'bottom' } },
+        scales: {
+          x: { title: { display: true, text: 'Kuantitas (Q)' } },
+          y: { title: { display: true, text: 'Harga (P)' } }
+        }
+      }
+    });
+
+    function renderSandbox(d, s, shiftD=0, shiftS=0) {
+      const eq = eqFromCoeffs(d.a, d.b, s.a, s.b);
+      const Qmax = Math.max(100, Math.abs(eq.Q)*1.5, 2500);
+      const dataD = genLineData(d.a, d.b, 0, Qmax, 10, shiftD);
+      const dataS = genLineData(s.a, s.b, 0, Qmax, 10, shiftS);
+
+      sb.data.datasets = [
+        { type: 'line', label: `Permintaan (P=${d.a.toFixed(2)}+${d.b.toFixed(4)}Q)`, borderColor: '#2563eb', data: dataD },
+        { type: 'line', label: `Penawaran (P=${s.a.toFixed(2)}+${s.b.toFixed(4)}Q)`, borderColor: '#059669', data: dataS },
+        { type: 'scatter', label: 'Equilibrium', backgroundColor: '#111827', data: [ { x: eq.Q, y: eq.P } ] },
+      ];
+      sb.update();
+
+      document.getElementById('sb-q').textContent = isFinite(eq.Q) ? fmt.format(eq.Q.toFixed(2)) : '—';
+      document.getElementById('sb-p').textContent = isFinite(eq.P) ? fmt.format(eq.P.toFixed(2)) : '—';
+      const Ed = elasticityAt(d.a, d.b, eq.Q, eq.P);
+      const Es = elasticityAt(s.a, s.b, eq.Q, eq.P);
+      document.getElementById('sb-ed').textContent = isFinite(Ed) ? Ed.toFixed(3) : '—';
+      document.getElementById('sb-es').textContent = isFinite(Es) ? Es.toFixed(3) : '—';
+    }
+
+    function fitFromPoints() {
+      const dQ1 = parseFloat(document.getElementById('dQ1').value);
+      const dP1 = parseFloat(document.getElementById('dP1').value);
+      const dQ2 = parseFloat(document.getElementById('dQ2').value);
+      const dP2 = parseFloat(document.getElementById('dP2').value);
+      const sQ1 = parseFloat(document.getElementById('sQ1').value);
+      const sP1 = parseFloat(document.getElementById('sP1').value);
+      const sQ2 = parseFloat(document.getElementById('sQ2').value);
+      const sP2 = parseFloat(document.getElementById('sP2').value);
+      const d = lineFromTwoPoints(dQ1, dP1, dQ2, dP2);
+      const s = lineFromTwoPoints(sQ1, sP1, sQ2, sP2);
+      const shiftD = parseFloat(document.getElementById('shiftDemand').value);
+      const shiftS = parseFloat(document.getElementById('shiftSupply').value);
+      renderSandbox(d, s, shiftD, shiftS);
+    }
+
+    function plotFromCoeffs() {
+      const a = parseFloat(document.getElementById('a').value);
+      const b = parseFloat(document.getElementById('b').value);
+      const c = parseFloat(document.getElementById('c').value);
+      const d = parseFloat(document.getElementById('d').value);
+      if ([a,b,c,d].some(v => isNaN(v))) return alert('Lengkapi koefisien a, b, c, d.');
+      const shiftD = parseFloat(document.getElementById('shiftDemand').value);
+      const shiftS = parseFloat(document.getElementById('shiftSupply').value);
+      renderSandbox({a, b}, {a:c, b:d}, shiftD, shiftS);
+    }
+
+    function clearCoeffs() {
+      ['a','b','c','d'].forEach(id => document.getElementById(id).value = '');
+      sb.data.datasets = []; sb.update();
+      ['sb-q','sb-p','sb-ed','sb-es'].forEach(id => document.getElementById(id).textContent = '—');
+    }
+
+    function randomizeExercise() {
+      // Generate plausible pairs ensuring negative slope for D, positive for S
+      const dQ1 = Math.floor(500 + Math.random()*1500); // 500..2000
+      const dQ2 = Math.floor(200 + Math.random()*800);  // 200..1000
+      const dP1 = Math.floor(8 + Math.random()*8);      // 8..16
+      const dP2 = dP1 + Math.floor(2 + Math.random()*8); // higher price
+      const sQ1 = Math.floor(200 + Math.random()*1200);
+      const sQ2 = Math.floor(sQ1 + 500 + Math.random()*1200);
+      const sP1 = Math.floor(6 + Math.random()*10);
+      const sP2 = sP1 + Math.floor(2 + Math.random()*10);
+      Object.assign(document.getElementById('dQ1'), { value: dQ1 });
+      Object.assign(document.getElementById('dP1'), { value: dP1 });
+      Object.assign(document.getElementById('dQ2'), { value: dQ2 });
+      Object.assign(document.getElementById('dP2'), { value: dP2 });
+      Object.assign(document.getElementById('sQ1'), { value: sQ1 });
+      Object.assign(document.getElementById('sP1'), { value: sP1 });
+      Object.assign(document.getElementById('sQ2'), { value: sQ2 });
+      Object.assign(document.getElementById('sP2'), { value: sP2 });
+      fitFromPoints();
+    }
+
+    document.getElementById('btnFitFromPoints').addEventListener('click', fitFromPoints);
+    document.getElementById('btnRandomize').addEventListener('click', randomizeExercise);
+    document.getElementById('btnPlotCoeffs').addEventListener('click', plotFromCoeffs);
+    document.getElementById('btnClearCoeffs').addEventListener('click', clearCoeffs);
+
+    document.getElementById('shiftDemand').addEventListener('input', fitFromPoints);
+    document.getElementById('shiftSupply').addEventListener('input', fitFromPoints);
+
+    // ---------------------- Quick Checks ----------------------
+    function parseLinear(line) {
+      // Accept forms like "P = 380 - 2Q" or "P=4Q+20" (spaces optional)
+      const cleaned = line.replace(/\s+/g,'');
+      const m = cleaned.match(/^P=([+-]?\d*\.?\d+)?([+-]?\d*\.?\d+)?Q?([+-]?\d*\.?\d+)?$/i);
+      // We'll try a more robust parse instead:
+      // Split at '=' then move terms to get P = const + coeff*Q
+      const parts = cleaned.split('=');
+      if (parts.length !== 2) return null;
+      let rhs = parts[1];
+      // Ensure it contains Q term, if not, try to detect like 380-2Q
+      // Find constant (no Q) and coefficient on Q
+      // Pattern: ([+-]?number)?([+-]number)?Q?([+-]?number)? -- too messy. We'll do manual:
+      let A = 0, B = 0; // P = A + BQ
+      // Replace '-' with '+-' then split by '+'
+      rhs = rhs.replace(/-/g,'+-');
+      const terms = rhs.split('+').filter(t=>t.length>0);
+      for (const t of terms) {
+        if (t.toUpperCase().includes('Q')) {
+          const coeff = t.replace(/Q/i,'');
+          if (coeff === '' || coeff === '+') B += 1;
+          else if (coeff === '-') B -= 1;
+          else B += parseFloat(coeff);
+        } else {
+          A += parseFloat(t);
+        }
+      }
+      if (!isFinite(A) || !isFinite(B)) return null;
+      return { a: A, b: B };
+    }
+
+    function solveQC() {
+      const dLine = document.getElementById('qcd-D').value;
+      const sLine = document.getElementById('qcd-S').value;
+      const D = parseLinear(dLine);
+      const S = parseLinear(sLine);
+      if (!D || !S) { alert('Format persamaan tidak dikenali. Contoh: "P = 380 - 2Q" atau "P = 4Q + 20"'); return; }
+      const eq = eqFromCoeffs(D.a, D.b, S.a, S.b);
+      document.getElementById('qc-q').textContent = isFinite(eq.Q) ? fmt.format(eq.Q.toFixed(2)) : '—';
+      document.getElementById('qc-p').textContent = isFinite(eq.P) ? fmt.format(eq.P.toFixed(2)) : '—';
+      const Ed = elasticityAt(D.a, D.b, eq.Q, eq.P);
+      const Es = elasticityAt(S.a, S.b, eq.Q, eq.P);
+      document.getElementById('qc-ed').textContent = isFinite(Ed) ? Ed.toFixed(3) : '—';
+      document.getElementById('qc-es').textContent = isFinite(Es) ? Es.toFixed(3) : '—';
+    }
+
+    function loadSample2() {
+      document.getElementById('qcd-D').value = 'P = 380 - 2Q';
+      document.getElementById('qcd-S').value = 'P = 4Q + 20';
+      solveQC();
+    }
+
+    document.getElementById('btnSolveQC').addEventListener('click', solveQC);
+    document.getElementById('btnSample2').addEventListener('click', loadSample2);
+
+    // Auto-load the guided example at start for convenience
+    loadGuided();
+    fitFromPoints();
+      // ---- Preset Study Cases ----
+    function setCoeffsAndRender(a,b,c,d, shiftD=0, shiftS=0) {
+      document.getElementById('a').value = a;
+      document.getElementById('b').value = b;
+      document.getElementById('c').value = c;
+      document.getElementById('d').value = d;
+      document.getElementById('shiftDemand').value = shiftD;
+      document.getElementById('shiftSupply').value = shiftS;
+      renderSandbox({a, b}, {a:c, b:d}, shiftD, shiftS);
+    }
+
+    document.getElementById('btnCase1').addEventListener('click', () => {
+      // Baseline from guided example coefficients approximately
+      const a = 24, b = -0.01; // demand
+      const c = 4,  d = 0.008333; // supply
+      setCoeffsAndRender(a,b,c,d, 200, 0); // demand shifts right
+    });
+
+    document.getElementById('btnCase2').addEventListener('click', () => {
+      const a = 24, b = -0.01;
+      const c = 4,  d = 0.008333;
+      setCoeffsAndRender(a,b,c,d, 0, -150); // supply shifts left ≈ tax burden
+    });
+
+    document.getElementById('btnCase3').addEventListener('click', () => {
+      const a = 28, b = -0.012;
+      const c = 6,  d = 0.007;
+      setCoeffsAndRender(a,b,c,d, 120, -80);
+    });
+  </script>
+</body>
+</html>
