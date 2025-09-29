@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Session 07–08 · Perfect Competition: Theory, Cases, Manual Solutions & Game</title>
+<link rel="icon" href="https://bbs.binus.ac.id/wp-content/uploads/2020/05/BBS-AACSB.svg">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root{--primary:#0d47a1;--muted:#e3f2fd}
+  body{background:#f9fbff}
+  header.hero{background:linear-gradient(135deg,#0d47a1 0%,#1976d2 100%);color:#fff;padding:2rem 0;margin-bottom:1rem;border-bottom:6px solid #e3f2fd}
+  .brand{display:flex;align-items:center;gap:.75rem}
+  .brand img{height:44px}
+  .sticky-nav{position:sticky;top:0;z-index:10;background:#fff;padding:.5rem;border-bottom:1px solid #e6eefc}
+  .sticky-nav a{margin-right:.75rem}
+  .pill{background:#e3f2fd;color:#0d47a1;padding:.25rem .6rem;border-radius:999px;font-size:.8rem}
+  h2,h3,h4{color:#0d47a1}
+  .note{background:#eef6ff;border-left:4px solid #0d47a1;padding:.75rem;border-radius:.5rem}
+  .card{border:1px solid #e6eefc;border-radius:12px;background:#fff;padding:1rem}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
+  @media (max-width: 980px){.grid-2,.grid-3{grid-template-columns:1fr}}
+  canvas{background:#fff;border:1px solid #e6eefc;border-radius:8px;padding:.5rem}
+  footer{margin:3rem 0 2rem;color:#4a5568;font-size:.9rem}
+  .kbd{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;background:#f1f5ff;border:1px solid #dbe7ff;border-radius:6px;padding:.05rem .35rem}
+  table{font-size:.95rem}
+  .ok{color:#0b7a0b}
+  .bad{color:#b00020}
+  .score{font-weight:700}
+</style>
+</head>
+<body>
+<header class="hero">
+  <main class="container">
+    <div class="brand">
+      <img src="https://bbs.binus.ac.id/wp-content/uploads/2020/05/BBS-AACSB.svg" alt="BINUS BBS">
+      <div>
+        <h2 style="margin:.2rem 0">Perfect Competition <span class="pill">Session 07–08</span></h2>
+        <p style="margin:.2rem 0 .4rem">Urutan pembelajaran: <b>Teori → Studi Kasus & Penyelesaian Manual → Latihan → Game/Simulasi</b>.</p>
+        <small>LO2: menganalisis keputusan output & profit (MR=MC), uji shutdown, dan ekuilibrium jangka panjang.</small>
+      </div>
+    </div>
+  </main>
+</header>
+
+<nav class="sticky-nav container">
+  <a href="#theory" class="secondary">Teori</a>
+  <a href="#cases" class="secondary">Studi Kasus</a>
+  <a href="#practice" class="secondary">Latihan</a>
+  <a href="#game" class="contrast">Game/Simulasi</a>
+</nav>
+
+<main class="container">
+  <!-- ==================== THEORY ==================== -->
+  <section id="theory">
+    <h3>1) Teori — Persaingan Sempurna & Profit</h3>
+    <article class="card">
+      <h4>1.1 Definisi Variabel & Rumus</h4>
+      <div class="grid-2">
+        <div>
+          <table role="grid">
+            <thead><tr><th>Simbol</th><th>Arti</th></tr></thead>
+            <tbody>
+              <tr><td><b>P</b></td><td>Harga pasar (price-taker)</td></tr>
+              <tr><td><b>Q</b></td><td>Jumlah output/produksi</td></tr>
+              <tr><td><b>TR</b></td><td>Total Revenue = <b>P × Q</b></td></tr>
+              <tr><td><b>AR</b></td><td>Average Revenue = TR/Q = <b>P</b></td></tr>
+              <tr><td><b>MR</b></td><td>Marginal Revenue = ΔTR/ΔQ = <b>P</b></td></tr>
+              <tr><td><b>TC</b></td><td>Total Cost = <b>F + cQ + ½ dQ²</b> (model SR sederhana)</td></tr>
+              <tr><td><b>F</b></td><td>Fixed Cost (biaya tetap)</td></tr>
+              <tr><td><b>c</b></td><td>Komponen biaya variabel per unit (linear)</td></tr>
+              <tr><td><b>d</b></td><td>Koefisien kemiringan biaya marginal</td></tr>
+              <tr><td><b>MC</b></td><td>Marginal Cost = <b>c + dQ</b></td></tr>
+              <tr><td><b>AVC</b></td><td>Average Variable Cost = <b>c + ½ dQ</b></td></tr>
+              <tr><td><b>AC</b></td><td>Average Cost = <b>F/Q + AVC</b></td></tr>
+              <tr><td><b>π</b></td><td>Profit/Laba = <b>TR − TC</b> = (P − AC)×Q</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <ul>
+            <li><b>Price-taker:</b> kurva permintaan perusahaan datar → <b>AR = MR = P</b>.</li>
+            <li><b>Aturan SR:</b> pilih Q* saat <b>MR(=P) = MC</b>. Uji shutdown: produksi jika <b>P ≥ AVC(Q*)</b>.</li>
+            <li><b>LR:</b> semua input variabel; entry–exit menekan harga ke <b>min LRAC</b> → laba normal.</li>
+          </ul>
+          <div class="note"><b>Intuisi:</b> SR ditentukan oleh MR=MC dan batas bawahnya AVC; LR menempatkan harga di efisiensi minimum (min LRAC).</div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- ==================== STUDI KASUS ==================== -->
+  <section id="cases" style="margin-top:2rem">
+    <h3>2) Studi Kasus & Penyelesaian Manual</h3>
+
+    <article class="card">
+      <h4>Kasus 1 — “Kertas Daur Ulang Sevelas” (SR)</h4>
+      <p><b>Data:</b> P = Rp6.000/unit; F = Rp200.000; c = Rp2.000; d = 40. Model SR: TC = F + cQ + ½ dQ².</p>
+      <ol>
+        <li><b>Tanya:</b> (a) Q* dan laba? (b) Jika P turun ke Rp2.100, apakah shutdown?</li>
+        <li><b>Penyelesaian manual:</b></li>
+      </ol>
+      <div class="grid-2">
+        <div>
+          <ol>
+            <li>MR=MC ⇒ <b>P = c + dQ</b> → Q* = (P−c)/d = (6.000−2.000)/40 = <b>100</b>.</li>
+            <li>TR = P×Q = 6.000×100 = 600.000.</li>
+            <li>TC = F + cQ + ½ dQ² = 200.000 + 2.000×100 + 20×100² = 600.000.</li>
+            <li>Laba π = TR − TC = 0 (laba normal).</li>
+          </ol>
+        </div>
+        <div>
+          <ol start="5">
+            <li>Jika P turun ke 2.100: Q* = (2.100−2.000)/40 = 2,5.</li>
+            <li>AVC(Q*) = c + ½ dQ* ≈ 2.000 + 20×2,5 = 2.050.</li>
+            <li>Uji shutdown: P ≥ AVC → 2.100 ≥ 2.050 ⇒ <b>tetap produksi</b> (meski rugi total bisa terjadi).</li>
+          </ol>
+        </div>
+      </div>
+    </article>
+
+    <article class="card">
+      <h4>Kasus 2 — “Green Beans Roastery (GBR)” (SR→LR)</h4>
+      <p><b>Data:</b> P = Rp50.000/kg; TC = 1.000.000 + 20.000Q + 100Q².</p>
+      <ul>
+        <li>MR=MC ⇒ 50.000 = 20.000 + 200Q ⇒ Q* = <b>150</b> kg.</li>
+        <li>TR = 50.000×150 = 7.500.000; TC = 1.000.000 + 3.000.000 + 2.250.000 = 6.250.000 ⇒ <b>π = 1.250.000</b>.</li>
+        <li>LR: entry menurunkan P ke sekitar min LRAC ⇒ laba normal.</li>
+      </ul>
+    </article>
+
+    <article class="card">
+      <h4>Kasus 3 — “AquaPack” (Mencari min AC ~ LRAC)</h4>
+      <p><b>Data:</b> F = Rp500.000; c = Rp4.000; d = 24. Cari Q yang meminimalkan <b>AC(Q) = F/Q + c + ½ dQ</b>.</p>
+      <details>
+        <summary><b>Penyelesaian manual (ringkas)</b></summary>
+        <p>Turunkan AC terhadap Q dan setel = 0:</p>
+        <pre>AC(Q) = F/Q + c + ½ dQ
+AC'(Q) = -F/Q² + ½ d  = 0 ⇒ ½ d = F/Q² ⇒ Q² = 2F/d ⇒ Q*<sub>minAC</sub> = √(2F/d)</pre>
+        <p>Masukkan nilai: Q* = √(2×500.000/24) ≈ √(41.666,7) ≈ <b>204,12</b> unit. Harga LR ~ min AC = AC(Q*).</p>
+      </details>
+    </article>
+  </section>
+
+  <!-- ==================== PRACTICE ==================== -->
+  <section id="practice" style="margin-top:2rem">
+    <h3>3) Latihan Soal</h3>
+    <article class="card">
+      <ol>
+        <li><b>Latihan 1 (SR):</b> P = Rp12.000; TC = 500.000 + 4.000Q + 60Q². a) Hitung Q* dan π. b) Jika P=3.900, apakah shutdown? Jelaskan via P vs AVC(Q*).</li>
+        <li><b>Latihan 2 (SR→LR):</b> Naikkan F sebesar 50% pada simulasi. Jelaskan dampaknya ke AC, Q* (MR=MC), dan π. Mengapa di LR harga tidak bergantung pada F perusahaan individual?</li>
+        <li><b>Latihan 3 (LRAC):</b> F = 800.000; c = 3.500; d = 28. a) Temukan Q yang meminimalkan AC. b) Hitung min AC dan interpretasikan sebagai harga LR.</li>
+        <li><b>Latihan 4 (Aplikasi Operasional):</b> Jika c turun 10% karena efisiensi proses, bagaimana Q*, AC(Q*), dan π berubah? Gunakan game untuk validasi.</li>
+      </ol>
+      <button id="downloadPractice" class="secondary">Unduh Latihan (TXT)</button>
+    </article>
+  </section>
+
+  <!-- ==================== GAME / SIMULATION ==================== -->
+  <section id="game" style="margin-top:2rem">
+    <h3>4) Game/Simulasi — "PC Market Challenge"</h3>
+    <p class="note">Mainkan 10 ronde. Jawab cepat & tepat untuk skor tinggi. Mode <b>SR</b> (aturan MR=MC & shutdown) dan <b>LR</b> (min AC). Setelah jawab, klik <b>Tampilkan Langkah</b> untuk melihat penyelesaian manual.</p>
+
+    <article class="card">
+      <div class="grid-3">
+        <div>
+          <label>Level
+            <select id="level">
+              <option value="sr" selected>SR — MR=MC & Shutdown</option>
+              <option value="lr">LR — Min AC & Harga LR</option>
+            </select>
+          </label>
+        </div>
+        <div>
+          <label>Ronde
+            <input type="number" id="rounds" value="10" min="1" max="20">
+          </label>
+        </div>
+        <div>
+          <label>Waktu per soal (detik)
+            <input type="number" id="timelimit" value="60" min="10" max="300">
+          </label>
+        </div>
+      </div>
+      <div style="display:flex;gap:.5rem;margin-top:.5rem">
+        <button id="start" class="contrast">Mulai Game</button>
+        <button id="showWork" class="secondary" disabled>Tampilkan Langkah</button>
+        <div style="margin-left:auto"><span>Skor: <span id="score" class="score">0</span></span> · <span>Sisa: <span id="left" class="score">0</span></span> · <span>Waktu: <span id="time" class="score">0</span>s</span></div>
+      </div>
+
+      <hr/>
+      <div id="qwrap" class="grid-2" style="display:none">
+        <section>
+          <h4>Data Soal</h4>
+          <div id="given" class="note"></div>
+          <div id="ask" style="margin-top:.5rem"></div>
+        </section>
+        <section>
+          <h4>Jawaban Anda</h4>
+          <div id="answers"></div>
+          <button id="submit" class="contrast" style="margin-top:.5rem" disabled>Kirim Jawaban</button>
+          <p id="feedback"></p>
+        </section>
+      </div>
+
+      <details style="margin-top:1rem">
+        <summary><b>Kurva Pembantu (opsional)</b></summary>
+        <div class="grid-2">
+          <section>
+            <h5>Kurva Biaya & Harga</h5>
+            <canvas id="costChart" height="260"></canvas>
+          </section>
+          <section>
+            <h5>TR vs TC</h5>
+            <canvas id="profitChart" height="260"></canvas>
+          </section>
+        </div>
+      </details>
+
+      <div id="work" class="card" style="display:none;margin-top:1rem"></div>
+    </article>
+  </section>
+
+  <footer>
+    <p>© Bahan ajar terbuka. Silakan unggah file ini ke GitHub Pages. Susunan: Teori → Kasus → Latihan → Game agar pemahaman konseptual mendahului praktik numerik dan evaluasi formatif.</p>
+  </footer>
+</main>
+
+<script>
+// ===== Utilities =====
+const $ = id => document.getElementById(id);
+const clamp = (x,a,b)=>Math.max(a,Math.min(b,x));
+const cur = n => "Rp"+Number(n).toLocaleString('id-ID');
+const rnd = (min,max,step=1)=>{
+  const n = Math.floor((Math.random()*(max-min+step))/step)*step + min;
+  return n;
+}
+const near = (x,y,tol)=> Math.abs(x-y) <= tol;
+
+// ===== Practice TXT =====
+const practiceTxt = `LATIHAN — Perfect Competition (Session 07–08)\n1) SR: P=12.000; TC=500.000+4.000Q+60Q^2. (a) Q* dan π? (b) Jika P=3.900, shutdown? Jelaskan via P vs AVC(Q*).\n2) SR→LR: Naikkan F 50% (simulasi). Dampak ke AC, Q* (MR=MC), dan π? Mengapa LR price tidak bergantung F perusahaan individual?\n3) LRAC: F=800.000; c=3.500; d=28. (a) Q yang meminimalkan AC? (b) min AC dan interpretasi sebagai harga LR.\n4) Aplikasi: c turun 10% (efisiensi). Dampak ke Q*, AC(Q*), dan π? Verifikasi via game.`;
+$('downloadPractice').addEventListener('click', ()=>{
+  const blob = new Blob([practiceTxt], {type:'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'latihan-session07-08.txt';
+  document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+});
+
+// ===== Charts (shared) =====
+let costChart, profitChart;
+function drawCharts(P,F,c,d,mode, Qsol){
+  const TC = Q => F + c*Q + 0.5*d*Q*Q;
+  const AVC = Q => c + 0.5*d*Q;
+  const AC  = Q => (Q>0)? (F/Q) + AVC(Q) : Infinity;
+  const MC  = Q => c + d*Q;
+
+  let P_used = P;
+  if(mode==='lr'){
+    // Force price to min AC
+    let ACmin = Infinity, Qmin=1;
+    for(let q=1;q<=3000;q++){
+      const val = AC(q);
+      if(val<ACmin){ACmin=val; Qmin=q}
+    }
+    P_used = ACmin;
+  }
+  const Qmax = Math.max(50, Math.ceil((Qsol||10)*1.6)+20);
+  const xs=[], acs=[], avcs=[], mcs=[], tcs=[], trs=[], price=[];
+  for(let q=0;q<=Qmax;q++){
+    xs.push(q);
+    acs.push(q>0? (F/q)+c+0.5*d*q : null);
+    avcs.push(c+0.5*d*q);
+    mcs.push(c+d*q);
+    tcs.push(TC(q));
+    trs.push(P_used*q);
+    price.push(P_used);
+  }
+  const cctx = $('costChart'), pctx=$('profitChart');
+  if(costChart) costChart.destroy();
+  if(profitChart) profitChart.destroy();
+  costChart = new Chart(cctx, {type:'line', data:{labels:xs,datasets:[
+    {label:'AC', data:acs, borderWidth:2, spanGaps:true},
+    {label:'AVC', data:avcs, borderWidth:2},
+    {label:'MC', data:mcs, borderWidth:2},
+    {label:'AR=MR=P', data:price, borderWidth:2}
+  ]}, options:{plugins:{legend:{position:'bottom'}}, scales:{x:{title:{display:true,text:'Q'}}, y:{title:{display:true,text:'Rp per unit'}}}}});
+  profitChart = new Chart(pctx, {type:'line', data:{labels:xs,datasets:[
+    {label:'TC', data:tcs, borderWidth:2},
+    {label:'TR', data:trs, borderWidth:2}
+  ]}, options:{plugins:{legend:{position:'bottom'}}, scales:{x:{title:{display:true,text:'Q'}}, y:{title:{display:true,text:'Rupiah'}}}}});
+}
+
+// ===== Game Engine =====
+const state = {
+  playing:false, level:'sr', rounds:10, left:0, score:0, time:0, timer:null,
+  params:null, answers:null, solutionHtml:'', mode:'sr'
+};
+
+function genSR(){
+  // Generate reasonable SR parameters
+  const c = rnd(1500,4000,50);
+  const d = rnd(20,60,2);
+  const F = rnd(150000,600000,10000);
+  const P = rnd(c+ d*10, c + d*150, 50); // ensure positive Q*
+  // Compute optimal Q*
+  const Qstar = (P - c)/d; // may be non-integer
+  // Profit
+  const TR = P*Qstar;
+  const TC = F + c*Qstar + 0.5*d*Qstar*Qstar;
+  const pi = TR - TC;
+  // Shutdown check at given P
+  const AVC = c + 0.5*d*Qstar;
+  const shutdown = (P < AVC) ? 'YA' : 'TIDAK';
+  return {type:'sr', P,F,c,d, Qstar, TR, TC, pi, AVC, shutdown};
+}
+
+function genLR(){
+  const F = rnd(300000,900000,10000);
+  const c = rnd(2500,5000,50);
+  const d = rnd(18,50,2);
+  // Min AC occurs at Q = sqrt(2F/d)
+  const Qmin = Math.sqrt(2*F/d);
+  const ACmin = F/Qmin + c + 0.5*d*Qmin;
+  return {type:'lr', F,c,d, Qmin, ACmin};
+}
+
+function fmtGivenSR(p){
+  return `<ul>
+    <li><b>P</b> (harga pasar) = ${cur(p.P)}</li>
+    <li><b>F</b> (fixed cost) = ${cur(p.F)}</li>
+    <li><b>c</b> (biaya variabel linear) = ${cur(p.c)}/unit</li>
+    <li><b>d</b> (kemiringan MC) = ${p.d} per unit²</li>
+    <li>Model: <b>TC = F + cQ + ½ dQ²</b>; <b>MC = c + dQ</b>; <b>AVC = c + ½ dQ</b></li>
+  </ul>`;
+}
+function fmtAskSR(){
+  return `<ol>
+    <li>Hitung output optimal <b>Q*</b> (aturan <b>P = MC</b>).</li>
+    <li>Hitung laba <b>π</b> = TR − TC.</li>
+    <li>Uji <b>shutdown</b>: Apakah perusahaan harus berhenti produksi? (YA/TIDAK)</li>
+  </ol>`;
+}
+
+function fmtGivenLR(p){
+  return `<ul>
+    <li><b>F</b> = ${cur(p.F)}, <b>c</b> = ${cur(p.c)}/unit, <b>d</b> = ${p.d}</li>
+    <li><b>AC(Q) = F/Q + c + ½ dQ</b></li>
+  </ul>`;
+}
+function fmtAskLR(){
+  return `<ol>
+    <li>Temukan <b>Q</b> yang meminimalkan <b>AC</b>.</li>
+    <li>Hitung <b>min AC</b> dan interpretasikan sebagai <b>harga LR</b>.</li>
+  </ol>`;
+}
+
+function showWorkSR(p){
+  return `
+    <h4>Penyelesaian Manual (SR)</h4>
+    <ol>
+      <li>MR=MC ⇒ P = c + dQ ⇒ Q* = (P − c)/d = (${cur(p.P)} − ${cur(p.c)})/${p.d} = <b>${p.Qstar.toFixed(2)}</b></li>
+      <li>TR = P×Q* = ${cur(p.P)} × ${p.Qstar.toFixed(2)} = <b>${cur(p.TR.toFixed(0))}</b></li>
+      <li>TC = F + cQ* + ½ dQ*² = ${cur(p.F)} + ${cur(p.c)}×${p.Qstar.toFixed(2)} + 0,5×${p.d}×${p.Qstar.toFixed(2)}² = <b>${cur(p.TC.toFixed(0))}</b></li>
+      <li>π = TR − TC = <b>${cur(p.pi.toFixed(0))}</b></li>
+      <li>AVC(Q*) = c + ½ dQ* = ${cur(p.c)} + 0,5×${p.d}×${p.Qstar.toFixed(2)} = <b>${cur(p.AVC.toFixed(0))}</b></li>
+      <li>Shutdown? Bandingkan P vs AVC: ${cur(p.P)} ${p.P < p.AVC ? '<span class="bad">&lt;</span>' : '<span class="ok">≥</span>'} ${cur(p.AVC.toFixed(0))} ⇒ <b>${p.shutdown}</b></li>
+    </ol>`;
+}
+
+function showWorkLR(p){
+  return `
+    <h4>Penyelesaian Manual (LR)</h4>
+    <p>Minimalkan AC(Q) = F/Q + c + ½ dQ. Turunan: AC'(Q) = -F/Q² + ½ d = 0 ⇒ ½ d = F/Q² ⇒ Q² = 2F/d ⇒ Q = √(2F/d).</p>
+    <ol>
+      <li>Q*<sub>minAC</sub> = √(2F/d) = √(2×${cur(p.F)}/${p.d}) = <b>${p.Qmin.toFixed(2)}</b></li>
+      <li>min AC = F/Q* + c + ½ dQ* = ${cur(p.F)}/${p.Qmin.toFixed(2)} + ${cur(p.c)} + 0,5×${p.d}×${p.Qmin.toFixed(2)} = <b>${cur(p.ACmin.toFixed(0))}</b></li>
+      <li>Interpretasi: di LR, harga ≈ min AC → laba normal.</li>
+    </ol>`;
+}
+
+function makeInputsSR(){
+  $('answers').innerHTML = `
+    <label>Q* (unit)
+      <input type="number" id="a_q" step="0.01" placeholder="mis. 123.45" required>
+    </label>
+    <label>π (Rupiah)
+      <input type="number" id="a_pi" step="1" placeholder="mis. 100000" required>
+    </label>
+    <label>Shutdown? (YA/TIDAK)
+      <select id="a_sd"><option>YA</option><option selected>TIDAK</option></select>
+    </label>`;
+}
+function makeInputsLR(){
+  $('answers').innerHTML = `
+    <label>Q*<sub>minAC</sub> (unit)
+      <input type="number" id="a_q" step="0.01" placeholder="mis. 200.00" required>
+    </label>
+    <label>min AC (Rupiah per unit)
+      <input type="number" id="a_p" step="1" placeholder="mis. 8000" required>
+    </label>`;
+}
+
+function nextQuestion(){
+  $('feedback').innerText = '';
+  $('work').style.display = 'none';
+  $('showWork').disabled = true;
+  $('submit').disabled = false;
+  if(state.left<=0){ endGame(); return; }
+
+  if(state.level==='sr'){
+    const p = genSR();
+    state.params = p; state.mode='sr';
+    $('given').innerHTML = fmtGivenSR(p);
+    $('ask').innerHTML = fmtAskSR();
+    makeInputsSR();
+    $('qwrap').style.display = '';
+    drawCharts(p.P,p.F,p.c,p.d,'sr', p.Qstar);
+  } else {
+    const p = genLR();
+    state.params = p; state.mode='lr';
+    $('given').innerHTML = fmtGivenLR(p);
+    $('ask').innerHTML = fmtAskLR();
+    makeInputsLR();
+    $('qwrap').style.display = '';
+    // Use LR chart with price = min AC
+    drawCharts(p.ACmin, p.F, p.c, p.d, 'lr', p.Qmin);
+  }
+}
+
+function startGame(){
+  state.playing = true;
+  state.level = $('level').value;
+  state.rounds = clamp(parseInt($('rounds').value||10),1,50);
+  state.left = state.rounds;
+  state.score = 0; $('score').innerText = state.score;
+  $('left').innerText = state.left;
+  $('start').disabled = true;
+  $('showWork').disabled = true;
+  $('submit').disabled = false;
+  // timer
+  state.time = clamp(parseInt($('timelimit').value||60),10,300);
+  $('time').innerText = state.time;
+  if(state.timer) clearInterval(state.timer);
+  state.timer = setInterval(()=>{
+    state.time--; $('time').innerText = state.time;
+    if(state.time<=0){
+      $('feedback').innerHTML = '<span class="bad">Waktu habis untuk soal ini.</span>';
+      state.left--; $('left').innerText = state.left;
+      $('submit').disabled = true; $('showWork').disabled = false;
+      if(state.left>0){ setTimeout(nextQuestion, 1200); state.time = clamp(parseInt($('timelimit').value||60),10,300); }
+    }
+  },1000);
+  nextQuestion();
+}
+
+function endGame(){
+  state.playing=false; $('start').disabled=false; $('submit').disabled=true; $('showWork').disabled=true;
+  if(state.timer) clearInterval(state.timer);
+  $('feedback').innerHTML = `<b>Game selesai.</b> Skor akhir: <span class="score">${state.score}</span> dari ${state.rounds}.`;
+}
+
+function checkSR(){
+  const p = state.params;
+  const aQ = parseFloat($('a_q').value);
+  const aPi = parseFloat($('a_pi').value);
+  const aSD = $('a_sd').value.trim().toUpperCase();
+  let ok=0;
+  // tolerances
+  const tolQ = Math.max(0.02*p.Qstar, 0.05); // 2% or 0.05
+  const tolPi = Math.max(0.02*Math.abs(p.pi), 100); // 2% or Rp100
+  if(near(aQ, p.Qstar, tolQ)) ok++;
+  if(near(aPi, p.pi, tolPi)) ok++;
+  if(aSD === p.shutdown) ok++;
+  const gain = ok*10; state.score += gain; $('score').innerText = state.score;
+  $('feedback').innerHTML = ok===3 ? '<span class="ok">Semua benar! (+30)</span>' : `<span class="${ok>=2?'ok':'bad'}">Benar ${ok}/3 (+${gain})</span>`;
+  $('work').innerHTML = showWorkSR(p);
+  $('showWork').disabled = false;
+}
+
+function checkLR(){
+  const p = state.params;
+  const aQ = parseFloat($('a_q').value);
+  const aP = parseFloat($('a_p').value);
+  let ok=0;
+  const tolQ = Math.max(0.02*p.Qmin, 0.05);
+  const tolP = Math.max(0.02*p.ACmin, 100);
+  if(near(aQ, p.Qmin, tolQ)) ok++;
+  if(near(aP, p.ACmin, tolP)) ok++;
+  const gain = ok*15; state.score += gain; $('score').innerText = state.score;
+  $('feedback').innerHTML = ok===2 ? '<span class="ok">Dua-duanya benar! (+30)</span>' : `<span class="${ok>=1?'ok':'bad'}">Benar ${ok}/2 (+${gain})</span>`;
+  $('work').innerHTML = showWorkLR(p);
+  $('showWork').disabled = false;
+}
+
+$('start').addEventListener('click', startGame);
+$('submit').addEventListener('click', ()=>{
+  if(!state.playing) return;
+  if(state.mode==='sr') checkSR(); else checkLR();
+  state.left--; $('left').innerText = state.left;
+  $('submit').disabled = true;
+  if(state.left>0){ setTimeout(nextQuestion, 1200); state.time = clamp(parseInt($('timelimit').value||60),10,300); }
+  else { endGame(); }
+});
+$('showWork').addEventListener('click', ()=>{ $('work').style.display = ''; window.scrollTo({top: $('work').offsetTop-80, behavior:'smooth'}); });
+
+// Smooth nav
+Array.from(document.querySelectorAll('.sticky-nav a')).forEach(a=>{
+  a.addEventListener('click', e=>{
+    const href = a.getAttribute('href');
+    if(href && href.startsWith('#')){ e.preventDefault(); document.querySelector(href).scrollIntoView({behavior:'smooth', block:'start'}); }
+  });
+});
+</script>
+</body>
+</html>
