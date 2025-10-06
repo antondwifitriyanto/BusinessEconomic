@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SESSION 09 – Pricing & Output Decision (Imperfect Competition)</title>
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Chart.js for charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <!-- MathJax for formulas -->
+  <script>
+    window.MathJax = { tex: { inlineMath: [['$','$'], ['\\(','\\)']] } };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+  <style>
+    :root {
+      --binus-navy: #003A70; /* BINUS primary */
+      --binus-blue: #0072CE;
+      --binus-sky: #E6F0FA;
+      --ink: #0F172A;
+      --muted: #475569;
+      --card: #ffffff;
+      --ring: rgba(0,114,206,.35);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--ink);
+      background: #fff;
+    }
+    header {
+      background: linear-gradient(120deg, var(--binus-navy), var(--binus-blue));
+      color: #fff;
+      padding: 22px 18px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 8px 24px rgba(0,0,0,.08);
+    }
+    .brand {
+      display: flex; align-items: center; gap: 14px;
+    }
+    .brand .binus-logo { width: 120px; height: 40px; border-radius: 8px; background: #fff; box-shadow: 0 6px 16px rgba(255,255,255,.2); object-fit: contain; }
+    .container { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
+    .grid { display: grid; gap: 16px; }
+    .grid.col-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    @media (max-width: 900px) { .grid.col-2 { grid-template-columns: 1fr; } }
+
+    .card {
+      background: var(--card);
+      border: 1px solid #E8EEF6;
+      border-radius: 16px;
+      padding: 18px 18px 16px;
+      box-shadow: 0 10px 24px rgba(0,58,112,.06);
+    }
+    .card h2, .card h3 { margin: 0 0 8px; }
+    .eyebrow { color: var(--binus-blue); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; font-size: 12px; }
+    .kicker { color: #245c92; font-weight: 700; }
+    .muted { color: var(--muted); }
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--binus-navy);
+      background: var(--binus-sky); border: 1px solid #CCE2F7; padding: 6px 10px; border-radius: 999px;
+    }
+    .btn {
+      background: var(--binus-blue); color: #fff; border: none; padding: 10px 14px; border-radius: 12px; font-weight: 700; cursor: pointer;
+      box-shadow: 0 10px 22px rgba(0,114,206,.22); transition: transform .05s ease, box-shadow .2s ease, background .2s ease;
+    }
+    .btn.secondary { background: #EEF6FF; color: var(--binus-blue); box-shadow: none; border: 1px solid #CCE2F7; }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 14px 32px rgba(0,114,206,.28); }
+
+    .input, select, textarea {
+      width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid #DAE6F5; background: #fff;
+      outline: none; font-size: 14px; box-shadow: 0 1px 0 rgba(0,0,0,.01);
+    }
+    .input:focus, select:focus, textarea:focus { border-color: var(--binus-blue); box-shadow: 0 0 0 4px var(--ring); }
+
+    .eq { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; padding: 8px 10px; background: #F7FAFF; border-radius: 10px; border: 1px dashed #CCE2F7; }
+    .pill { background: #F0F7FF; color: #0B4B8C; padding: 4px 10px; border-radius: 999px; font-weight: 700; font-size: 12px; }
+    .hr {
+      height: 1px; background: linear-gradient(90deg, transparent, #E6EDF7, transparent); margin: 12px 0;
+    }
+    footer { text-align: center; color: var(--muted); padding: 24px 0 60px; }
+    .small { font-size: 12px; }
+    .flex { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .right { margin-left: auto; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container brand">
+      <img class="binus-logo" alt="BINUS University" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='40'><rect fill='%23ffffff' width='120' height='40' rx='6'/><text x='10' y='26' font-family='Inter,Arial' font-weight='800' font-size='20' fill='%23003A70'>BINUS</text></svg>" />
+      <div>
+        <div style="opacity:.9; font-weight:800; letter-spacing:.02em; font-size:18px">Economics for Business & AI</div>
+        <div style="opacity:.9; font-weight:600; letter-spacing:.04em; font-size:12px">SESSION 09 – Pricing & Output in Imperfect Competition</div>
+      </div>
+      <div class="right"><span class="badge">BINUS • Blue–White Theme</span></div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="grid col-2">
+      <article class="card">
+        <div class="eyebrow">Learning Outcome (LO2 – Comprehension)</div>
+        <h2>Mahasiswa membedakan keputusan <span class="kicker">harga–output</span> pada <em>monopoly</em> & <em>oligopoly</em> dan implikasinya pada profit.</h2>
+        <div class="hr"></div>
+        <div class="grid">
+          <div class="pill">Topik Inti</div>
+          <ul>
+            <li>Struktur pasar: Monopoly, Oligopoly</li>
+            <li>Revenue, cost, dan profit</li>
+            <li>Dampak entry barriers & differentiation</li>
+            <li>Strategi harga: price discrimination, limit pricing, collusion</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="eyebrow">🧭 Tugas Individu</div>
+        <h3>“Analyzing Market Power and Pricing Decision in Imperfect Competition”</h3>
+        <ol>
+          <li>Pilih industri nyata (ride-hailing, telekomunikasi, e-commerce, aviasi).</li>
+          <li>Analisis struktur pasar (Monopoly, Cournot, atau Bertrand).</li>
+          <li>Gunakan <b>3 digit NIM</b> sebagai harga dasar $P_0$ (ribuan rupiah).</li>
+          <li>Asumsi biaya total: $TC = 100 + (2\times$ digit ke-2 terakhir NIM$)\,Q + Q^2$.</li>
+          <li>Dengan $P = P_0 - 5Q$, tentukan TR, MR, MC, $Q^*$, $P^*$, dan profit maksimum $\pi^*$.</li>
+          <li>Interpretasi: bagaimana market power memengaruhi efisiensi & harga?</li>
+        </ol>
+        <p class="small muted">Output (maks. 3 halaman): grafik TR–TC & MR–MC, strategi harga, refleksi potensi kolusi vs persaingan agresif.</p>
+      </article>
+    </section>
+
+    <!-- Calculator Card -->
+    <section class="card" id="calc">
+      <div class="flex"><div class="eyebrow">Interactive</div><div class="pill">Monopoly Calculator + Cournot Explorer</div></div>
+      <h2 style="margin-top:6px">Masukkan Parameter Anda</h2>
+      <div class="grid col-2" style="margin-top:12px">
+        <div>
+          <label class="muted">NIM Mahasiswa</label>
+          <input id="nim" class="input" placeholder="contoh: 2502012345" />
+        </div>
+        <div>
+          <label class="muted">Industri / Kasus</label>
+          <input id="industry" class="input" placeholder="contoh: Ride-hailing (Jakarta)" />
+        </div>
+        <div>
+          <label class="muted">Mode Analisis</label>
+          <select id="mode">
+            <option value="monopoly">Monopoly – MR(Q)=MC(Q)</option>
+            <option value="cournot">Oligopoly (Cournot) – Eksplorer sederhana</option>
+          </select>
+        </div>
+        <div class="flex" style="gap:10px; align-items:flex-end;">
+          <button class="btn" onclick="run()">Hitung & Gambar</button>
+          <button class="btn secondary" onclick="window.print()">Cetak / Simpan PDF</button>
+        </div>
+      </div>
+
+      <div class="hr"></div>
+
+      <div class="grid col-2">
+        <div class="card" style="padding:14px">
+          <h3>Hasil Numerik</h3>
+          <div id="results" class="muted">Isi NIM dan tekan <b>Hitung</b>.</div>
+        </div>
+        <div class="card" style="padding:14px">
+          <h3>Rangkuman Rumus</h3>
+          <div class="eq">
+            <div>Permintaan: $P = P_0 - 5Q$</div>
+            <div>Total Revenue: $TR = P\cdot Q = (P_0 - 5Q)Q$</div>
+            <div>Marginal Revenue: $MR = P_0 - 10Q$</div>
+            <div>Total Cost: $TC = 100 + a\,Q + Q^2$, dengan $a = 2\times$ digit ke-2 terakhir NIM</div>
+            <div>Marginal Cost: $MC = a + 2Q$</div>
+            <div>Optimum Monopoly: $MR=MC \Rightarrow Q^* = \dfrac{P_0 - a}{12}$, $\; P^* = P_0 - 5Q^*$</div>
+            <div>Profit: $\pi = TR - TC$</div>
+          </div>
+          <p class="small muted" style="margin-top:8px">Untuk <b>Cournot (eksplorer)</b>: asumsi $MC=c$ konstan (aproksimasi). Dengan $P = P_0 - 5(Q_1+Q_2)$ dan biaya simetris $c$, maka pada keseimbangan Nash simetris: $Q_i^* = \dfrac{P_0 - c}{3\cdot 5}$.</p>
+        </div>
+      </div>
+
+      <div class="grid col-2" style="margin-top:10px">
+        <div class="card">
+          <h3>Grafik TR–TC</h3>
+          <canvas id="chartTRTC" height="240"></canvas>
+        </div>
+        <div class="card">
+          <h3>Grafik MR–MC</h3>
+          <canvas id="chartMRMC" height="240"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- Example card -->
+    <section class="card" id="example">
+      <div class="eyebrow">🧮 Contoh Perhitungan (Dummy NIM: 123) — Step by Step</div>
+      <ol class="muted">
+        <li><b>Tentukan parameter dari NIM:</b> 3 digit terakhir → <b>P₀=123</b>; digit ke-2 terakhir = 2 → <b>a=2×2=4</b>.</li>
+        <li><b>Bentuk fungsi:</b> Permintaan $P=123-5Q$; <span class="eq">TR=(123-5Q)Q=123Q-5Q^2</span>; <span class="eq">MR=\frac{dTR}{dQ}=123-10Q</span>. Biaya <span class="eq">TC=100+4Q+Q^2</span>; <span class="eq">MC=\frac{dTC}{dQ}=4+2Q</span>.</li>
+        <li><b>Kondisi optimum monopoly:</b> $MR=MC$ → $123-10Q=4+2Q$ → $12Q=119$ → <b>$Q^*=9.92$</b> (≈9.9).</li>
+        <li><b>Harga optimum:</b> $P^*=123-5(9.92)=73.4$.</li>
+        <li><b>Hitung laba:</b> $TR^*=73.4\times9.92=728.6$; $TC^*=100+4(9.92)+9.92^2=193.4$ → <b>$\pi^*=535.2$</b>.</li>
+        <li><b>Uji orde dua (opsional):</b> $MR'=-10<MC'=2$ → $MR$ turun lebih cepat daripada $MC$ sehingga solusi adalah <i>maximum</i>.</li>
+      </ol>
+      <p class="small muted">Catatan: angka dibulatkan 1–2 desimal untuk penyajian. Saat mengerjakan manual, tunjukkan turunan dan langkah substitusi secara jelas.</p>
+    </section>
+
+    <!-- Guidance / Reflection -->
+    <section class="grid col-2">
+      <article class="card">
+        <h3>Panduan Interpretasi</h3>
+        <ul>
+          <li><b>Market Power</b>: semakin tinggi $P_0$ dan/atau hambatan masuk (barriers), perusahaan cenderung memilih $Q^*$ lebih rendah & $P^*$ lebih tinggi → profit naik, efisiensi alokatif turun.</li>
+          <li><b>Differentiation</b>: geser $P_0$ efektif (willingness-to-pay) → peluang price discrimination.</li>
+          <li><b>Limit Pricing</b>: pilih $P$ cukup rendah untuk menghalangi entry meski kurangi profit jangka pendek.</li>
+          <li><b>Collusion</b>: total $Q$ lebih kecil dibanding Cournot → $P$ lebih tinggi → profit industri naik, risiko <i>antitrust</i>.</li>
+        </ul>
+      </article>
+      <article class="card">
+        <h3>Checklist Laporan (≤ 3 halaman)</h3>
+        <ul>
+          <li>Grafik TR–TC dan MR–MC (screenshot atau cetak PDF).</li>
+          <li>Strategi harga & pembahasan struktur pasar industri yang dipilih.</li>
+          <li>Refleksi: potensi kolusi vs persaingan agresif dan implikasi kebijakan.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="card" id="exercises">
+      <div class="eyebrow">✍️ Latihan Manual</div>
+      <h3>Kerjakan dengan tangan (tanpa kalkulator grafik). Tulis semua langkah.</h3>
+      <ol>
+        <li>
+          <b>Latihan 1 — Monopoly Linear</b><br>
+          Diberikan $P = 240 - 8Q$ dan $TC = 150 + 20Q + Q^2$.
+          <ul>
+            <li>(a) Tentukan $TR(Q)$, $MR(Q)$, $MC(Q)$.</li>
+            <li>(b) Temukan $Q^*$, $P^*$, dan $\pi^*$ (tunjukkan langkah $MR=MC$).</li>
+            <li>(c) Gambar sketsa kurva MR & MC dan tandai titik optimum.</li>
+          </ul>
+        </li>
+        <li>
+          <b>Latihan 2 — Parametrisasi Berdasar NIM</b><br>
+          Misal 3 digit terakhir NIM Anda adalah $xyz$ (mis. 678 → $x=6,y=7,z=8$). Definisikan $P_0=xyz$ dan $a=2y$.
+          <ul>
+            <li>(a) Gunakan $P = P_0 - 6Q$ dan $TC = 120 + aQ + Q^2$ untuk menurunkan $TR$, $MR$, $MC$.</li>
+            <li>(b) Hitung $Q^* = \dfrac{P_0 - a}{12}$, lalu $P^*$ dan $\pi^*$.</li>
+            <li>(c) Interpretasi: jika $y$ (biaya linear) meningkat 1, apa yang terjadi pada $Q^*$ dan $\pi$? Jelaskan secara ekonomi.</li>
+          </ul>
+        </li>
+      </ol>
+      <p class="small muted">Pengumpulan: foto/scan jawaban manual (PDF). Sertakan identitas & NIM pada lembar kerja.</p>
+    </section>
+
+    <footer>
+      <div class="small">© Session 09 • Economics for Business & AI • BINUS Blue–White</div>
+    </footer>
+  </main>
+
+  <script>
+    let trtcChart, mrmcChart;
+
+    function parseNIM(nimStr){
+      const digits = (nimStr||"").replace(/\D/g,"");
+      if(!digits) return { last3: NaN, secondLast: NaN };
+      const last3 = digits.slice(-3);
+      const secondLast = digits.length>=2 ? Number(digits.slice(-2,-1)) : NaN; // digit ke-2 terakhir
+      return { last3: Number(last3), secondLast };
+    }
+
+    function monopolyCalc(P0, a){
+      // Demand: P = P0 - 5Q; TR = P*Q = P0*Q - 5Q^2; MR = P0 - 10Q
+      // TC = 100 + a Q + Q^2; MC = a + 2Q
+      // MR = MC -> P0 - 10Q = a + 2Q -> Q* = (P0 - a)/12
+      const Qs = (P0 - a)/12;
+      const Ps = P0 - 5*Qs;
+      const TRs = Ps * Qs;
+      const TCs = 100 + a*Qs + Qs*Qs;
+      const profit = TRs - TCs;
+      return {Qs, Ps, TRs, TCs, profit};
+    }
+
+    function cournotExplorer(P0, c){
+      // Linear inverse demand: P = P0 - 5(Q1+Q2); symmetric costs c -> Nash: Qi = (P0 - c)/(3*5)
+      const Qi = (P0 - c) / 15;
+      const Qsum = 2*Qi;
+      const P = P0 - 5*Qsum;
+      const pi = (P - c) * Qi;
+      return {Qi, Qsum, P, piEach: pi, piTotal: 2*pi};
+    }
+
+    function run(){
+      const nim = document.getElementById('nim').value.trim();
+      const industry = document.getElementById('industry').value.trim() || '—';
+      const mode = document.getElementById('mode').value;
+      const { last3, secondLast } = parseNIM(nim);
+
+      if(Number.isNaN(last3) || Number.isNaN(secondLast)){
+        document.getElementById('results').innerHTML = `<span class="kicker">NIM tidak valid.</span> Mohon masukkan angka NIM yang benar.`;
+        renderCharts([], [], [], []);
+        return;
+      }
+
+      // Parameters per instruction
+      const P0 = last3; // ribuan rupiah basis (kita gunakan unit abstrak di kalkulasi)
+      const a = 2 * secondLast; // linear cost coefficient
+
+      if(mode === 'monopoly'){
+        const {Qs, Ps, TRs, TCs, profit} = monopolyCalc(P0, a);
+        const html = `
+          <div class="grid" style="gap:6px">
+            <div><b>Industri:</b> ${industry}</div>
+            <div class="small muted">Dari NIM: <b>P₀=${P0}</b>, koefisien biaya <b>a=${a}</b> (a=2×digit ke-2 terakhir).</div>
+          </div>
+          <div class="hr"></div>
+          <div class="grid" style="gap:6px">
+            <div>Permintaan: <span class="eq">P = ${P0} - 5Q</span></div>
+            <div>Biaya: <span class="eq">TC = 100 + ${a}Q + Q²</span>; <span class="eq">MC = ${a} + 2Q</span></div>
+            <div>MR: <span class="eq">MR = ${P0} - 10Q</span></div>
+          </div>
+          <div class="hr"></div>
+          <div class="grid" style="grid-template-columns: repeat(3,1fr); gap:10px">
+            <div class="card"><div class="muted">Output optimal (Q*)</div><div style="font-size:22px; font-weight:800; color:var(--binus-navy)">${Qs.toFixed(2)}</div></div>
+            <div class="card"><div class="muted">Harga optimal (P*)</div><div style="font-size:22px; font-weight:800; color:var(--binus-navy)">${Ps.toFixed(2)}</div></div>
+            <div class="card"><div class="muted">Profit maksimum (π*)</div><div style="font-size:22px; font-weight:800; color:${profit>=0?'#137333':'#b00020'}">${profit.toFixed(2)}</div></div>
+          </div>
+        `;
+        document.getElementById('results').innerHTML = html;
+
+        // Build chart data for Q range around optimum
+        const Qmax = Math.max( (P0)/5, Qs*1.8, 30 );
+        const Q = Array.from({length: 101}, (_,i)=> i*(Qmax/100));
+        const TR = Q.map(q => (P0 - 5*q)*q);
+        const TC = Q.map(q => 100 + a*q + q*q);
+        const MR = Q.map(q => (P0 - 10*q)); // as a function of Q
+        const MC = Q.map(q => (a + 2*q));
+        renderCharts(Q, TR, TC, MR, MC, Qs);
+
+      } else {
+        // Cournot Explorer (constant MC approximation)
+        const c = a + 10; // simple approx. constant MC from linear cost (pedagogical simplification)
+        const res = cournotExplorer(P0, c);
+        const html = `
+          <div><b>Industri:</b> ${industry}</div>
+          <div class="small muted">Dari NIM: <b>P₀=${P0}</b>, aproksimasi biaya marginal konstan <b>c=${c}</b> (turunan pedagogis dari a).</div>
+          <div class="hr"></div>
+          <div class="grid" style="grid-template-columns: repeat(4,1fr); gap:10px">
+            <div class="card"><div class="muted">Qi* (tiap firma)</div><div style="font-size:22px; font-weight:800; color:var(--binus-navy)">${res.Qi.toFixed(2)}</div></div>
+            <div class="card"><div class="muted">Q total</div><div style="font-size:22px; font-weight:800; color:var(--binus-navy)">${res.Qsum.toFixed(2)}</div></div>
+            <div class="card"><div class="muted">Harga (P*)</div><div style="font-size:22px; font-weight:800; color:var(--binus-navy)">${res.P.toFixed(2)}</div></div>
+            <div class="card"><div class="muted">Profit per firma</div><div style="font-size:22px; font-weight:800; color:${res.piEach>=0?'#137333':'#b00020'}">${res.piEach.toFixed(2)}</div></div>
+          </div>
+          <p class="small muted">Catatan: ini modul eksplorasi cepat untuk intuisi Cournot simetris; gunakan analisis formal jika $MC$ tidak konstan.</p>
+        `;
+        document.getElementById('results').innerHTML = html;
+        // For Cournot mode, clear charts to avoid misinterpretation
+        renderCharts([], [], [], []);
+      }
+    }
+
+    function renderCharts(Q, TR, TC, MR, MC, Qs){
+      const ctx1 = document.getElementById('chartTRTC').getContext('2d');
+      const ctx2 = document.getElementById('chartMRMC').getContext('2d');
+
+      // Destroy existing
+      if(trtcChart){ trtcChart.destroy(); }
+      if(mrmcChart){ mrmcChart.destroy(); }
+
+      if(!Q || Q.length===0){
+        // draw empty placeholders
+        trtcChart = new Chart(ctx1, { type: 'line', data: { labels: [], datasets: [] }, options: { plugins:{legend:{display:false}}, scales:{x:{display:false}, y:{display:false}} }});
+        mrmcChart = new Chart(ctx2, { type: 'line', data: { labels: [], datasets: [] }, options: { plugins:{legend:{display:false}}, scales:{x:{display:false}, y:{display:false}} }});
+        return;
+      }
+
+      trtcChart = new Chart(ctx1, {
+        type: 'line',
+        data: {
+          labels: Q,
+          datasets: [
+            { label: 'TR', data: TR, borderWidth: 2, fill: false },
+            { label: 'TC', data: TC, borderWidth: 2, fill: false }
+          ]
+        },
+        options: {
+          responsive: true,
+          interaction: { mode: 'index', intersect: false },
+          plugins: { legend: { position: 'top' } },
+          scales: { x: { title: { display: true, text: 'Q' } }, y: { title: { display: true, text: 'Nilai' } } }
+        }
+      });
+
+      mrmcChart = new Chart(ctx2, {
+        type: 'line',
+        data: {
+          labels: Q,
+          datasets: [
+            { label: 'MR', data: MR, borderWidth: 2, fill: false },
+            { label: 'MC', data: MC, borderWidth: 2, fill: false },
+          ]
+        },
+        options: {
+          responsive: true,
+          interaction: { mode: 'index', intersect: false },
+          plugins: { legend: { position: 'top' } },
+          scales: { x: { title: { display: true, text: 'Q' } }, y: { title: { display: true, text: 'Nilai' } } }
+        }
+      });
+
+      // Draw vertical line at Q*
+      if(typeof Qs === 'number' && !Number.isNaN(Qs)){
+        const xIndex = Q.findIndex(v => v>=Qs);
+        if(xIndex>0){
+          const plugin = {
+            id: 'qsLine',
+            afterDraw(chart){
+              const ctx = chart.ctx;
+              const x = chart.scales.x.getPixelForValue(Qs);
+              ctx.save();
+              ctx.strokeStyle = 'rgba(0, 114, 206, .6)';
+              ctx.setLineDash([6,6]);
+              ctx.beginPath(); ctx.moveTo(x, chart.chartArea.top); ctx.lineTo(x, chart.chartArea.bottom); ctx.stroke();
+              ctx.restore();
+            }
+          };
+          trtcChart.options.plugins.qsLine = plugin; trtcChart.update();
+          mrmcChart.options.plugins.qsLine = plugin; mrmcChart.update();
+        }
+      }
+    }
+  </script>
+</body>
+</html>
